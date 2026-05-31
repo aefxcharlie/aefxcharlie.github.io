@@ -423,8 +423,8 @@
     /* ── Philosophy ── */
     #philosophy { max-width: 100%; background: var(--bg); }
     .philosophy-inner {
-      display: grid; grid-template-columns: 1fr 2fr; gap: 6rem;
-      align-items: start; max-width: 1200px;
+      display: grid; grid-template-columns: 1fr 2fr 1.1fr; gap: 5rem;
+      align-items: center; max-width: 1340px;
     }
     .philosophy-left { padding-top: .4rem; }
     .philosophy-heading {
@@ -437,6 +437,147 @@
       max-width: 55ch; margin-top: 1.5rem;
     }
     .philosophy-body strong { font-weight: 400; color: var(--onyx); }
+
+    /* ── 3D Floating Tool Icons ── */
+    .tool-icons-scene {
+     position: relative;
+     width: 100%;
+     height: 420px;
+     perspective: 920px;
+     display: flex; align-items: flex-end; justify-content: flex-start;
+     padding-left: 10rem;
+     transform: translateX(13rem);
+   } 
+    
+    /* ground glow plane */
+    .tool-icons-scene::after {
+      content: '';
+      position: absolute; bottom: 18px; left: 50%;
+      transform: translateX(-50%);
+      width: 88%; height: 28px;
+      background: radial-gradient(ellipse at center,
+        rgba(201,185,154,.22) 0%, transparent 72%);
+      border-radius: 50%;
+      filter: blur(4px);
+      pointer-events: none;
+    }
+
+    .tool-icon-wrap {
+      position: absolute;
+      bottom: 28px;
+      transform-style: preserve-3d;
+      animation: iconFloat linear infinite;
+    }
+    /* spread across full width, varied heights for depth illusion */
+    .tool-icon-wrap:nth-child(1){ left:0%;   animation-duration:5.8s; animation-delay:0s;    bottom:20px; }
+    .tool-icon-wrap:nth-child(2){ left:20%;  animation-duration:6.4s; animation-delay:-.9s;  bottom:90px; }
+    .tool-icon-wrap:nth-child(3){ left:42%;  animation-duration:5.2s; animation-delay:-.4s;  bottom:40px; }
+    .tool-icon-wrap:nth-child(4){ left:63%;  animation-duration:6.9s; animation-delay:-1.3s; bottom:110px;}
+    .tool-icon-wrap:nth-child(5){ left:83%;  animation-duration:5.6s; animation-delay:-.7s;  bottom:25px; }
+
+    @keyframes iconFloat {
+      0%,100% { transform: rotateX(22deg) rotateY(-12deg) translateY(0px);   }
+      25%      { transform: rotateX(18deg) rotateY(6deg)  translateY(-10px);  }
+      50%      { transform: rotateX(24deg) rotateY(14deg) translateY(-6px);   }
+      75%      { transform: rotateX(16deg) rotateY(-8deg) translateY(-12px);  }
+    }
+
+    .tool-icon-box {
+      width: 64px; height: 64px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      transform-style: preserve-3d;
+      position: relative;
+      box-shadow:
+        0 2px 0 rgba(255,255,255,.12) inset,
+        0 -2px 0 rgba(0,0,0,.25) inset;
+      overflow: hidden;
+    }
+    /* img-based icon box — no background color, image fills it */
+    .tool-icon-img-box {
+      background: none !important;
+      box-shadow: 0 0 22px rgba(80,80,180,.5), 0 2px 0 rgba(255,255,255,.12) inset, 0 -2px 0 rgba(0,0,0,.25) inset;
+      padding: 0;
+    }
+    .tool-icon-img {
+      width: 64px; height: 64px;
+      object-fit: cover;
+      border-radius: 16px;
+      display: block;
+      position: relative; z-index: 1;
+      /* slight darken to match the 3d depth vibe */
+      filter: brightness(.95) contrast(1.05);
+    }
+    /* per-app colors for SVG icons */
+    .tool-icon-wrap:nth-child(3) .tool-icon-box { background: linear-gradient(145deg,#444,#1a1a1a);   } /* GitHub        */
+    .tool-icon-wrap:nth-child(4) .tool-icon-box { background: linear-gradient(145deg,#8fcc52,#558a1e); } /* Minecraft     */
+    .tool-icon-wrap:nth-child(5) .tool-icon-box { background: linear-gradient(145deg,#3d6d8e,#1b2838); } /* Steam         */
+
+    /* 3D side face — bottom */
+    .tool-icon-box::before {
+      content: '';
+      position: absolute; bottom: -10px; left: 5px; right: 5px;
+      height: 10px; border-radius: 0 0 7px 7px;
+      filter: brightness(.5);
+      background: inherit;
+      transform: rotateX(-90deg);
+      transform-origin: top center;
+      z-index: 0;
+    }
+    .tool-icon-img-box::before { background: #1a1a6e; }
+
+    /* 3D side face — right */
+    .tool-icon-box::after {
+      content: '';
+      position: absolute; right: -9px; top: 5px; bottom: 5px;
+      width: 9px; border-radius: 0 7px 7px 0;
+      filter: brightness(.4);
+      background: inherit;
+      transform: rotateY(90deg);
+      transform-origin: left center;
+      z-index: 0;
+    }
+    .tool-icon-img-box::after { background: #10105a; }
+
+    /* individual icon glow */
+    .tool-icon-wrap:nth-child(3) .tool-icon-box { box-shadow: 0 0 18px rgba(160,160,160,.40), 0 2px 0 rgba(255,255,255,.12) inset, 0 -2px 0 rgba(0,0,0,.25) inset; }
+    .tool-icon-wrap:nth-child(4) .tool-icon-box { box-shadow: 0 0 24px rgba(143,204,82,.60), 0 2px 0 rgba(255,255,255,.12) inset, 0 -2px 0 rgba(0,0,0,.25) inset; }
+    .tool-icon-wrap:nth-child(5) .tool-icon-box { box-shadow: 0 0 24px rgba(61,109,142,.75), 0 2px 0 rgba(255,255,255,.12) inset, 0 -2px 0 rgba(0,0,0,.25) inset; }
+
+    /* ground shadow per icon */
+    .tool-icon-shadow {
+      position: absolute; bottom: -18px; left: 50%;
+      transform: translateX(-50%);
+      width: 50px; height: 10px;
+      background: rgba(0,0,0,.4);
+      border-radius: 50%; filter: blur(5px);
+    }
+
+    .tool-icon-svg {
+      width: 36px; height: 36px;
+      position: relative; z-index: 1;
+      fill: #fff;
+      filter: drop-shadow(0 1px 3px rgba(0,0,0,.5));
+    }
+
+    /* label under icon */
+    .tool-icon-label {
+      position: absolute; bottom: -32px; left: 50%;
+      transform: translateX(-50%);
+      font-size: .52rem; letter-spacing: .14em;
+      color: var(--muted); text-transform: uppercase;
+      white-space: nowrap;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    @media (max-width: 1100px) {
+      .philosophy-inner { grid-template-columns: 1fr 2fr; }
+      .tool-icons-scene { display: none; }
+    }
+    @media (max-width: 900px) {
+      .philosophy-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .tool-icons-scene { display: none; }
+    }
 
     /* ════════════════════════════════════════════════
        EXPERTISE  (always-dark panel)
@@ -698,22 +839,58 @@
     /* ════════════════════════════════════════════════
        RESPONSIVE
     ════════════════════════════════════════════════ */
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
       nav { padding: 1.6rem 2rem; }
       .nav-links { gap: 1.6rem; }
       #hero { padding: 0 2rem 8vh; }
       .hero-scroll { display: none; }
       .hero-ornament { display: none; }
       section { padding: 6rem 2rem; }
-      .philosophy-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      
+      /* Philosophy layout stacks to let icons sit beautifully below text */
+      .philosophy-inner { 
+        grid-template-columns: 1fr; 
+        gap: 3rem; 
+      }
+      
+      /* Keep the exact 3D floating offset layout, but scale it down to fit tablets */
+      .tool-icons-scene {
+        display: flex !important;
+        margin: 3rem auto 0 !important;
+        width: 100% !important;
+        max-width: 500px !important;
+        transform: scale(0.85);
+        transform-origin: center bottom;
+      }
+
       .expertise-grid { grid-template-columns: 1fr; }
       .expertise-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
       #contact { padding: 6rem 2rem; }
       .footer-bottom { flex-direction: column; align-items: flex-start; }
     }
+
+    @media (max-width: 768px) {
+      /* Mobile view: scale down further so it looks exactly like PC view but fits compact screens */
+      .tool-icons-scene {
+        display: flex !important;
+        margin: 2rem auto 0 !important;
+        width: 100% !important;
+        max-width: 360px !important;
+        transform: scale(0.68) !important;
+        transform-origin: center bottom;
+        height: 310px !important;
+      }
+    }
+
     @media (max-width: 600px) {
       .nav-links { display: none; }
       .contact-buttons { flex-direction: column; align-items: flex-start; }
+      
+      /* Extra small phones: scale slightly more so they never clip */
+      .tool-icons-scene {
+        transform: scale(0.58) !important;
+        height: 270px !important;
+      }
     }
 
     /* ── Hero Particle Canvas ── */
@@ -808,6 +985,61 @@
         craft is the constant.</strong>
       </p>
     </div>
+
+    <!-- ── 3D Floating Tool Icons ── -->
+    <div class="tool-icons-scene" aria-hidden="true">
+
+      <!-- After Effects — Local Image -->
+      <div class="tool-icon-wrap">
+        <div class="tool-icon-box tool-icon-img-box">
+          <img src="adobe-after-effects.png" class="tool-icon-img" alt="After Effects"/>
+          <div class="tool-icon-shadow"></div>
+        </div>
+        <span class="tool-icon-label">After Effects</span>
+      </div>
+
+      <!-- Premiere Pro — Local Image -->
+      <div class="tool-icon-wrap">
+        <div class="tool-icon-box tool-icon-img-box">
+          <img src="adobe-premier.png" class="tool-icon-img" alt="Premiere Pro"/>
+          <div class="tool-icon-shadow"></div>
+        </div>
+        <span class="tool-icon-label">Premiere Pro</span>
+      </div>
+
+      <!-- GitHub — Octocat mark (Ye same rahega) -->
+      <div class="tool-icon-wrap">
+        <div class="tool-icon-box">
+          <svg class="tool-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+          <div class="tool-icon-shadow"></div>
+        </div>
+        <span class="tool-icon-label">GitHub</span>
+      </div>
+
+      <!-- Minecraft — Local Image (Build.png) -->
+      <div class="tool-icon-wrap">
+        <div class="tool-icon-box tool-icon-img-box">
+          <img src="Build.png" class="tool-icon-img" alt="Minecraft"/>
+          <div class="tool-icon-shadow"></div>
+        </div>
+        <span class="tool-icon-label">Minecraft</span>
+      </div>
+
+      <!-- Steam — official steam logo (Ye same rahega) -->
+      <div class="tool-icon-wrap">
+        <div class="tool-icon-box">
+          <svg class="tool-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/>
+          </svg>
+          <div class="tool-icon-shadow"></div>
+        </div>
+        <span class="tool-icon-label">Steam</span>
+      </div>
+
+    </div><!-- end tool-icons-scene -->
+
   </div>
 </section>
 
@@ -818,7 +1050,7 @@
   <div class="expertise-header">
     <div>
       <p class="section-label reveal">
-        <span class="section-number" style="color:rgba(201,185,154,.5)">02</span>Selected Expertise & Disciplines
+        <span class="section-number" style="color:rgba(201,185,154,.5)">02</span>Selected Expertise &amp; Disciplines
       </p>
       <h2 class="expertise-title reveal reveal-delay-1">
         The work,<br/><em>distilled.</em>
@@ -891,7 +1123,6 @@
   </div>
 </section>
 
-
 <hr class="rule-line" />
 
 <!-- ══ CONTACT ══ -->
@@ -906,7 +1137,7 @@
     Let's craft<br/>something<br/><em>timeless.</em>
   </h2>
 
-  <!-- CTA Buttons -->
+  <!-- Contact CTA buttons -->
   <div class="contact-buttons reveal reveal-delay-2">
 
     <!-- Email -->
