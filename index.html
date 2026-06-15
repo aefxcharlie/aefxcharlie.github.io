@@ -1131,6 +1131,126 @@
       66%    { transform: translate(3%,-4%); }
     }
 
+    /* ============================================================
+       LOCAL TIME BOX
+    ============================================================ */
+    .local-time-section {
+      background: var(--bg);
+      border-top: 1px solid var(--border2);
+      padding: 3rem;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+    .local-time-box {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.8rem 2.8rem;
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(153,153,255,0.06), 0 0 60px rgba(0,212,170,0.03);
+    }
+    /* top accent line */
+    .local-time-box::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--ae-purple), var(--ae-teal), transparent);
+    }
+    /* subtle glow behind */
+    .local-time-box::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(153,153,255,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .local-time-left {
+      display: flex; flex-direction: column; gap: 0.3rem;
+    }
+    .local-time-label {
+      font-family: var(--mono);
+      font-size: 0.5rem; letter-spacing: 0.28em;
+      color: var(--text3); text-transform: uppercase;
+    }
+    .local-time-location {
+      font-family: var(--mono);
+      font-size: 0.62rem; letter-spacing: 0.18em;
+      color: var(--ae-teal);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .local-time-location-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--ae-teal);
+      box-shadow: 0 0 6px var(--ae-teal);
+      animation: statusPulse 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .local-time-divider {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, transparent, var(--border), transparent);
+      flex-shrink: 0;
+    }
+    .local-time-right {
+      display: flex; flex-direction: column; gap: 0.25rem;
+      align-items: flex-start;
+    }
+    .local-time-clock {
+      font-family: var(--mono);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      letter-spacing: 0.08em;
+      color: var(--text);
+      line-height: 1;
+      display: flex; align-items: baseline; gap: 0.4rem;
+    }
+    .local-time-ampm {
+      font-size: 0.7rem;
+      color: var(--ae-purple);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .local-time-date {
+      font-family: var(--mono);
+      font-size: 0.55rem; letter-spacing: 0.18em;
+      color: var(--text3); text-transform: uppercase;
+    }
+    .local-time-tz {
+      font-family: var(--mono);
+      font-size: 0.48rem; letter-spacing: 0.14em;
+      color: var(--text3);
+      margin-top: 0.1rem;
+    }
+    /* hint text */
+    .local-time-hint {
+      font-family: var(--mono);
+      font-size: 0.48rem; letter-spacing: 0.14em;
+      color: var(--text3);
+      border-left: 1px solid var(--border);
+      padding-left: 1.5rem;
+      line-height: 1.8;
+      max-width: 160px;
+    }
+    .local-time-hint strong {
+      color: var(--text2); display: block;
+      margin-bottom: 0.2rem;
+    }
+    @media (max-width: 600px) {
+      .local-time-section { padding: 2rem 1.5rem; }
+      .local-time-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.2rem;
+        padding: 1.5rem;
+        width: 100%;
+      }
+      .local-time-divider { display: none; }
+      .local-time-hint { border-left: none; padding-left: 0; max-width: 100%; }
+    }
+
   </style>
 </head>
 <body>
@@ -1616,6 +1736,39 @@
 </section>
 
 <!-- ============================================================
+     LOCAL TIME
+============================================================ -->
+<div class="local-time-section">
+  <div class="local-time-box">
+
+    <div class="local-time-left">
+      <span class="local-time-label">My local time</span>
+      <span class="local-time-location">
+        <span class="local-time-location-dot"></span>
+        India · GMT +5:30
+      </span>
+    </div>
+
+    <div class="local-time-divider"></div>
+
+    <div class="local-time-right">
+      <div class="local-time-clock">
+        <span id="lt-time">--:--</span>
+        <span class="local-time-ampm" id="lt-ampm">--</span>
+      </div>
+      <div class="local-time-date" id="lt-date">--- -- ----</div>
+      <div class="local-time-tz">IST (Indian Standard Time)</div>
+    </div>
+
+    <div class="local-time-hint">
+      <strong>Before you reach out —</strong>
+      Check if I'm awake! Best to message between 10 AM – 11 PM IST.
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================
      FOOTER
 ============================================================ -->
 <footer>
@@ -1975,6 +2128,48 @@
       });
     });
   }
+
+  /* ══════════════════════════════════════════
+     LIVE LOCAL TIME — IST (GMT +5:30)
+  ══════════════════════════════════════════ */
+  (function() {
+    const timeEl = document.getElementById('lt-time');
+    const ampmEl = document.getElementById('lt-ampm');
+    const dateEl = document.getElementById('lt-date');
+
+    const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    function updateClock() {
+      // Get UTC ms, add IST offset (+5h 30m = 19800 seconds = 19800000 ms)
+      const now    = new Date();
+      const utcMs  = now.getTime() + now.getTimezoneOffset() * 60000;
+      const istMs  = utcMs + 19800000;
+      const ist    = new Date(istMs);
+
+      let h    = ist.getHours();
+      const m  = ist.getMinutes();
+      const s  = ist.getSeconds();
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+
+      const hh = String(h).padStart(2, '0');
+      const mm = String(m).padStart(2, '0');
+      const ss = String(s).padStart(2, '0');
+
+      timeEl.textContent = `${hh}:${mm}:${ss}`;
+      ampmEl.textContent = ampm;
+
+      const day  = DAYS[ist.getDay()];
+      const date = ist.getDate();
+      const mon  = MONTHS[ist.getMonth()];
+      const yr   = ist.getFullYear();
+      dateEl.textContent = `${day}, ${mon} ${date} ${yr}`;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  })();
 
 </script>
 </body>
