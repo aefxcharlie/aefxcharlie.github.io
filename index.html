@@ -1069,6 +1069,225 @@
     .d4 { animation-delay: 0.5s; }
 
     /* ============================================================
+       PROJECTS SECTION — BENTO GRID
+    ============================================================ */
+    #projects { background: var(--bg2); }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* ── Bot Card ── */
+    .bot-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+      box-shadow:
+        0 4px 24px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(153,153,255,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    /* top gradient accent */
+    .bot-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--ae-purple), var(--ae-teal), var(--ae-orange));
+      border-radius: 16px 16px 0 0;
+    }
+
+    /* subtle inner glow */
+    .bot-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 16px;
+      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(153,153,255,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .bot-card:hover {
+      border-color: rgba(153,153,255,0.35);
+      box-shadow:
+        0 8px 40px rgba(0,0,0,0.5),
+        0 0 0 1px rgba(153,153,255,0.12),
+        0 0 30px rgba(153,153,255,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    /* ── Card Header ── */
+    .bot-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .bot-icon-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .bot-avatar {
+      width: 64px; height: 64px;
+      border-radius: 10px;
+      border: 1px solid rgba(153,153,255,0.2);
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 0 20px rgba(100,60,200,0.3), 0 0 6px rgba(153,153,255,0.15);
+      background: #0a0a12;
+    }
+
+    .bot-name-group {}
+
+    .bot-name {
+      font-family: var(--display);
+      font-size: 1.4rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+
+    .bot-type-badge {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.18em;
+      color: var(--ae-purple);
+      text-transform: uppercase;
+      background: rgba(153,153,255,0.1);
+      border: 1px solid rgba(153,153,255,0.18);
+      border-radius: 4px;
+      padding: 0.18rem 0.5rem;
+      display: inline-block;
+    }
+
+    /* ── Live Status Pill ── */
+    .bot-status-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .bot-status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      transition: background 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .bot-status-dot.online {
+      background: #3DEB6E;
+      box-shadow: 0 0 6px #3DEB6E, 0 0 14px rgba(61,235,110,0.5);
+      animation: statusGlow 2s ease-in-out infinite;
+    }
+
+    .bot-status-dot.offline {
+      background: #FF4444;
+      box-shadow: 0 0 6px #FF4444, 0 0 14px rgba(255,68,68,0.4);
+      animation: none;
+    }
+
+    .bot-status-dot.checking {
+      background: var(--ae-orange);
+      box-shadow: 0 0 6px var(--ae-orange), 0 0 14px rgba(255,107,53,0.4);
+      animation: statusGlow 1s ease-in-out infinite;
+    }
+
+    @keyframes statusGlow {
+      0%,100% { opacity: 0.7; transform: scale(0.85); }
+      50%      { opacity: 1;   transform: scale(1.15); }
+    }
+
+    .bot-status-text {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      color: var(--text2);
+      text-transform: uppercase;
+      transition: color 0.4s ease;
+    }
+
+    .bot-status-text.online  { color: #3DEB6E; }
+    .bot-status-text.offline { color: #FF4444; }
+
+    /* ── Description ── */
+    .bot-desc {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--text2);
+      margin-bottom: 1.6rem;
+      font-weight: 300;
+    }
+
+    /* ── Divider ── */
+    .bot-card-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin-bottom: 1.4rem;
+    }
+
+    /* ── Meta Row ── */
+    .bot-meta {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .bot-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .bot-meta-label {
+      font-family: var(--mono);
+      font-size: 0.46rem;
+      letter-spacing: 0.22em;
+      color: var(--text3);
+      text-transform: uppercase;
+    }
+
+    .bot-meta-value {
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      color: var(--text);
+    }
+
+    /* ── Tag chips ── */
+    .bot-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1.4rem;
+    }
+
+    .bot-tag {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+      color: var(--ae-teal);
+      border: 1px solid rgba(0,212,170,0.2);
+      border-radius: 4px;
+      padding: 0.22rem 0.55rem;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
        RESPONSIVE
     ============================================================ */
     @media (max-width: 768px) {
@@ -1099,6 +1318,8 @@
       .work-item { grid-template-columns: 50px 1fr; }
       .work-tags { display: none; }
       footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .bento-grid { grid-template-columns: 1fr; }
+      .bot-card-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
     }
 
     /* ============================================================
@@ -1291,8 +1512,9 @@
   <ul class="nav-links">
     <li><a href="#about"   data-num="01">About</a></li>
     <li><a href="#skills"  data-num="02">Skills</a></li>
-    <li><a href="#work"    data-num="03">Work</a></li>
-    <li><a href="#contact" data-num="04">Contact</a></li>
+    <li><a href="#work"     data-num="03">Work</a></li>
+    <li><a href="#projects" data-num="04">Projects</a></li>
+    <li><a href="#contact"  data-num="05">Contact</a></li>
   </ul>
 </nav>
 
@@ -1686,6 +1908,80 @@
 <div class="divider"></div>
 
 <!-- ============================================================
+     PROJECTS
+============================================================ -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num reveal d1">04 /</span>
+    <h2 class="section-title reveal d2">MY<br/><span class="dim">PROJECTS</span></h2>
+  </div>
+
+  <div class="bento-grid">
+
+    <!-- ── The Watcher — Discord Bot Card ── -->
+    <div class="bot-card reveal">
+
+      <!-- Header: icon + name + live status -->
+      <div class="bot-card-header">
+        <div class="bot-icon-wrap">
+          <div class="bot-avatar">
+            <img src="the-watcher.png" alt="The Watcher" width="64" height="64" style="width:64px;height:64px;object-fit:cover;border-radius:10px;display:block;" />
+          </div>
+          <div class="bot-name-group">
+            <div class="bot-name">THE WATCHER</div>
+            <span class="bot-type-badge">Discord Bot</span>
+          </div>
+        </div>
+
+        <!-- Live Status Pill -->
+        <div class="bot-status-pill" id="bot-status-pill">
+          <div class="bot-status-dot checking" id="bot-status-dot"></div>
+          <span class="bot-status-text" id="bot-status-text">Checking…</span>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <p class="bot-desc">
+        Custom multi-purpose moderation &amp; crypto utility bot.
+        Built for community management, real-time crypto lookups,
+        and automated server moderation — all wrapped in one clean command system.
+      </p>
+
+      <div class="bot-card-divider"></div>
+
+      <!-- Meta: Build Date, fetched dynamically -->
+      <div class="bot-meta">
+        <div class="bot-meta-item">
+          <span class="bot-meta-label">Build Date</span>
+          <span class="bot-meta-value" id="bot-build-date">18 June 2026</span>
+        </div>
+        <div class="bot-meta-item">
+          <span class="bot-meta-label">Platform</span>
+          <span class="bot-meta-value">Discord.js</span>
+        </div>
+        <div class="bot-meta-item">
+          <span class="bot-meta-label">Type</span>
+          <span class="bot-meta-value">Private Bot</span>
+        </div>
+      </div>
+
+      <!-- Tag chips -->
+      <div class="bot-tags">
+        <span class="bot-tag">Moderation</span>
+        <span class="bot-tag">Crypto</span>
+        <span class="bot-tag">Utility</span>
+        <span class="bot-tag">Node.js</span>
+        <span class="bot-tag">Discord.js</span>
+      </div>
+
+    </div><!-- /.bot-card -->
+
+  </div><!-- /.bento-grid -->
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
      CONTACT
 ============================================================ -->
 <section id="contact">
@@ -2038,6 +2334,19 @@
       );
     });
 
+    // Bento bot card
+    gsap.fromTo('.bot-card',
+      { opacity: 0, y: 50, scale: 0.97 },
+      {
+        opacity: 1, y: 0, scale: 1,
+        duration: 1, ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.bento-grid', start: 'top 78%',
+          toggleActions: 'play none none none'
+        }
+      }
+    );
+
     // Work items stagger
     gsap.fromTo('.work-item',
       { opacity: 0, x: -30 },
@@ -2113,8 +2422,53 @@
   });
 
   /* ══════════════════════════════════════════
-     GLITCH INTENSITY ON HOVER
+     BOT STATUS — Live fetch from The Watcher API
   ══════════════════════════════════════════ */
+  (function() {
+    const DOT       = document.getElementById('bot-status-dot');
+    const TEXT      = document.getElementById('bot-status-text');
+    const BUILD_EL  = document.getElementById('bot-build-date');
+
+    const BOT_API   = 'https://a37393-608b.a.jrnm.app/api/bot-status';
+
+    function setOnline(buildDate) {
+      DOT.className  = 'bot-status-dot online';
+      TEXT.className = 'bot-status-text online';
+      TEXT.textContent = 'Online';
+      if (buildDate && BUILD_EL) {
+        BUILD_EL.textContent = buildDate;
+      }
+    }
+
+    function setOffline() {
+      DOT.className  = 'bot-status-dot offline';
+      TEXT.className = 'bot-status-text offline';
+      TEXT.textContent = 'Offline';
+    }
+
+    async function fetchBotStatus() {
+      try {
+        const res  = await fetch(BOT_API, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Non-2xx response');
+        const data = await res.json();
+        if (data.status === 'online') {
+          setOnline(data.buildDate || null);
+        } else {
+          setOffline();
+        }
+      } catch (_err) {
+        setOffline();
+      }
+    }
+
+    // Initial fetch
+    fetchBotStatus();
+
+    // Refresh every 60 seconds to keep status live
+    setInterval(fetchBotStatus, 60000);
+  })();
+
+
   const glitchName = document.getElementById('hero-glitch-name');
   if (glitchName) {
     glitchName.addEventListener('mouseenter', () => {
