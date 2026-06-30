@@ -1976,6 +1976,64 @@
 
     </div><!-- /.bot-card -->
 
+    <!-- ── Love's Assistant — Discord Bot Card ── -->
+    <div class="bot-card reveal">
+
+      <!-- Header: icon + name + live status -->
+      <div class="bot-card-header">
+        <div class="bot-icon-wrap">
+          <div class="bot-avatar">
+            <img src="love.png" alt="Love's Assistant" width="64" height="64" style="width:64px;height:64px;object-fit:cover;border-radius:10px;display:block;" />
+          </div>
+          <div class="bot-name-group">
+            <div class="bot-name">LOVE'S ASSISTANT</div>
+            <span class="bot-type-badge">Discord Bot</span>
+          </div>
+        </div>
+
+        <!-- Live Status Pill -->
+        <div class="bot-status-pill" id="love-status-pill">
+          <div class="bot-status-dot checking" id="love-status-dot"></div>
+          <span class="bot-status-text" id="love-status-text">Checking…</span>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <p class="bot-desc">
+        A highly professional, private bot for serious Discord communities.
+        Built to handle moderation, keep track of users' crypto wallet
+        addresses, and play music on demand — all from one clean command system.
+      </p>
+
+      <div class="bot-card-divider"></div>
+
+      <!-- Meta -->
+      <div class="bot-meta">
+        <div class="bot-meta-item">
+          <span class="bot-meta-label">Build Date</span>
+          <span class="bot-meta-value">25 June 2026</span>
+        </div>
+        <div class="bot-meta-item">
+          <span class="bot-meta-label">Platform</span>
+          <span class="bot-meta-value">Discord.js</span>
+        </div>
+        <div class="bot-meta-item">
+          <span class="bot-meta-label">Type</span>
+          <span class="bot-meta-value">Private Bot</span>
+        </div>
+      </div>
+
+      <!-- Tag chips -->
+      <div class="bot-tags">
+        <span class="bot-tag">Moderation</span>
+        <span class="bot-tag">Crypto</span>
+        <span class="bot-tag">Music</span>
+        <span class="bot-tag">Node.js</span>
+        <span class="bot-tag">Discord.js</span>
+      </div>
+
+    </div><!-- /.bot-card -->
+
   </div><!-- /.bento-grid -->
 </section>
 
@@ -2466,6 +2524,49 @@
 
     // Refresh every 60 seconds to keep status live
     setInterval(fetchBotStatus, 60000);
+  })();
+
+  /* ══════════════════════════════════════════
+     BOT STATUS — Love's Assistant (bot-hosting.net panel)
+     Note: this endpoint is plain HTTP. If index.html ends up
+     served over HTTPS, browsers block the request as "mixed
+     content" and this will always read Offline — for a fully
+     live reading, point BOT_HOST at an HTTPS status endpoint
+     the same way Watcher's API above is wired up.
+  ══════════════════════════════════════════ */
+  (function() {
+    const DOT  = document.getElementById('love-status-dot');
+    const TEXT = document.getElementById('love-status-text');
+
+    const BOT_HOST = 'http://fi15.bot-hosting.net:27081/';
+
+    function setOnline() {
+      DOT.className  = 'bot-status-dot online';
+      TEXT.className = 'bot-status-text online';
+      TEXT.textContent = 'Online';
+    }
+
+    function setOffline() {
+      DOT.className  = 'bot-status-dot offline';
+      TEXT.className = 'bot-status-text offline';
+      TEXT.textContent = 'Offline';
+    }
+
+    async function checkBotHost() {
+      try {
+        // 'no-cors' because the hosting panel doesn't send back
+        // CORS headers or JSON — this just confirms the server
+        // answers at all, the same "online/offline" signal Watcher
+        // shows, without being able to read a real payload from it.
+        await fetch(BOT_HOST, { mode: 'no-cors', cache: 'no-store' });
+        setOnline();
+      } catch (_err) {
+        setOffline();
+      }
+    }
+
+    checkBotHost();
+    setInterval(checkBotHost, 60000);
   })();
 
 
