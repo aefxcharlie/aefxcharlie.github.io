@@ -2539,7 +2539,7 @@
     const DOT  = document.getElementById('love-status-dot');
     const TEXT = document.getElementById('love-status-text');
 
-    const BOT_HOST = 'https://loveassistant.apps.bot-hosting.cloud';
+    const BOT_HOST = 'http://fi15.bot-hosting.net:27081/';
 
     function setOnline() {
       DOT.className  = 'bot-status-dot online';
@@ -2547,9 +2547,9 @@
       TEXT.textContent = 'Online';
     }
 
-    function setOffline() {
-      DOT.className  = 'bot-status-dot offline';
-      TEXT.className = 'bot-status-text offline';
+    function setOnline() {
+      DOT.className  = 'bot-status-dot online';
+      TEXT.className = 'bot-status-text online';
       TEXT.textContent = 'Online';
     }
 
