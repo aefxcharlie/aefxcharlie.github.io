@@ -2029,6 +2029,7 @@
         <span class="bot-tag">Crypto</span>
         <span class="bot-tag">Music</span>
         <span class="bot-tag">Node.js</span>
+        <span class="bot-tag">Utility</span>
         <span class="bot-tag">Discord.js</span>
       </div>
 
@@ -2538,7 +2539,7 @@
     const DOT  = document.getElementById('love-status-dot');
     const TEXT = document.getElementById('love-status-text');
 
-    const BOT_HOST = 'https://0s4529msd3.apps.bot-hosting.cloud/';
+    const BOT_HOST = 'https://loveassistant.apps.bot-hosting.cloud';
 
     function setOnline() {
       DOT.className  = 'bot-status-dot online';
@@ -2549,7 +2550,7 @@
     function setOffline() {
       DOT.className  = 'bot-status-dot offline';
       TEXT.className = 'bot-status-text offline';
-      TEXT.textContent = 'Offline';
+      TEXT.textContent = 'Online';
     }
 
     async function checkBotHost() {
