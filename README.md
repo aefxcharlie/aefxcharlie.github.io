@@ -5,10 +5,10 @@ I build things at the intersection of automation, web engineering, and interacti
 
 What I bring to the table:
 
--Bot Development: I enjoy building feature-rich Discord bots that are designed to handle scale, community moderation, and high-level user interaction.
--Web Engineering: My approach to web development is about creating clean, performant, and user-centric sites, ensuring the back-end is as robust as the front-end aesthetics.
--Game Development: I am currently in the process of mastering Unity for 2D game development, where I’m focused on building solid mechanics and polished, optimized player experiences.
--Creative Workflow: With a background in professional video editing and content creation, I bring a unique perspective to development, blending technical precision with high-end visual design.
+- Bot Development: I enjoy building feature-rich Discord bots that are designed to handle scale, community moderation, and high-level user interaction.
+- Web Engineering: My approach to web development is about creating clean, performant, and user-centric sites, ensuring the back-end is as robust as the front-end aesthetics.
+- Game Development: I am currently in the process of mastering Unity for 2D game development, where I’m focused on building solid mechanics and polished, optimized player experiences.
+- Creative Workflow: With a background in professional video editing and content creation, I bring a unique perspective to development, blending technical precision with high-end visual design.
 
 Tech Stack & Tools:
 - Languages: JavaScript, C#, HTML/CSS.
