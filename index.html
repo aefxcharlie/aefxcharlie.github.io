@@ -1191,13 +1191,13 @@
     }
 
     .bot-status-dot.online {
-      background: #3DEB6E;
+      background: #00FF48;
       box-shadow: 0 0 6px #3DEB6E, 0 0 14px rgba(61,235,110,0.5);
       animation: statusGlow 2s ease-in-out infinite;
     }
 
     .bot-status-dot.offline {
-      background: #3DEB6E;
+      background: #FF;
       box-shadow: 0 0 6px #FF4444, 0 0 14px rgba(255,68,68,0.4);
       animation: none;
     }
@@ -1223,7 +1223,7 @@
     }
 
     .bot-status-text.online  { color: #3DEB6E; }
-    .bot-status-text.offline { color: #3DEB6E; }
+    .bot-status-text.offline { color: #FF0000; }
 
     /* ── Description ── */
     .bot-desc {
@@ -2555,10 +2555,10 @@
       TEXT.textContent = 'Online';
     }
 
-    function setOnline() {
-      DOT.className  = 'bot-status-dot online';
-      TEXT.className = 'bot-status-text online';
-      TEXT.textContent = 'Online';
+    function setOffline() {
+      DOT.className  = 'bot-status-dot offline';
+      TEXT.className = 'bot-status-text offline';
+      TEXT.textContent = 'Offline';
     }
 
     async function checkBotHost() {
