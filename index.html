@@ -274,10 +274,12 @@ img{ max-width:100%; display:block; }
 .meter-ver{ font-family:var(--mono); font-size:.55rem; color:var(--bone3); }
 .meter-row{ font-family:var(--mono); font-size:.56rem; letter-spacing:.12em; color:var(--bone3); text-transform:uppercase; display:flex; justify-content:space-between; margin-bottom:.4rem; }
 .meter-row span{ color:var(--bone2); }
-.meter-track{ height:3px; background:rgba(255,255,255,.05); border-radius:2px; margin-bottom:1.15rem; position:relative; }
-.meter-fill{ height:100%; width:0%; border-radius:2px; transition:width 1.6s cubic-bezier(.4,0,.2,1); position:relative; }
-.meter-fill.amber{ background:linear-gradient(90deg,var(--amber),#ffcf7d); box-shadow:0 0 8px rgba(232,163,61,.4); }
-.meter-fill.cyan{ background:linear-gradient(90deg,var(--cyan),#9df5ea); box-shadow:0 0 8px rgba(57,210,192,.4); }
+.meter-track{ height:3px; background:rgba(255,255,255,.05); border-radius:2px; margin-bottom:1.15rem; position:relative; overflow: visible; }
+
+/* Enhanced GLOWING Fills that start at 0 and animate in JS */
+.meter-fill{ height:100%; width:0%; border-radius:2px; transition:width 1.6s cubic-bezier(.4,0,.2,1); position:relative; z-index:2; }
+.meter-fill.amber{ background:linear-gradient(90deg,var(--amber),#ffcf7d); box-shadow:0 0 12px var(--amber), 0 0 20px rgba(232,163,61,0.6); }
+.meter-fill.cyan{ background:linear-gradient(90deg,var(--cyan),#9df5ea); box-shadow:0 0 12px var(--cyan), 0 0 20px rgba(57,210,192,0.6); }
 
 .compiler{ background:rgba(0,0,0,.35); border:1px solid rgba(57,210,192,.15); border-radius:2px; padding:1.1rem; font-family:var(--mono); font-size:.58rem; line-height:1.85; max-height:158px; overflow:hidden; position:relative; }
 .compiler::after{ content:''; position:absolute; bottom:0; left:0; right:0; height:38px; background:linear-gradient(to bottom,transparent,var(--panel)); }
@@ -289,8 +291,8 @@ img{ max-width:100%; display:block; }
 .compile-top{ display:flex; justify-content:space-between; margin-bottom:.6rem; font-family:var(--mono); font-size:.55rem; letter-spacing:.1em; }
 .compile-top .lbl{ color:var(--cyan); display:flex; align-items:center; gap:.4rem; }
 .compile-top .pct{ color:var(--bone3); }
-.compile-track{ height:4px; background:rgba(57,210,192,.1); border-radius:2px; overflow:hidden; }
-.compile-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--cyan),#9df5ea); box-shadow:0 0 8px rgba(57,210,192,.6); transition:width 2.1s cubic-bezier(.4,0,.2,1); }
+.compile-track{ height:4px; background:rgba(57,210,192,.1); border-radius:2px; overflow:visible; position:relative; }
+.compile-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--cyan),#9df5ea); box-shadow:0 0 12px var(--cyan), 0 0 20px rgba(57,210,192,0.6); transition:width 2.1s cubic-bezier(.4,0,.2,1); }
 
 .tags-wrap{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.5rem; }
 .tag-chip{ font-family:var(--mono); font-size:.55rem; letter-spacing:.1em; color:var(--rec); border:1px solid rgba(255,68,56,.28); border-radius:2px; padding:.28rem .65rem; text-transform:uppercase; }
@@ -417,9 +419,10 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
   transition:left .05s linear;
 }
 #tl-playhead::before{ content:''; position:absolute; top:-4px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid var(--rec); }
+@media (max-width:700px){ .tl-clip-label{ display:none; } .tl-code{ min-width:46px; font-size:.6rem; } }
 
 /* ================================================================
-   MUSIC PLAYER
+   MUSIC CONTROLLER (Glassmorphism)
 ================================================================ */
 #music-player {
   position: fixed;
@@ -429,7 +432,7 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: rgba(11, 10, 8, 0.85);
+  background: rgba(11, 10, 8, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--line);
@@ -441,8 +444,8 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
   width: 44px; height: 44px; border-radius: 6px; object-fit: cover;
   box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
-.mp-center { 
-  display: flex; flex-direction: column; gap: 6px; min-width: 140px; 
+.mp-center {
+  display: flex; flex-direction: column; gap: 6px; min-width: 140px;
 }
 .mp-title {
   font-family: var(--sans); font-weight: 700; font-size: .85rem; color: var(--bone);
@@ -456,15 +459,15 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
   flex: 1; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px;
   cursor: pointer; position: relative; display: flex; align-items: center;
 }
-.mp-bar-bg::after { 
-  content: ''; position: absolute; top: -6px; bottom: -6px; left: 0; right: 0; 
+.mp-bar-bg::after {
+  content: ''; position: absolute; top: -6px; bottom: -6px; left: 0; right: 0;
 }
 .mp-bar-fill {
   height: 100%; width: 0%; background: var(--bone); border-radius: 2px;
   pointer-events: none; transition: width 0.1s linear;
 }
-.mp-controls { 
-  display: flex; align-items: center; gap: 8px; 
+.mp-controls {
+  display: flex; align-items: center; gap: 8px;
 }
 .mp-btn {
   background: none; border: none; padding: 4px; cursor: pointer;
@@ -475,8 +478,7 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 .mp-btn svg { width: 16px; height: 16px; fill: currentColor; }
 #mp-play svg { width: 20px; height: 20px; }
 
-@media (max-width: 700px) { 
-  .tl-clip-label{ display:none; } .tl-code{ min-width:46px; font-size:.6rem; } 
+@media (max-width: 700px) {
   #music-player {
     right: 50%; transform: translateX(50%);
     bottom: calc(var(--timeline-h) + 1rem);
@@ -492,9 +494,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 <div id="grain"></div>
 <div id="vignette"></div>
 
-<!-- ============================================================
-     LOADER
-============================================================ -->
 <div id="loader">
   <div class="ldr-label">Initializing render</div>
   <div class="ldr-name">CHARLIE</div>
@@ -502,9 +501,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
   <div class="ldr-pct" id="ldr-pct">0%</div>
 </div>
 
-<!-- ============================================================
-     TOP BAR
-============================================================ -->
 <nav id="topbar">
   <a href="#hero" class="tb-logo">[<b>charlie</b>]</a>
   <ul class="tb-links">
@@ -517,9 +513,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
   <div class="tb-rec"><span class="dot"></span> Live</div>
 </nav>
 
-<!-- ============================================================
-     HERO
-============================================================ -->
 <section id="hero" class="clip-section" data-clip="Hero" style="padding-top:8rem;">
   <div class="h-corner h-tl"></div>
   <div class="h-corner h-tr"></div>
@@ -559,7 +552,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
         <div class="m-corner m-bl"></div>
         <div class="m-corner m-br"></div>
         <div class="m-rec"><i></i> CHARLIE AE</div>
-        <!-- Video portrait — place charlie.mp4 in same folder as index.html -->
         <video src="charlie.mp4" autoplay loop muted playsinline aria-label="Charlie portrait" style="background:#0a0a12;"></video>
       </div>
     </div>
@@ -573,9 +565,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 
 <div class="divider"></div>
 
-<!-- ============================================================
-     ABOUT
-============================================================ -->
 <section id="about" class="clip-section" data-clip="About">
   <div class="clip-slate">
     <span class="num reveal">01</span>
@@ -625,9 +614,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 
 <div class="divider"></div>
 
-<!-- ============================================================
-     SKILLS
-============================================================ -->
 <section id="skills" class="clip-section" data-clip="Skills">
   <div class="clip-slate">
     <span class="num reveal">02</span>
@@ -715,9 +701,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 
 <div class="divider"></div>
 
-<!-- ============================================================
-     WORK
-============================================================ -->
 <section id="work" class="clip-section" data-clip="Work">
   <div class="clip-slate">
     <span class="num reveal">03</span>
@@ -770,9 +753,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 
 <div class="divider"></div>
 
-<!-- ============================================================
-     PROJECTS — media bin
-============================================================ -->
 <section id="projects" class="clip-section" data-clip="Projects">
   <div class="clip-slate">
     <span class="num reveal">04</span>
@@ -781,7 +761,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 
   <div class="bin-grid">
 
-    <!-- The Watcher -->
     <div class="bin-card reveal">
       <div class="bin-head">
         <div class="bin-id">
@@ -812,7 +791,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
       </div>
     </div>
 
-    <!-- Love's Assistant -->
     <div class="bin-card reveal d1">
       <div class="bin-head">
         <div class="bin-id">
@@ -843,7 +821,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
       </div>
     </div>
 
-    <!-- Trade Verse -->
     <div class="bin-card reveal d2">
       <div class="bin-head">
         <div class="bin-id">
@@ -879,9 +856,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 
 <div class="divider"></div>
 
-<!-- ============================================================
-     CONTACT
-============================================================ -->
 <section id="contact" class="clip-section" data-clip="Contact">
   <div class="exp-pre"><span class="ln"></span> Let's collaborate <span class="ln"></span></div>
 
@@ -917,9 +891,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
   <a href="mailto:charlie.ae.yt@gmail.com" class="exp-email reveal d3">charlie.ae.yt@gmail.com</a>
 </section>
 
-<!-- ============================================================
-     LOCAL TIME
-============================================================ -->
 <div class="meta-strip">
   <div class="meta-box">
     <div class="meta-left">
@@ -937,20 +908,20 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
   </div>
 </div>
 
-<!-- ============================================================
-     FOOTER
-============================================================ -->
 <footer>
   <span class="f-text">© 2026 Charlie · All rights reserved</span>
   <div class="f-status"><span class="dot"></span> Available for projects</div>
   <span class="f-text">Video Editor &amp; Developer</span>
 </footer>
 
-<!-- ============================================================
-     MUSIC CONTROLLER
-============================================================ -->
+<div id="timeline">
+  <span class="tl-code" id="tl-code">00:00</span>
+  <div class="tl-track" id="tl-track"></div>
+  <span class="tl-code end" id="tl-code-end">00:00</span>
+</div>
+
 <div id="music-player">
-  <audio id="bg-audio" src="loveme.mp3"></audio>
+  <audio id="bg-audio" src="loveme.mp3" loop></audio>
   <img src="peter-gwen.jpeg" class="mp-cover" alt="Cover" />
   <div class="mp-center">
     <div class="mp-title">Love Me</div>
@@ -974,15 +945,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
       <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
     </button>
   </div>
-</div>
-
-<!-- ============================================================
-     TIMELINE SCRUBBER
-============================================================ -->
-<div id="timeline">
-  <span class="tl-code" id="tl-code">00:00</span>
-  <div class="tl-track" id="tl-track"></div>
-  <span class="tl-code end" id="tl-code-end">00:00</span>
 </div>
 
 <script>
@@ -1053,7 +1015,9 @@ window.addEventListener('scroll', () => {
     if (animated) return; animated = true;
     fills.forEach((f, i) => {
       const target = f.getAttribute('data-target');
+      // Triggers the left-to-right CSS transition alongside the glowing effect
       f.style.width = target + '%';
+      
       const cls = labelClassMap[i];
       if (cls) {
         const label = document.querySelector('.' + cls);
@@ -1077,6 +1041,7 @@ window.addEventListener('scroll', () => {
       compilePct.textContent = cp + '%';
     }, 40);
   }
+  
   const skillsSection = document.getElementById('skills');
   const io2 = new IntersectionObserver((entries) => {
     entries.forEach(en => { if (en.isIntersecting) animateMeters(); });
@@ -1187,6 +1152,9 @@ window.addEventListener('scroll', () => {
 
 /* ══════════════════════════════════════════
    BOT STATUS — Love's Assistant (bot-hosting.net panel)
+   Note: this endpoint is plain HTTP. If index.html ends up
+   served over HTTPS, browsers block the request as "mixed
+   content" and this will always read Offline.
 ══════════════════════════════════════════ */
 (function() {
   const DOT = document.getElementById('love-status-dot');
@@ -1256,7 +1224,7 @@ window.addEventListener('scroll', () => {
 })();
 
 /* ══════════════════════════════════════════
-   MUSIC PLAYER LOGIC
+   MUSIC PLAYER & AGGRESSIVE AUTOPLAY LOGIC
 ══════════════════════════════════════════ */
 (function(){
   const audio = document.getElementById('bg-audio');
@@ -1275,15 +1243,23 @@ window.addEventListener('scroll', () => {
     return `${m}:${s}`;
   }
 
-  playBtn.addEventListener('click', () => {
-    if (audio.paused) {
-      audio.play();
+  function updatePlayState(isPlaying) {
+    if (isPlaying) {
       iconPlay.style.display = 'none';
       iconPause.style.display = 'block';
     } else {
-      audio.pause();
       iconPlay.style.display = 'block';
       iconPause.style.display = 'none';
+    }
+  }
+
+  playBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      updatePlayState(true);
+    } else {
+      audio.pause();
+      updatePlayState(false);
     }
   });
 
@@ -1312,6 +1288,36 @@ window.addEventListener('scroll', () => {
   document.getElementById('mp-next').addEventListener('click', () => { 
     if(audio.duration) audio.currentTime = audio.duration; 
   });
+
+  // Autoplay functionality designed to bypass strict browser restrictions
+  function attemptAutoplay() {
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        // Autoplay succeeded
+        updatePlayState(true);
+      }).catch(error => {
+        // Autoplay was blocked, bind to the very first user interaction
+        const forcePlayOnGesture = () => {
+          audio.play().then(() => {
+            updatePlayState(true);
+            // Remove the listeners once successfully played
+            ['click', 'touchstart', 'scroll', 'keydown', 'mousemove'].forEach(evt => {
+              window.removeEventListener(evt, forcePlayOnGesture);
+            });
+          }).catch(e => console.log("Audio still blocked:", e));
+        };
+
+        // Attach passive listeners to catch the slightest user movement/touch
+        ['click', 'touchstart', 'scroll', 'keydown', 'mousemove'].forEach(evt => {
+          window.addEventListener(evt, forcePlayOnGesture, { once: true, passive: true });
+        });
+      });
+    }
+  }
+
+  // Attempt right away
+  attemptAutoplay();
 })();
 </script>
 </body>
