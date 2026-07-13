@@ -378,7 +378,7 @@ img{ max-width:100%; display:block; }
 .meta-loc{ display:flex; align-items:center; gap:.5rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; color:var(--bone2); }
 .meta-loc .dot{ width:6px; height:6px; border-radius:50%; background:var(--cyan); box-shadow:0 0 6px var(--cyan); }
 .meta-div{ width:1px; height:44px; background:var(--line); }
-.meta-clock{ font-family:var(--mono); font-size:1.7rem; letter-spacing:.03em; color:var(--bone); }
+.meta-clock{ font-family:var(--mono); font-size:1.7rem; letter-spacing:.03em; color:var(--bone); display: flex; align-items: baseline; }
 .meta-ampm{ font-size:.7rem; color:var(--amber); margin-left:.4rem; }
 .meta-date{ font-family:var(--mono); font-size:.58rem; color:var(--bone3); letter-spacing:.06em; }
 .meta-tz{ font-family:var(--mono); font-size:.52rem; color:var(--bone3); letter-spacing:.1em; text-transform:uppercase; }
@@ -1192,18 +1192,24 @@ window.addEventListener('scroll', () => {
   const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  function updateClock() {
-    const now = new Date();
-    const utcMs = now.getTime() + now.getTimezoneOffset()*60000;
-    const ist = new Date(utcMs + 19800000);
-    let h = ist.getHours();
-    const m = ist.getMinutes();
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    h = h % 12 || 12;
-    timeEl.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-    ampmEl.textContent = ampm;
-    dateEl.textContent = `${DAYS[ist.getDay()]}, ${MONTHS[ist.getMonth()]} ${ist.getDate()} ${ist.getFullYear()}`;
-  }
+
+function updateClock() {
+  const now = new Date();
+  const utcMs = now.getTime() + now.getTimezoneOffset()*60000;
+  const ist = new Date(utcMs + 19800000);
+  
+  let h = ist.getHours();
+  const m = ist.getMinutes();
+  const s = ist.getSeconds(); 
+  
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  
+  timeEl.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  
+  ampmEl.textContent = ampm;
+  dateEl.textContent = `${DAYS[ist.getDay()]}, ${MONTHS[ist.getMonth()]} ${ist.getDate()} ${ist.getFullYear()}`;
+}
   updateClock();
   setInterval(updateClock, 1000);
 })();
