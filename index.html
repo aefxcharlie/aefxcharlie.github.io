@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 /* ================================================================
    DESIGN TOKENS — NLE / FILM-DESK
@@ -17,17 +18,18 @@
    you are scrubbing a timeline, not scrolling a webpage.
 ================================================================ */
 :root{
-  --bg:        #0B0A08;
-  --bg2:       #121009;
-  --panel:     #17140F;
-  --panel2:    #1C1811;
-  --line:      rgba(232,163,61,0.16);
-  --line-soft: rgba(232,163,61,0.07);
+  --bg:        #070D08;
+  --bg2:       #0B150C;
+  --panel:     #0F1D11;
+  --panel2:    #142615;
+  --line:      rgba(47,227,255,0.16);
+  --line-soft: rgba(47,227,255,0.07);
 
-  --amber:     #E8A33D;
-  --amber-dim: #8A6224;
+  --amber:     #2FE3FF;
+  --amber-dim: #1B5E66;
   --rec:       #FF4438;
   --cyan:      #39D2C0;
+  --warm-glow: #FF8A3D; /* used only by the Viewport's glow switch — an intentional warm accent against the cyan chrome */
 
   --bone:      #F2EDE3;
   --bone2:     #A69C8D;
@@ -53,7 +55,7 @@ body{
 }
 a{ color:inherit; }
 img{ max-width:100%; display:block; }
-::selection{ background:var(--amber); color:#0B0A08; }
+::selection{ background:var(--amber); color:#070D08; }
 
 @media (pointer:fine){ body{ cursor:none; } }
 
@@ -95,7 +97,7 @@ img{ max-width:100%; display:block; }
 #loader.out{ opacity:0; visibility:hidden; }
 .ldr-label{ font-family:var(--mono); font-size:.62rem; letter-spacing:.3em; color:var(--bone3); text-transform:uppercase; }
 .ldr-name{ font-family:var(--display); font-size:clamp(3rem,10vw,7rem); letter-spacing:.06em; color:var(--bone); opacity:.92; }
-.ldr-track{ width:280px; height:2px; background:rgba(232,163,61,0.12); overflow:hidden; }
+.ldr-track{ width:280px; height:2px; background:rgba(47,227,255,0.12); overflow:hidden; }
 .ldr-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--amber),var(--rec)); box-shadow:0 0 10px var(--amber); animation:ldrFill 1.7s cubic-bezier(.4,0,.2,1) forwards; }
 @keyframes ldrFill{ 0%{width:0%;} 60%{width:82%;} 100%{width:100%;} }
 .ldr-pct{ font-family:var(--mono); font-size:.6rem; letter-spacing:.15em; color:var(--amber); }
@@ -110,7 +112,7 @@ img{ max-width:100%; display:block; }
   transition:background .3s,border-color .3s;
   border-bottom:1px solid transparent;
 }
-#topbar.scrolled{ background:rgba(11,10,8,.86); backdrop-filter:blur(16px); border-color:var(--line); }
+#topbar.scrolled{ background:rgba(7,13,8,.86); backdrop-filter:blur(16px); border-color:var(--line); }
 .tb-logo{
   font-family:var(--mono); font-size:.72rem; letter-spacing:.28em; text-transform:uppercase;
   color:var(--amber); text-decoration:none; display:flex; gap:.5rem; align-items:center;
@@ -159,7 +161,7 @@ img{ max-width:100%; display:block; }
 #hero::before{
   content:''; position:absolute; inset:0; z-index:0;
   background:
-    radial-gradient(ellipse 55% 40% at 15% 40%, rgba(232,163,61,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 40% at 15% 40%, rgba(47,227,255,0.05) 0%, transparent 70%),
     radial-gradient(ellipse 40% 55% at 85% 65%, rgba(57,210,192,0.045) 0%, transparent 70%);
 }
 .h-corner{ position:absolute; width:34px; height:34px; z-index:2; pointer-events:none; opacity:.7; }
@@ -197,7 +199,7 @@ img{ max-width:100%; display:block; }
 
 .hero-cta{ display:flex; gap:1rem; flex-wrap:wrap; }
 .btn{ font-family:var(--mono); font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; text-decoration:none; padding:.95rem 1.7rem; border-radius:2px; transition:all .25s; display:inline-flex; align-items:center; gap:.5rem; }
-.btn-primary{ background:var(--amber); color:#0B0A08; font-weight:700; }
+.btn-primary{ background:var(--amber); color:#070D08; font-weight:700; }
 .btn-primary:hover{ background:var(--bone); }
 .btn-ghost{ border:1px solid var(--line); color:var(--bone2); }
 .btn-ghost:hover{ border-color:var(--cyan); color:var(--cyan); }
@@ -205,7 +207,7 @@ img{ max-width:100%; display:block; }
 .hero-monitor{ flex:0 0 auto; position:relative; align-self:center; }
 .monitor-frame{
   width:clamp(180px,22vw,290px); aspect-ratio:9/16; position:relative; border-radius:4px; overflow:hidden;
-  box-shadow:0 0 0 1px rgba(232,163,61,0.3), 0 0 40px rgba(232,163,61,0.1), 0 0 70px rgba(57,210,192,0.05);
+  box-shadow:0 0 0 1px rgba(47,227,255,0.3), 0 0 40px rgba(47,227,255,0.1), 0 0 70px rgba(57,210,192,0.05);
 }
 .monitor-frame video,.monitor-frame img{ width:100%; height:100%; object-fit:cover; object-position:top center; filter:saturate(.88) contrast(1.06) brightness(.92); }
 .monitor-frame::after{
@@ -263,7 +265,7 @@ img{ max-width:100%; display:block; }
 .meters-grid{ display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--line-soft); }
 .meter-panel{ background:var(--panel); padding:2.4rem; position:relative; }
 .meter-panel::before{ content:''; position:absolute; top:0; left:0; width:100%; height:2px; }
-.meter-panel.p-amber::before{ background:linear-gradient(90deg,var(--amber),#ffcf7d); }
+.meter-panel.p-amber::before{ background:linear-gradient(90deg,var(--amber),#9befff); }
 .meter-panel.p-cyan::before{ background:linear-gradient(90deg,var(--cyan),#9df5ea); }
 .meter-panel.p-rec::before{ background:linear-gradient(90deg,var(--rec),#ff9088); }
 .meter-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:1.8rem; }
@@ -278,7 +280,7 @@ img{ max-width:100%; display:block; }
 
 /* Enhanced GLOWING Fills that start at 0 and animate in JS */
 .meter-fill{ height:100%; width:0%; border-radius:2px; transition:width 1.6s cubic-bezier(.4,0,.2,1); position:relative; z-index:2; }
-.meter-fill.amber{ background:linear-gradient(90deg,var(--amber),#ffcf7d); box-shadow:0 0 12px var(--amber), 0 0 20px rgba(232,163,61,0.6); }
+.meter-fill.amber{ background:linear-gradient(90deg,var(--amber),#9befff); box-shadow:0 0 12px var(--amber), 0 0 20px rgba(47,227,255,0.6); }
 .meter-fill.cyan{ background:linear-gradient(90deg,var(--cyan),#9df5ea); box-shadow:0 0 12px var(--cyan), 0 0 20px rgba(57,210,192,0.6); }
 
 .compiler{ background:rgba(0,0,0,.35); border:1px solid rgba(57,210,192,.15); border-radius:2px; padding:1.1rem; font-family:var(--mono); font-size:.58rem; line-height:1.85; max-height:158px; overflow:hidden; position:relative; }
@@ -313,7 +315,7 @@ img{ max-width:100%; display:block; }
   background-size:16px 100%, 100% 1px; background-position:0 0,0 50%; background-repeat:repeat-x; opacity:.35;
 }
 .frame::before{ top:0; } .frame::after{ bottom:0; }
-.frame:hover{ background:rgba(232,163,61,.03); padding-left:1.6rem; }
+.frame:hover{ background:rgba(47,227,255,.03); padding-left:1.6rem; }
 .frame-num{ font-family:var(--mono); font-size:.6rem; color:var(--bone3); }
 .frame-title{ font-family:var(--display); font-size:clamp(1.15rem,2.4vw,1.9rem); letter-spacing:.03em; color:var(--bone); text-transform:uppercase; margin-bottom:.3rem; transition:color .3s; }
 .frame:hover .frame-title{ color:var(--amber); }
@@ -328,7 +330,7 @@ img{ max-width:100%; display:block; }
 #projects{ background:var(--bg); }
 .bin-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; }
 .bin-card{ background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:1.8rem; position:relative; transition:border-color .35s,transform .35s; }
-.bin-card:hover{ border-color:rgba(232,163,61,.4); transform:translateY(-4px); }
+.bin-card:hover{ border-color:rgba(47,227,255,.4); transform:translateY(-4px); }
 .bin-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; margin-bottom:1.2rem; }
 .bin-id{ display:flex; gap:.9rem; align-items:center; }
 .bin-thumb{ width:52px; height:52px; border-radius:8px; overflow:hidden; flex-shrink:0; box-shadow:0 0 0 1px var(--line); }
@@ -349,8 +351,101 @@ img{ max-width:100%; display:block; }
 .bin-meta-row .lbl{ color:var(--bone3); }
 .bin-meta-row .val{ color:var(--bone2); }
 .bin-tags{ display:flex; flex-wrap:wrap; gap:.4rem; }
-.bin-tag{ font-family:var(--mono); font-size:.5rem; letter-spacing:.08em; color:var(--amber); border:1px solid rgba(232,163,61,.25); border-radius:2px; padding:.22rem .55rem; text-transform:uppercase; }
+.bin-tag{ font-family:var(--mono); font-size:.5rem; letter-spacing:.08em; color:var(--amber); border:1px solid rgba(47,227,255,.25); border-radius:2px; padding:.22rem .55rem; text-transform:uppercase; }
 @media (max-width:960px){ .bin-grid{ grid-template-columns:1fr; } }
+
+/* ================================================================
+   NEW ADDITION — THE VIEWPORT (3D orbit render preview)
+================================================================ */
+#New-Addiction{ background:var(--bg2); }
+.vp-window{ background:var(--panel); border:1px solid var(--line); border-radius:6px; overflow:hidden; }
+.vp-winbar{ display:flex; align-items:center; gap:.5rem; padding:.7rem 1rem; background:var(--panel2); border-bottom:1px solid var(--line); }
+.vp-winfile{ margin-left:.4rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.08em; color:var(--bone3); flex:1 1 auto; }
+.vp-live{ display:flex; align-items:center; gap:.4rem; font-family:var(--mono); font-size:.55rem; letter-spacing:.14em; color:var(--bone2); text-transform:uppercase; margin-right:.6rem; }
+.vp-live-dot{ width:6px; height:6px; border-radius:50%; background:var(--cyan); box-shadow:0 0 6px var(--cyan); animation:recBlink 1.6s ease-in-out infinite; }
+.vp-btn{
+  font-family:var(--mono); font-size:.58rem; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--bone2); background:transparent; border:1px solid var(--line); border-radius:3px;
+  padding:.4rem .8rem; cursor:pointer; transition:border-color .2s ease, color .2s ease;
+}
+.vp-btn:hover{ border-color:var(--amber); color:var(--amber); }
+.vp-btn:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
+
+.vp-stage{ position:relative; height:420px; }
+.vp-stage canvas{ display:block; width:100%; height:100%; }
+.vp-hint{
+  position:absolute; top:14px; right:16px; font-family:var(--mono); font-size:.56rem; letter-spacing:.08em;
+  color:var(--bone3); text-transform:uppercase; pointer-events:none; opacity:0; transition:opacity .3s ease;
+}
+.vp-stage:hover .vp-hint{ opacity:1; }
+.vp-gizmo{
+  position:absolute; bottom:16px; left:18px; display:flex; flex-direction:column; gap:4px; pointer-events:none;
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.06em;
+}
+.vp-gizmo div{ display:flex; align-items:center; gap:6px; }
+.vp-gizmo .bar{ width:20px; height:2px; display:block; }
+.vp-gizmo .x .bar{ background:var(--rec); } .vp-gizmo .x span:last-child{ color:var(--rec); }
+.vp-gizmo .y .bar{ background:var(--amber); } .vp-gizmo .y span:last-child{ color:var(--amber); }
+.vp-gizmo .z .bar{ background:var(--cyan); } .vp-gizmo .z span:last-child{ color:var(--cyan); }
+
+.vp-telemetry{
+  display:flex; align-items:center; justify-content:space-between; padding:.6rem 1rem;
+  border-top:1px solid var(--line-soft); font-family:var(--mono); font-size:.58rem; letter-spacing:.06em; color:var(--bone3);
+}
+.vp-tele-group{ display:flex; gap:1.2rem; text-transform:uppercase; }
+.vp-tele-group .rx b{ color:var(--rec); font-weight:500; } .vp-tele-group .ry b{ color:var(--amber); font-weight:500; }
+.vp-tele-fps{ text-transform:uppercase; }
+
+.vp-controls{
+  display:flex; flex-wrap:wrap; gap:2rem; padding:1rem 1rem 1.2rem; border-top:1px solid var(--line-soft);
+}
+.vp-switch-group{ display:flex; align-items:center; gap:.7rem; }
+.vp-switch-label{ font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; color:var(--bone2); text-transform:uppercase; }
+.vp-switch-track{
+  position:relative; width:42px; height:22px; border-radius:20px; background:var(--panel2);
+  border:1px solid var(--line); cursor:pointer; padding:0; transition:background .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+.vp-switch-track[aria-checked="true"]{ background:rgba(47,227,255,.18); border-color:var(--amber); box-shadow:0 0 10px rgba(47,227,255,.35); }
+.vp-switch-thumb{
+  position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:var(--bone3);
+  transition:transform .35s cubic-bezier(.4,0,.2,1), background .3s ease;
+}
+.vp-switch-track[aria-checked="true"] .vp-switch-thumb{ transform:translateX(20px); background:var(--amber); box-shadow:0 0 8px var(--amber); }
+.vp-switch-state{ min-width:26px; font-family:var(--mono); font-size:.6rem; letter-spacing:.05em; color:var(--bone3); transition:color .3s ease; }
+.vp-switch-track[aria-checked="true"] + .vp-switch-state{ color:var(--amber); }
+.vp-speed-group .vp-switch-state{ min-width:36px; color:var(--amber); }
+
+/* ── speed slider — click or drag anywhere along the rail, 1x through 5x ── */
+.vp-speed-slider{
+  display:flex; align-items:center; gap:.55rem; cursor:pointer; padding:.4rem 0; touch-action:none; -webkit-tap-highlight-color:transparent;
+}
+.vp-speed-slider:focus-visible{ outline:none; }
+.vp-speed-slider:focus-visible .vp-speed-track{ border-color:var(--amber); box-shadow:0 0 0 3px rgba(47,227,255,.18); }
+.vp-speed-cap{ font-family:var(--mono); font-size:.58rem; letter-spacing:.04em; color:var(--bone3); user-select:none; }
+.vp-speed-track{
+  position:relative; width:118px; height:16px; display:flex; align-items:center;
+  border-radius:20px; transition:box-shadow .2s ease, border-color .2s ease;
+}
+.vp-speed-track::before{
+  content:''; position:absolute; left:0; right:0; top:50%; height:3px; transform:translateY(-50%);
+  border-radius:3px; background:var(--panel2); border:1px solid var(--line);
+}
+.vp-speed-fill{
+  position:absolute; left:0; top:50%; height:3px; transform:translateY(-50%); border-radius:3px;
+  background:linear-gradient(90deg,var(--cyan),var(--amber)); width:0%; pointer-events:none;
+}
+.vp-speed-thumb{
+  position:absolute; top:50%; width:14px; height:14px; left:0%; margin-left:-7px; border-radius:50%;
+  background:var(--bone3); box-shadow:0 0 0 3px var(--panel2); transform:translateY(-50%);
+  transition:background .2s ease, box-shadow .2s ease;
+}
+.vp-speed-slider:hover .vp-speed-thumb,
+.vp-speed-slider:focus-visible .vp-speed-thumb,
+.vp-speed-slider.dragging .vp-speed-thumb{
+  background:var(--amber); box-shadow:0 0 8px var(--amber), 0 0 0 3px var(--panel2);
+}
+.vp-speed-slider.dragging .vp-speed-track::before{ border-color:var(--amber); }
+@media (max-width:640px){ .vp-stage{ height:320px; } .vp-speed-track{ width:92px; } }
 
 /* ================================================================
    CONTACT — export panel
@@ -364,7 +459,7 @@ img{ max-width:100%; display:block; }
 .exp-buttons{ display:flex; flex-wrap:wrap; justify-content:center; gap:.9rem; margin-bottom:3rem; }
 .exp-btn{ display:flex; align-items:center; gap:.6rem; font-family:var(--mono); font-size:.65rem; letter-spacing:.08em; text-decoration:none; color:var(--bone); border:1px solid var(--line); border-radius:3px; padding:.85rem 1.3rem; transition:all .25s; }
 .exp-btn svg{ width:16px; height:16px; fill:currentColor; }
-.exp-btn:hover{ border-color:var(--amber); color:var(--amber); background:rgba(232,163,61,.05); }
+.exp-btn:hover{ border-color:var(--amber); color:var(--amber); background:rgba(47,227,255,.05); }
 .exp-email{ display:inline-block; font-family:var(--mono); font-size:clamp(1rem,2.6vw,1.5rem); letter-spacing:.02em; color:var(--bone2); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:.4rem; transition:color .3s,border-color .3s; }
 .exp-email:hover{ color:var(--amber); border-color:var(--amber); }
 
@@ -399,7 +494,7 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 ================================================================ */
 #timeline{
   position:fixed; left:0; right:0; bottom:0; z-index:2000; height:var(--timeline-h);
-  background:rgba(11,10,8,.92); backdrop-filter:blur(14px); border-top:1px solid var(--line);
+  background:rgba(7,13,8,.92); backdrop-filter:blur(14px); border-top:1px solid var(--line);
   display:flex; align-items:center; gap:1rem; padding:0 1.2rem;
 }
 .tl-code{ font-family:var(--mono); font-size:.68rem; color:var(--amber); letter-spacing:.05em; flex-shrink:0; min-width:64px; }
@@ -409,8 +504,8 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
   position:relative; height:100%; border-right:1px solid var(--line); cursor:pointer;
   display:flex; align-items:center; justify-content:center; overflow:hidden;
 }
-.tl-clip .fill{ position:absolute; inset:0; background:rgba(232,163,61,.14); transform:scaleX(0); transform-origin:left; }
-.tl-clip.active .fill{ background:rgba(232,163,61,.22); }
+.tl-clip .fill{ position:absolute; inset:0; background:rgba(47,227,255,.14); transform:scaleX(0); transform-origin:left; }
+.tl-clip.active .fill{ background:rgba(47,227,255,.22); }
 .tl-clip-label{ position:relative; font-family:var(--mono); font-size:.48rem; letter-spacing:.1em; color:var(--bone3); text-transform:uppercase; z-index:1; white-space:nowrap; }
 .tl-clip.active .tl-clip-label{ color:var(--amber); }
 .tl-clip:hover .tl-clip-label{ color:var(--cyan); }
@@ -432,7 +527,7 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: rgba(11, 10, 8, 0.65);
+  background: rgba(7, 13, 8, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--line);
@@ -856,6 +951,64 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 
 <div class="divider"></div>
 
+<section id="New-Addiction" class="clip-section" data-clip="New Addition">
+  <div class="clip-slate">
+    <span class="num reveal">05</span>
+    <h2 class="reveal d1">The <span>Viewport</span></h2>
+  </div>
+
+  <div class="vp-window reveal d1">
+    <div class="vp-winbar">
+      <span class="insp-dot r"></span><span class="insp-dot y"></span><span class="insp-dot g"></span>
+      <span class="vp-winfile">viewport.render — orbit_preview</span>
+      <span class="vp-live"><span class="vp-live-dot"></span> Live</span>
+      <button class="vp-btn" id="wireToggle" type="button">Wireframe</button>
+    </div>
+
+    <div class="vp-stage" id="vpStage">
+      <div class="vp-hint">Drag to orbit · scroll to zoom</div>
+      <div class="vp-gizmo">
+        <div class="x"><span class="bar"></span><span>X</span></div>
+        <div class="y"><span class="bar"></span><span>Y</span></div>
+        <div class="z"><span class="bar"></span><span>Z</span></div>
+      </div>
+    </div>
+
+    <div class="vp-telemetry">
+      <div class="vp-tele-group">
+        <span class="rx">RX <b id="rxVal">0.0°</b></span>
+        <span class="ry">RY <b id="ryVal">0.0°</b></span>
+      </div>
+      <div class="vp-tele-fps">24 FPS · RENDER OK</div>
+    </div>
+
+    <div class="vp-controls">
+      <div class="vp-switch-group">
+        <span class="vp-switch-label">Glow</span>
+        <button class="vp-switch-track" id="glowSwitch" type="button" role="switch" aria-checked="false" aria-label="Toggle warm core glow">
+          <span class="vp-switch-thumb"></span>
+        </button>
+        <span class="vp-switch-state" id="glowState">Off</span>
+      </div>
+      <div class="vp-switch-group vp-speed-group">
+        <span class="vp-switch-label">Speed</span>
+        <div class="vp-speed-slider" id="speedSlider" role="slider" tabindex="0"
+             aria-label="Orbit speed, 1 times to 5 times" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" aria-valuetext="1.0×">
+          <span class="vp-speed-cap">1×</span>
+          <span class="vp-speed-track">
+            <span class="vp-speed-fill" id="speedFill"></span>
+            <span class="vp-speed-thumb" id="speedThumb"></span>
+          </span>
+          <span class="vp-speed-cap">5×</span>
+        </div>
+        <span class="vp-switch-state" id="speedState">1.0×</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 <section id="contact" class="clip-section" data-clip="Contact">
   <div class="exp-pre"><span class="ln"></span> Let's collaborate <span class="ln"></span></div>
 
@@ -976,7 +1129,7 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
     r.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
   });
   document.addEventListener('mouseover', e => {
-    r.classList.toggle('on-link', !!e.target.closest('a, button, .tl-clip, .mp-bar-bg'));
+    r.classList.toggle('on-link', !!e.target.closest('a, button, .tl-clip, .mp-bar-bg, .vp-stage'));
   });
 })();
 
@@ -1322,6 +1475,213 @@ function updateClock() {
 
   // Attempt right away
   attemptAutoplay();
+})();
+
+/* ══════════════════════════════════════════
+   THE VIEWPORT — 3D orbit render preview
+   Drag to orbit, scroll to zoom, wireframe
+   toggle. Speed switch smoothly ramps the
+   idle auto-rotation between 1x and 5x.
+   Glow switch pulses a warm emissive light
+   on the core mesh, slow rise / quick fall,
+   looping.
+══════════════════════════════════════════ */
+(function(){
+  const stage = document.getElementById('vpStage');
+  if (!stage || typeof THREE === 'undefined') return;
+
+  const rxVal = document.getElementById('rxVal');
+  const ryVal = document.getElementById('ryVal');
+  const wireBtn = document.getElementById('wireToggle');
+  const glowSwitch = document.getElementById('glowSwitch');
+  const glowState = document.getElementById('glowState');
+  const speedSlider = document.getElementById('speedSlider');
+  const speedTrack = speedSlider.querySelector('.vp-speed-track');
+  const speedFill = document.getElementById('speedFill');
+  const speedThumb = document.getElementById('speedThumb');
+  const speedState = document.getElementById('speedState');
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, stage.clientWidth / stage.clientHeight, 0.1, 100);
+  camera.position.set(0, 0, 6);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(stage.clientWidth, stage.clientHeight);
+  stage.appendChild(renderer.domElement);
+
+  // lights — reuse the site's own accent colors (rec / amber / cyan)
+  scene.add(new THREE.AmbientLight(0x1a1a1e, 1.1));
+  const keyLight = new THREE.DirectionalLight(0x2fe3ff, 0.85);
+  keyLight.position.set(4, 5, 3);
+  scene.add(keyLight);
+  const rimLight = new THREE.PointLight(0x39d2c0, 1.1, 20);
+  rimLight.position.set(-4, -2, 3);
+  scene.add(rimLight);
+
+  // warm glow light — off by default, only the glow switch drives this
+  const glowLight = new THREE.PointLight(0xff8a3d, 0, 6);
+  glowLight.position.set(0, 0, 0.6);
+  scene.add(glowLight);
+
+  const group = new THREE.Group();
+  scene.add(group);
+
+  const coreGeo = new THREE.IcosahedronGeometry(1.3, 0);
+  const coreMat = new THREE.MeshStandardMaterial({
+    color: 0x1c1c20, flatShading: true, metalness: 0.3, roughness: 0.55,
+    emissive: 0x000000, emissiveIntensity: 0
+  });
+  const core = new THREE.Mesh(coreGeo, coreMat);
+  group.add(core);
+
+  const shellGeo = new THREE.IcosahedronGeometry(1.75, 0);
+  const shellMat = new THREE.MeshBasicMaterial({ color: 0x39d2c0, wireframe: true, transparent: true, opacity: 0.35 });
+  const shell = new THREE.Mesh(shellGeo, shellMat);
+  group.add(shell);
+
+  let wireframeOnly = false;
+  wireBtn.addEventListener('click', () => {
+    wireframeOnly = !wireframeOnly;
+    coreMat.wireframe = wireframeOnly;
+    coreMat.transparent = wireframeOnly;
+    coreMat.opacity = wireframeOnly ? 0.6 : 1;
+    wireBtn.textContent = wireframeOnly ? 'Solid' : 'Wireframe';
+  });
+
+  // ---- drag to orbit ----
+  let dragging = false, lastX = 0, lastY = 0, idle = true;
+  let targetRotX = -0.3, targetRotY = 0.4;
+  let currentRotX = targetRotX, currentRotY = targetRotY;
+
+  stage.addEventListener('pointerdown', e => {
+    dragging = true; idle = false;
+    lastX = e.clientX; lastY = e.clientY;
+    stage.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    targetRotY += dx * 0.008;
+    targetRotX += dy * 0.008;
+    targetRotX = Math.max(-1.1, Math.min(1.1, targetRotX));
+    lastX = e.clientX; lastY = e.clientY;
+  });
+  const stopDrag = () => { dragging = false; idle = true; };
+  stage.addEventListener('pointerup', stopDrag);
+  stage.addEventListener('pointerleave', stopDrag);
+  stage.addEventListener('wheel', e => {
+    e.preventDefault();
+    camera.position.z = Math.max(3.5, Math.min(9, camera.position.z + e.deltaY * 0.01));
+  }, { passive: false });
+
+  // ---- speed slider: click or drag anywhere on the rail, 1x through 5x ----
+  const SPEED_MIN = 1, SPEED_MAX = 5;
+  let targetSpeed = SPEED_MIN, currentSpeed = SPEED_MIN;
+  let speedDragging = false;
+
+  function speedValueFromClientX(clientX){
+    const rect = speedTrack.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    return SPEED_MIN + pct * (SPEED_MAX - SPEED_MIN);
+  }
+
+  function setSpeed(value){
+    targetSpeed = Math.max(SPEED_MIN, Math.min(SPEED_MAX, value));
+    const pct = ((targetSpeed - SPEED_MIN) / (SPEED_MAX - SPEED_MIN)) * 100;
+    speedFill.style.width = pct + '%';
+    speedThumb.style.left = pct + '%';
+    speedState.textContent = targetSpeed.toFixed(1) + '×';
+    speedSlider.setAttribute('aria-valuenow', targetSpeed.toFixed(2));
+    speedSlider.setAttribute('aria-valuetext', targetSpeed.toFixed(1) + '×');
+  }
+
+  speedSlider.addEventListener('pointerdown', e => {
+    speedDragging = true;
+    speedSlider.classList.add('dragging');
+    setSpeed(speedValueFromClientX(e.clientX));
+    speedSlider.setPointerCapture(e.pointerId);
+    speedSlider.focus();
+  });
+  speedSlider.addEventListener('pointermove', e => {
+    if (!speedDragging) return;
+    setSpeed(speedValueFromClientX(e.clientX));
+  });
+  const stopSpeedDrag = () => { speedDragging = false; speedSlider.classList.remove('dragging'); };
+  speedSlider.addEventListener('pointerup', stopSpeedDrag);
+  speedSlider.addEventListener('pointercancel', stopSpeedDrag);
+
+  speedSlider.addEventListener('keydown', e => {
+    const step = e.shiftKey ? 1 : 0.1;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp'){ e.preventDefault(); setSpeed(targetSpeed + step); }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown'){ e.preventDefault(); setSpeed(targetSpeed - step); }
+    else if (e.key === 'Home'){ e.preventDefault(); setSpeed(SPEED_MIN); }
+    else if (e.key === 'End'){ e.preventDefault(); setSpeed(SPEED_MAX); }
+  });
+
+  setSpeed(SPEED_MIN);
+
+  // ---- glow switch: warm light, slow rise then a quicker partial fall, looping ----
+  let glowOn = false;
+  let glowLevel = 0; // eases toward 0 or 1 depending on glowOn
+  const GLOW_PERIOD = 3400; // ms per pulse loop, only advances while glowOn
+  glowSwitch.addEventListener('click', () => {
+    glowOn = !glowOn;
+    glowSwitch.setAttribute('aria-checked', String(glowOn));
+    glowState.textContent = glowOn ? 'On' : 'Off';
+  });
+
+  function glowPulse(tMs){
+    // 0–75% of the loop: slow rise. 75–100%: a bit of a fall. Then repeats.
+    const p = (tMs % GLOW_PERIOD) / GLOW_PERIOD;
+    if (p < 0.75) {
+      const k = p / 0.75;
+      return 0.35 + 0.65 * (1 - Math.cos(k * Math.PI)) / 2; // ease in-out rise, floor 0.35
+    }
+    const k = (p - 0.75) / 0.25;
+    return 1 - 0.45 * (1 - Math.cos(k * Math.PI)) / 2; // partial fall back toward 0.55
+  }
+
+  const clock = { start: performance.now() };
+
+  function animate(now){
+    requestAnimationFrame(animate);
+
+    currentSpeed += (targetSpeed - currentSpeed) * 0.04;
+    if (idle) targetRotY += 0.0025 * currentSpeed;
+
+    currentRotX += (targetRotX - currentRotX) * 0.08;
+    currentRotY += (targetRotY - currentRotY) * 0.08;
+    group.rotation.x = currentRotX;
+    group.rotation.y = currentRotY;
+    shell.rotation.y = currentRotY * 1.15;
+    shell.rotation.x = currentRotX * 0.85;
+
+    // glow easing in/out when the switch itself is toggled
+    glowLevel += ((glowOn ? 1 : 0) - glowLevel) * 0.05;
+    if (glowLevel > 0.01) {
+      const pulse = glowPulse(now - clock.start);
+      const amt = pulse * glowLevel;
+      coreMat.emissive.setHex(0xff8a3d);
+      coreMat.emissiveIntensity = amt * 0.9;
+      glowLight.intensity = amt * 2.2;
+    } else {
+      coreMat.emissiveIntensity = 0;
+      glowLight.intensity = 0;
+    }
+
+    rxVal.textContent = (currentRotX * (180 / Math.PI)).toFixed(1) + '°';
+    ryVal.textContent = (currentRotY * (180 / Math.PI)).toFixed(1) + '°';
+
+    renderer.render(scene, camera);
+  }
+  requestAnimationFrame(animate);
+
+  window.addEventListener('resize', () => {
+    camera.aspect = stage.clientWidth / stage.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(stage.clientWidth, stage.clientHeight);
+  });
 })();
 </script>
 </body>
