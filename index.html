@@ -9,14 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
-/* ================================================================
-   DESIGN TOKENS — NLE / FILM-DESK
-   A working non-linear editor desk: tungsten amber, recording red,
-   signal cyan, warm blacks. The whole page runs on one metaphor —
-   you are scrubbing a timeline, not scrolling a webpage.
-================================================================ */
+
 :root{
   --bg:        #070D08;
   --bg2:       #0B150C;
@@ -29,7 +23,7 @@
   --amber-dim: #1B5E66;
   --rec:       #FF4438;
   --cyan:      #39D2C0;
-  --warm-glow: #FF8A3D; /* used only by the Viewport's glow switch — an intentional warm accent against the cyan chrome */
+  --warm-glow: #FF8A3D; 
 
   --bone:      #F2EDE3;
   --bone2:     #A69C8D;
@@ -59,7 +53,6 @@ img{ max-width:100%; display:block; }
 
 @media (pointer:fine){ body{ cursor:none; } }
 
-/* ── custom reticle cursor ── */
 #reticle{
   position:fixed; top:0; left:0; z-index:9999;
   width:24px; height:24px; margin:-12px 0 0 -12px;
@@ -75,7 +68,6 @@ img{ max-width:100%; display:block; }
 }
 @media (pointer:coarse){ #reticle{ display:none; } }
 
-/* ── grain ── */
 #grain{
   position:fixed; inset:0; z-index:9990; pointer-events:none; opacity:.035;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -86,9 +78,6 @@ img{ max-width:100%; display:block; }
   background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.5) 100%);
 }
 
-/* ================================================================
-   LOADER — render at 0%
-================================================================ */
 #loader{
   position:fixed; inset:0; z-index:10000; background:var(--bg);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.6rem;
@@ -102,9 +91,6 @@ img{ max-width:100%; display:block; }
 @keyframes ldrFill{ 0%{width:0%;} 60%{width:82%;} 100%{width:100%;} }
 .ldr-pct{ font-family:var(--mono); font-size:.6rem; letter-spacing:.15em; color:var(--amber); }
 
-/* ================================================================
-   TOP BAR
-================================================================ */
 #topbar{
   position:fixed; top:0; left:0; right:0; z-index:1000;
   display:flex; align-items:center; justify-content:space-between;
@@ -133,9 +119,6 @@ img{ max-width:100%; display:block; }
 @keyframes recBlink{ 0%,100%{opacity:1;} 50%{opacity:.25;} }
 @media (max-width:860px){ .tb-links{ display:none; } }
 
-/* ================================================================
-   SHARED — clip section chrome
-================================================================ */
 .clip-section{ position:relative; padding:9rem 2.4rem 6rem; z-index:1; }
 .clip-slate{
   display:flex; align-items:baseline; gap:1.2rem; margin-bottom:3.2rem;
@@ -149,14 +132,10 @@ img{ max-width:100%; display:block; }
 .clip-slate h2 span{ color:var(--bone3); }
 .divider{ height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:0 2.4rem; }
 
-/* fade/slide reveal (JS toggles .in) */
 .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease; }
 .reveal.in{ opacity:1; transform:translateY(0); }
 .reveal.d1.in{ transition-delay:.08s; } .reveal.d2.in{ transition-delay:.16s; } .reveal.d3.in{ transition-delay:.24s; }
 
-/* ================================================================
-   HERO — the monitor
-================================================================ */
 #hero{ min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:8rem 2.4rem 5rem; position:relative; overflow:hidden; }
 #hero::before{
   content:''; position:absolute; inset:0; z-index:0;
@@ -192,7 +171,6 @@ img{ max-width:100%; display:block; }
 }
 .hero-sub .hl{ color:var(--amber); }
 
-/* waveform */
 .wave{ display:flex; align-items:flex-end; gap:3px; height:26px; margin-bottom:2.4rem; }
 .wave i{ width:3px; background:linear-gradient(180deg,var(--amber),var(--cyan)); border-radius:1px; opacity:.55; animation:waveBeat 2.4s ease-in-out infinite; }
 @keyframes waveBeat{ 0%,100%{ transform:scaleY(.4); opacity:.35; } 50%{ transform:scaleY(1); opacity:.8; } }
@@ -238,9 +216,6 @@ img{ max-width:100%; display:block; }
   .hero-monitor{ align-self:flex-start; }
 }
 
-/* ================================================================
-   ABOUT — inspector panel
-================================================================ */
 #about{ background:var(--bg2); }
 .about-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:4rem; align-items:start; }
 .about-text{ font-size:1.05rem; line-height:1.85; color:var(--bone2); font-weight:300; }
@@ -258,9 +233,6 @@ img{ max-width:100%; display:block; }
 .insp-cursor{ display:inline-block; width:6px; height:12px; background:var(--amber); animation:recBlink 1s steps(1) infinite; vertical-align:middle; }
 @media (max-width:860px){ .about-grid{ grid-template-columns:1fr; } }
 
-/* ================================================================
-   SKILLS — level meters
-================================================================ */
 #skills{ background:var(--bg); }
 .meters-grid{ display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--line-soft); }
 .meter-panel{ background:var(--panel); padding:2.4rem; position:relative; }
@@ -278,7 +250,6 @@ img{ max-width:100%; display:block; }
 .meter-row span{ color:var(--bone2); }
 .meter-track{ height:3px; background:rgba(255,255,255,.05); border-radius:2px; margin-bottom:1.15rem; position:relative; overflow: visible; }
 
-/* Enhanced GLOWING Fills that start at 0 and animate in JS */
 .meter-fill{ height:100%; width:0%; border-radius:2px; transition:width 1.6s cubic-bezier(.4,0,.2,1); position:relative; z-index:2; }
 .meter-fill.amber{ background:linear-gradient(90deg,var(--amber),#9befff); box-shadow:0 0 12px var(--amber), 0 0 20px rgba(47,227,255,0.6); }
 .meter-fill.cyan{ background:linear-gradient(90deg,var(--cyan),#9df5ea); box-shadow:0 0 12px var(--cyan), 0 0 20px rgba(57,210,192,0.6); }
@@ -300,9 +271,6 @@ img{ max-width:100%; display:block; }
 .tag-chip{ font-family:var(--mono); font-size:.55rem; letter-spacing:.1em; color:var(--rec); border:1px solid rgba(255,68,56,.28); border-radius:2px; padding:.28rem .65rem; text-transform:uppercase; }
 @media (max-width:860px){ .meters-grid{ grid-template-columns:1fr; } }
 
-/* ================================================================
-   WORK — filmstrip
-================================================================ */
 #work{ background:var(--bg2); }
 .filmstrip{ display:flex; flex-direction:column; }
 .frame{
@@ -324,9 +292,6 @@ img{ max-width:100%; display:block; }
 .frame-tag{ font-family:var(--mono); font-size:.5rem; letter-spacing:.1em; color:var(--cyan); border:1px solid rgba(57,210,192,.25); border-radius:2px; padding:.2rem .5rem; }
 @media (max-width:640px){ .frame{ grid-template-columns:40px 1fr; } .frame-tags{ display:none; } }
 
-/* ================================================================
-   PROJECTS — media bin
-================================================================ */
 #projects{ background:var(--bg); }
 .bin-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; }
 .bin-card{ background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:1.8rem; position:relative; transition:border-color .35s,transform .35s; }
@@ -354,10 +319,6 @@ img{ max-width:100%; display:block; }
 .bin-tag{ font-family:var(--mono); font-size:.5rem; letter-spacing:.08em; color:var(--amber); border:1px solid rgba(47,227,255,.25); border-radius:2px; padding:.22rem .55rem; text-transform:uppercase; }
 @media (max-width:960px){ .bin-grid{ grid-template-columns:1fr; } }
 
-/* ================================================================
-   NEW ADDITION — THE VIEWPORT (3D orbit render preview)
-================================================================ */
-#New-Addiction{ background:var(--bg2); }
 .vp-window{ background:var(--panel); border:1px solid var(--line); border-radius:6px; overflow:hidden; }
 .vp-winbar{ display:flex; align-items:center; gap:.5rem; padding:.7rem 1rem; background:var(--panel2); border-bottom:1px solid var(--line); }
 .vp-winfile{ margin-left:.4rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.08em; color:var(--bone3); flex:1 1 auto; }
@@ -415,7 +376,6 @@ img{ max-width:100%; display:block; }
 .vp-switch-track[aria-checked="true"] + .vp-switch-state{ color:var(--amber); }
 .vp-speed-group .vp-switch-state{ min-width:36px; color:var(--amber); }
 
-/* ── speed slider — click or drag anywhere along the rail, 1x through 5x ── */
 .vp-speed-slider{
   display:flex; align-items:center; gap:.55rem; cursor:pointer; padding:.4rem 0; touch-action:none; -webkit-tap-highlight-color:transparent;
 }
@@ -447,9 +407,6 @@ img{ max-width:100%; display:block; }
 .vp-speed-slider.dragging .vp-speed-track::before{ border-color:var(--amber); }
 @media (max-width:640px){ .vp-stage{ height:320px; } .vp-speed-track{ width:92px; } }
 
-/* ================================================================
-   CONTACT — export panel
-================================================================ */
 #contact{ background:var(--bg2); text-align:center; padding:8rem 2.4rem; }
 .exp-pre{ display:flex; align-items:center; justify-content:center; gap:1rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.25em; color:var(--bone3); text-transform:uppercase; margin-bottom:2rem; }
 .exp-pre .ln{ width:40px; height:1px; background:var(--line); }
@@ -463,9 +420,6 @@ img{ max-width:100%; display:block; }
 .exp-email{ display:inline-block; font-family:var(--mono); font-size:clamp(1rem,2.6vw,1.5rem); letter-spacing:.02em; color:var(--bone2); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:.4rem; transition:color .3s,border-color .3s; }
 .exp-email:hover{ color:var(--amber); border-color:var(--amber); }
 
-/* ================================================================
-   METADATA STRIP — local time
-================================================================ */
 .meta-strip{ background:var(--bg); padding:3rem 2.4rem; display:flex; justify-content:center; }
 .meta-box{ display:flex; align-items:center; gap:2.4rem; flex-wrap:wrap; justify-content:center; background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:1.6rem 2.4rem; max-width:900px; }
 .meta-left{ display:flex; flex-direction:column; gap:.3rem; }
@@ -481,17 +435,11 @@ img{ max-width:100%; display:block; }
 .meta-hint strong{ color:var(--amber); }
 @media (max-width:700px){ .meta-hint{ border-left:none; padding-left:0; } }
 
-/* ================================================================
-   FOOTER
-================================================================ */
 footer{ display:flex; align-items:center; justify-content:space-between; padding:2rem 2.4rem; flex-wrap:wrap; gap:1rem; border-top:1px solid var(--line-soft); }
 .f-text{ font-family:var(--mono); font-size:.56rem; letter-spacing:.12em; color:var(--bone3); text-transform:uppercase; }
 .f-status{ display:flex; align-items:center; gap:.5rem; font-family:var(--mono); font-size:.56rem; letter-spacing:.12em; color:var(--cyan); text-transform:uppercase; }
 .f-status .dot{ width:6px; height:6px; border-radius:50%; background:var(--cyan); box-shadow:0 0 6px var(--cyan); }
 
-/* ================================================================
-   TIMELINE SCRUBBER — fixed bottom, signature element
-================================================================ */
 #timeline{
   position:fixed; left:0; right:0; bottom:0; z-index:2000; height:var(--timeline-h);
   background:rgba(7,13,8,.92); backdrop-filter:blur(14px); border-top:1px solid var(--line);
@@ -516,9 +464,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 #tl-playhead::before{ content:''; position:absolute; top:-4px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid var(--rec); }
 @media (max-width:700px){ .tl-clip-label{ display:none; } .tl-code{ min-width:46px; font-size:.6rem; } }
 
-/* ================================================================
-   MUSIC CONTROLLER (Glassmorphism)
-================================================================ */
 #music-player {
   position: fixed;
   bottom: calc(var(--timeline-h) + 1.2rem);
@@ -693,11 +638,11 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
         <div class="cl">&nbsp;&nbsp;<span class="k">"role"</span><span class="o">:</span> <span class="s">"Video Editor &amp; Aspiring Dev"</span><span class="o">,</span></div>
         <div class="cl">&nbsp;&nbsp;<span class="k">"tools"</span><span class="o">:</span> <span class="o">[</span></div>
         <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"After Effects"</span><span class="o">,</span></div>
-        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Discord Developer"</span><span class="o">,</span></div>
-        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="v">"Unity 6"</span> <span class="o">// learning</span></div>
+        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Discord Developer Portal"</span><span class="o">,</span></div>
+        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="v">"Unity 6"</span> <span class="o"></span></div>
         <div class="cl">&nbsp;&nbsp;<span class="o">],</span></div>
         <div class="cl">&nbsp;&nbsp;<span class="k">"handle"</span><span class="o">:</span> <span class="s">"@aefxcharlie"</span><span class="o">,</span></div>
-        <div class="cl">&nbsp;&nbsp;<span class="k">"status"</span><span class="o">:</span> <span class="v">"building"</span><span class="o">,</span></div>
+        <div class="cl">&nbsp;&nbsp;<span class="k">"status"</span><span class="o">:</span> <span class="v">"learning & building"</span><span class="o">,</span></div>
         <div class="cl">&nbsp;&nbsp;<span class="k">"goal"</span><span class="o">:</span> <span class="s">"full-stack game dev"</span></div>
         <div class="cl"><span class="o">}</span></div>
         <br/>
@@ -771,24 +716,19 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
       </div>
     </div>
 
-    <div class="meter-panel p-rec reveal d3">
+    <div class="meter-panel p-cyan reveal d3">
       <div class="meter-head">
-        <div class="meter-name"><span class="m-dot amber"></span> Additional Stack</div>
+        <div class="meter-name"><span class="m-dot cyan"></span> Discord Tools</div>
+        <span class="meter-ver">v1.x</span>
       </div>
-      <div class="tags-wrap">
-        <span class="tag-chip">C# Basics</span>
-        <span class="tag-chip">YouTube Production</span>
-        <span class="tag-chip">Thumbnail Design</span>
-        <span class="tag-chip">Discord Community</span>
-        <span class="tag-chip">Sound Design</span>
-        <span class="tag-chip">Storyboarding</span>
-        <span class="tag-chip">Game Design Docs</span>
-        <span class="tag-chip">Shader Graph</span>
-        <span class="tag-chip">Particle Systems</span>
-        <span class="tag-chip">Timeline Sequencer</span>
-        <span class="tag-chip">Cinemachine</span>
-        <span class="tag-chip">Scene Lighting</span>
-      </div>
+      <div class="meter-row">Node.js <span class="v-node">0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="100"></div></div>
+      <div class="meter-row">Hosting <span class="v-host">0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="85"></div></div>
+      <div class="meter-row">API Integration <span class="v-api">0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="80"></div></div>
+      <div class="meter-row">Bot Frameworks <span class="v-bot">0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="90"></div></div>
     </div>
 
   </div>
@@ -951,64 +891,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 
 <div class="divider"></div>
 
-<section id="New-Addiction" class="clip-section" data-clip="New Addition">
-  <div class="clip-slate">
-    <span class="num reveal">05</span>
-    <h2 class="reveal d1">The <span>Viewport</span></h2>
-  </div>
-
-  <div class="vp-window reveal d1">
-    <div class="vp-winbar">
-      <span class="insp-dot r"></span><span class="insp-dot y"></span><span class="insp-dot g"></span>
-      <span class="vp-winfile">viewport.render — orbit_preview</span>
-      <span class="vp-live"><span class="vp-live-dot"></span> Live</span>
-      <button class="vp-btn" id="wireToggle" type="button">Wireframe</button>
-    </div>
-
-    <div class="vp-stage" id="vpStage">
-      <div class="vp-hint">Drag to orbit · scroll to zoom</div>
-      <div class="vp-gizmo">
-        <div class="x"><span class="bar"></span><span>X</span></div>
-        <div class="y"><span class="bar"></span><span>Y</span></div>
-        <div class="z"><span class="bar"></span><span>Z</span></div>
-      </div>
-    </div>
-
-    <div class="vp-telemetry">
-      <div class="vp-tele-group">
-        <span class="rx">RX <b id="rxVal">0.0°</b></span>
-        <span class="ry">RY <b id="ryVal">0.0°</b></span>
-      </div>
-      <div class="vp-tele-fps">24 FPS · RENDER OK</div>
-    </div>
-
-    <div class="vp-controls">
-      <div class="vp-switch-group">
-        <span class="vp-switch-label">Glow</span>
-        <button class="vp-switch-track" id="glowSwitch" type="button" role="switch" aria-checked="false" aria-label="Toggle warm core glow">
-          <span class="vp-switch-thumb"></span>
-        </button>
-        <span class="vp-switch-state" id="glowState">Off</span>
-      </div>
-      <div class="vp-switch-group vp-speed-group">
-        <span class="vp-switch-label">Speed</span>
-        <div class="vp-speed-slider" id="speedSlider" role="slider" tabindex="0"
-             aria-label="Orbit speed, 1 times to 5 times" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" aria-valuetext="1.0×">
-          <span class="vp-speed-cap">1×</span>
-          <span class="vp-speed-track">
-            <span class="vp-speed-fill" id="speedFill"></span>
-            <span class="vp-speed-thumb" id="speedThumb"></span>
-          </span>
-          <span class="vp-speed-cap">5×</span>
-        </div>
-        <span class="vp-switch-state" id="speedState">1.0×</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
 <section id="contact" class="clip-section" data-clip="Contact">
   <div class="exp-pre"><span class="ln"></span> Let's collaborate <span class="ln"></span></div>
 
@@ -1099,9 +981,7 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 </div>
 
 <script>
-/* ══════════════════════════════════════════
-   LOADER
-══════════════════════════════════════════ */
+
 (function(){
   const pctEl = document.getElementById('ldr-pct');
   let p = 0;
@@ -1119,9 +999,6 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
   });
 })();
 
-/* ══════════════════════════════════════════
-   CUSTOM RETICLE CURSOR
-══════════════════════════════════════════ */
 (function(){
   if (!window.matchMedia('(pointer: fine)').matches) return;
   const r = document.getElementById('reticle');
@@ -1133,16 +1010,10 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
   });
 })();
 
-/* ══════════════════════════════════════════
-   TOP BAR SCROLL STATE
-══════════════════════════════════════════ */
 window.addEventListener('scroll', () => {
   document.getElementById('topbar').classList.toggle('scrolled', window.scrollY > 40);
 }, { passive:true });
 
-/* ══════════════════════════════════════════
-   REVEAL ON SCROLL
-══════════════════════════════════════════ */
 (function(){
   const els = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
@@ -1151,22 +1022,19 @@ window.addEventListener('scroll', () => {
   els.forEach(el => io.observe(el));
 })();
 
-/* ══════════════════════════════════════════
-   METER FILLS + UNITY COMPILE BAR (animate once visible)
-══════════════════════════════════════════ */
 (function(){
   const map = { 'v-mg':'ae-mg','v-vfx':null }; // placeholder, replaced below
   const fills = document.querySelectorAll('.meter-fill');
   const labelClassMap = {
     0:'v-mg',1:'v-vfx',2:'v-exp',3:'v-3d',
-    4:'v-ve',5:'v-cg',6:'v-am',7:'v-mc'
+    4:'v-ve',5:'v-cg',6:'v-am',7:'v-mc',
+    8:'v-node',9:'v-host',10:'v-api',11:'v-bot'
   };
   let animated = false;
   function animateMeters(){
     if (animated) return; animated = true;
     fills.forEach((f, i) => {
       const target = f.getAttribute('data-target');
-      // Triggers the left-to-right CSS transition alongside the glowing effect
       f.style.width = target + '%';
       
       const cls = labelClassMap[i];
@@ -1200,11 +1068,6 @@ window.addEventListener('scroll', () => {
   io2.observe(skillsSection);
 })();
 
-/* ══════════════════════════════════════════
-   TIMELINE SCRUBBER — signature element
-   Builds clip segments proportional to real section
-   height, tracks scroll as a playhead + running timecode.
-══════════════════════════════════════════ */
 (function(){
   const track = document.getElementById('tl-track');
   const playhead = document.createElement('div');
@@ -1266,9 +1129,6 @@ window.addEventListener('scroll', () => {
   onScroll();
 })();
 
-/* ══════════════════════════════════════════
-   BOT STATUS — The Watcher API
-══════════════════════════════════════════ */
 (function() {
   const DOT = document.getElementById('bot-status-dot');
   const TEXT = document.getElementById('bot-status-text');
@@ -1301,12 +1161,6 @@ window.addEventListener('scroll', () => {
   setInterval(fetchBotStatus, 60000);
 })();
 
-/* ══════════════════════════════════════════
-   BOT STATUS — Love's Assistant (bot-hosting.net panel)
-   Note: this endpoint is plain HTTP. If index.html ends up
-   served over HTTPS, browsers block the request as "mixed
-   content" and this will always read Offline.
-══════════════════════════════════════════ */
 (function() {
   const DOT = document.getElementById('love-status-dot');
   const TEXT = document.getElementById('love-status-text');
@@ -1333,16 +1187,12 @@ window.addEventListener('scroll', () => {
   setInterval(checkBotHost, 60000);
 })();
 
-/* ══════════════════════════════════════════
-   LIVE LOCAL TIME — IST (GMT +5:30)
-══════════════════════════════════════════ */
 (function() {
   const timeEl = document.getElementById('lt-time');
   const ampmEl = document.getElementById('lt-ampm');
   const dateEl = document.getElementById('lt-date');
   const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
 
 function updateClock() {
   const now = new Date();
@@ -1365,9 +1215,6 @@ function updateClock() {
   setInterval(updateClock, 1000);
 })();
 
-/* ══════════════════════════════════════════
-   WAVEFORM BARS — generate + animate
-══════════════════════════════════════════ */
 (function(){
   const wave = document.querySelector('.wave');
   if (!wave) return;
@@ -1380,9 +1227,6 @@ function updateClock() {
   });
 })();
 
-/* ══════════════════════════════════════════
-   MUSIC PLAYER & AGGRESSIVE AUTOPLAY LOGIC
-══════════════════════════════════════════ */
 (function(){
   const audio = document.getElementById('bg-audio');
   const playBtn = document.getElementById('mp-play');
@@ -1446,26 +1290,21 @@ function updateClock() {
     if(audio.duration) audio.currentTime = audio.duration; 
   });
 
-  // Autoplay functionality designed to bypass strict browser restrictions
   function attemptAutoplay() {
     const playPromise = audio.play();
     if (playPromise !== undefined) {
       playPromise.then(() => {
-        // Autoplay succeeded
         updatePlayState(true);
       }).catch(error => {
-        // Autoplay was blocked, bind to the very first user interaction
         const forcePlayOnGesture = () => {
           audio.play().then(() => {
             updatePlayState(true);
-            // Remove the listeners once successfully played
             ['click', 'touchstart', 'scroll', 'keydown', 'mousemove'].forEach(evt => {
               window.removeEventListener(evt, forcePlayOnGesture);
             });
           }).catch(e => console.log("Audio still blocked:", e));
         };
 
-        // Attach passive listeners to catch the slightest user movement/touch
         ['click', 'touchstart', 'scroll', 'keydown', 'mousemove'].forEach(evt => {
           window.addEventListener(evt, forcePlayOnGesture, { once: true, passive: true });
         });
@@ -1473,216 +1312,9 @@ function updateClock() {
     }
   }
 
-  // Attempt right away
   attemptAutoplay();
 })();
 
-/* ══════════════════════════════════════════
-   THE VIEWPORT — 3D orbit render preview
-   Drag to orbit, scroll to zoom, wireframe
-   toggle. Speed switch smoothly ramps the
-   idle auto-rotation between 1x and 5x.
-   Glow switch pulses a warm emissive light
-   on the core mesh, slow rise / quick fall,
-   looping.
-══════════════════════════════════════════ */
-(function(){
-  const stage = document.getElementById('vpStage');
-  if (!stage || typeof THREE === 'undefined') return;
-
-  const rxVal = document.getElementById('rxVal');
-  const ryVal = document.getElementById('ryVal');
-  const wireBtn = document.getElementById('wireToggle');
-  const glowSwitch = document.getElementById('glowSwitch');
-  const glowState = document.getElementById('glowState');
-  const speedSlider = document.getElementById('speedSlider');
-  const speedTrack = speedSlider.querySelector('.vp-speed-track');
-  const speedFill = document.getElementById('speedFill');
-  const speedThumb = document.getElementById('speedThumb');
-  const speedState = document.getElementById('speedState');
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, stage.clientWidth / stage.clientHeight, 0.1, 100);
-  camera.position.set(0, 0, 6);
-
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(stage.clientWidth, stage.clientHeight);
-  stage.appendChild(renderer.domElement);
-
-  // lights — reuse the site's own accent colors (rec / amber / cyan)
-  scene.add(new THREE.AmbientLight(0x1a1a1e, 1.1));
-  const keyLight = new THREE.DirectionalLight(0x2fe3ff, 0.85);
-  keyLight.position.set(4, 5, 3);
-  scene.add(keyLight);
-  const rimLight = new THREE.PointLight(0x39d2c0, 1.1, 20);
-  rimLight.position.set(-4, -2, 3);
-  scene.add(rimLight);
-
-  // warm glow light — off by default, only the glow switch drives this
-  const glowLight = new THREE.PointLight(0xff8a3d, 0, 6);
-  glowLight.position.set(0, 0, 0.6);
-  scene.add(glowLight);
-
-  const group = new THREE.Group();
-  scene.add(group);
-
-  const coreGeo = new THREE.IcosahedronGeometry(1.3, 0);
-  const coreMat = new THREE.MeshStandardMaterial({
-    color: 0x1c1c20, flatShading: true, metalness: 0.3, roughness: 0.55,
-    emissive: 0x000000, emissiveIntensity: 0
-  });
-  const core = new THREE.Mesh(coreGeo, coreMat);
-  group.add(core);
-
-  const shellGeo = new THREE.IcosahedronGeometry(1.75, 0);
-  const shellMat = new THREE.MeshBasicMaterial({ color: 0x39d2c0, wireframe: true, transparent: true, opacity: 0.35 });
-  const shell = new THREE.Mesh(shellGeo, shellMat);
-  group.add(shell);
-
-  let wireframeOnly = false;
-  wireBtn.addEventListener('click', () => {
-    wireframeOnly = !wireframeOnly;
-    coreMat.wireframe = wireframeOnly;
-    coreMat.transparent = wireframeOnly;
-    coreMat.opacity = wireframeOnly ? 0.6 : 1;
-    wireBtn.textContent = wireframeOnly ? 'Solid' : 'Wireframe';
-  });
-
-  // ---- drag to orbit ----
-  let dragging = false, lastX = 0, lastY = 0, idle = true;
-  let targetRotX = -0.3, targetRotY = 0.4;
-  let currentRotX = targetRotX, currentRotY = targetRotY;
-
-  stage.addEventListener('pointerdown', e => {
-    dragging = true; idle = false;
-    lastX = e.clientX; lastY = e.clientY;
-    stage.setPointerCapture(e.pointerId);
-  });
-  stage.addEventListener('pointermove', e => {
-    if (!dragging) return;
-    const dx = e.clientX - lastX, dy = e.clientY - lastY;
-    targetRotY += dx * 0.008;
-    targetRotX += dy * 0.008;
-    targetRotX = Math.max(-1.1, Math.min(1.1, targetRotX));
-    lastX = e.clientX; lastY = e.clientY;
-  });
-  const stopDrag = () => { dragging = false; idle = true; };
-  stage.addEventListener('pointerup', stopDrag);
-  stage.addEventListener('pointerleave', stopDrag);
-  stage.addEventListener('wheel', e => {
-    e.preventDefault();
-    camera.position.z = Math.max(3.5, Math.min(9, camera.position.z + e.deltaY * 0.01));
-  }, { passive: false });
-
-  // ---- speed slider: click or drag anywhere on the rail, 1x through 5x ----
-  const SPEED_MIN = 1, SPEED_MAX = 5;
-  let targetSpeed = SPEED_MIN, currentSpeed = SPEED_MIN;
-  let speedDragging = false;
-
-  function speedValueFromClientX(clientX){
-    const rect = speedTrack.getBoundingClientRect();
-    const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    return SPEED_MIN + pct * (SPEED_MAX - SPEED_MIN);
-  }
-
-  function setSpeed(value){
-    targetSpeed = Math.max(SPEED_MIN, Math.min(SPEED_MAX, value));
-    const pct = ((targetSpeed - SPEED_MIN) / (SPEED_MAX - SPEED_MIN)) * 100;
-    speedFill.style.width = pct + '%';
-    speedThumb.style.left = pct + '%';
-    speedState.textContent = targetSpeed.toFixed(1) + '×';
-    speedSlider.setAttribute('aria-valuenow', targetSpeed.toFixed(2));
-    speedSlider.setAttribute('aria-valuetext', targetSpeed.toFixed(1) + '×');
-  }
-
-  speedSlider.addEventListener('pointerdown', e => {
-    speedDragging = true;
-    speedSlider.classList.add('dragging');
-    setSpeed(speedValueFromClientX(e.clientX));
-    speedSlider.setPointerCapture(e.pointerId);
-    speedSlider.focus();
-  });
-  speedSlider.addEventListener('pointermove', e => {
-    if (!speedDragging) return;
-    setSpeed(speedValueFromClientX(e.clientX));
-  });
-  const stopSpeedDrag = () => { speedDragging = false; speedSlider.classList.remove('dragging'); };
-  speedSlider.addEventListener('pointerup', stopSpeedDrag);
-  speedSlider.addEventListener('pointercancel', stopSpeedDrag);
-
-  speedSlider.addEventListener('keydown', e => {
-    const step = e.shiftKey ? 1 : 0.1;
-    if (e.key === 'ArrowRight' || e.key === 'ArrowUp'){ e.preventDefault(); setSpeed(targetSpeed + step); }
-    else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown'){ e.preventDefault(); setSpeed(targetSpeed - step); }
-    else if (e.key === 'Home'){ e.preventDefault(); setSpeed(SPEED_MIN); }
-    else if (e.key === 'End'){ e.preventDefault(); setSpeed(SPEED_MAX); }
-  });
-
-  setSpeed(SPEED_MIN);
-
-  // ---- glow switch: warm light, slow rise then a quicker partial fall, looping ----
-  let glowOn = false;
-  let glowLevel = 0; // eases toward 0 or 1 depending on glowOn
-  const GLOW_PERIOD = 3400; // ms per pulse loop, only advances while glowOn
-  glowSwitch.addEventListener('click', () => {
-    glowOn = !glowOn;
-    glowSwitch.setAttribute('aria-checked', String(glowOn));
-    glowState.textContent = glowOn ? 'On' : 'Off';
-  });
-
-  function glowPulse(tMs){
-    // 0–75% of the loop: slow rise. 75–100%: a bit of a fall. Then repeats.
-    const p = (tMs % GLOW_PERIOD) / GLOW_PERIOD;
-    if (p < 0.75) {
-      const k = p / 0.75;
-      return 0.35 + 0.65 * (1 - Math.cos(k * Math.PI)) / 2; // ease in-out rise, floor 0.35
-    }
-    const k = (p - 0.75) / 0.25;
-    return 1 - 0.45 * (1 - Math.cos(k * Math.PI)) / 2; // partial fall back toward 0.55
-  }
-
-  const clock = { start: performance.now() };
-
-  function animate(now){
-    requestAnimationFrame(animate);
-
-    currentSpeed += (targetSpeed - currentSpeed) * 0.04;
-    if (idle) targetRotY += 0.0025 * currentSpeed;
-
-    currentRotX += (targetRotX - currentRotX) * 0.08;
-    currentRotY += (targetRotY - currentRotY) * 0.08;
-    group.rotation.x = currentRotX;
-    group.rotation.y = currentRotY;
-    shell.rotation.y = currentRotY * 1.15;
-    shell.rotation.x = currentRotX * 0.85;
-
-    // glow easing in/out when the switch itself is toggled
-    glowLevel += ((glowOn ? 1 : 0) - glowLevel) * 0.05;
-    if (glowLevel > 0.01) {
-      const pulse = glowPulse(now - clock.start);
-      const amt = pulse * glowLevel;
-      coreMat.emissive.setHex(0xff8a3d);
-      coreMat.emissiveIntensity = amt * 0.9;
-      glowLight.intensity = amt * 2.2;
-    } else {
-      coreMat.emissiveIntensity = 0;
-      glowLight.intensity = 0;
-    }
-
-    rxVal.textContent = (currentRotX * (180 / Math.PI)).toFixed(1) + '°';
-    ryVal.textContent = (currentRotY * (180 / Math.PI)).toFixed(1) + '°';
-
-    renderer.render(scene, camera);
-  }
-  requestAnimationFrame(animate);
-
-  window.addEventListener('resize', () => {
-    camera.aspect = stage.clientWidth / stage.clientHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(stage.clientWidth, stage.clientHeight);
-  });
-})();
 </script>
 </body>
 </html>
