@@ -6,32 +6,32 @@
 <title>CHARLIE — Video Editor & Developer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
 
 :root{
-  --bg:        #070D08;
-  --bg2:       #0B150C;
-  --panel:     #0F1D11;
-  --panel2:    #142615;
-  --line:      rgba(47,227,255,0.16);
-  --line-soft: rgba(47,227,255,0.07);
+  --bg:        #08090D;
+  --bg2:       #0C0E14;
+  --panel:     #10131B;
+  --panel2:    #161A24;
+  --line:      rgba(139,124,255,0.16);
+  --line-soft: rgba(139,124,255,0.07);
 
-  --amber:     #2FE3FF;
-  --amber-dim: #1B5E66;
-  --rec:       #FF4438;
-  --cyan:      #39D2C0;
-  --warm-glow: #FF8A3D; 
+  --amber:     #7C6BFF;
+  --amber-dim: #362F66;
+  --rec:       #FF4D6D;
+  --cyan:      #4EF2A6;
+  --warm-glow: #FF8A3D;
 
-  --bone:      #F2EDE3;
-  --bone2:     #A69C8D;
-  --bone3:     #524C3E;
+  --bone:      #EDEEF5;
+  --bone2:     #9A9CB0;
+  --bone3:     #52546A;
 
-  --display:   'Anton', sans-serif;
+  --display:   'Space Grotesk', sans-serif;
   --mono:      'JetBrains Mono', monospace;
-  --sans:      'Manrope', sans-serif;
+  --sans:      'Sora', sans-serif;
 
   --timeline-h: 58px;
 }
@@ -319,6 +319,26 @@ img{ max-width:100%; display:block; }
 .bin-tag{ font-family:var(--mono); font-size:.5rem; letter-spacing:.08em; color:var(--amber); border:1px solid rgba(47,227,255,.25); border-radius:2px; padding:.22rem .55rem; text-transform:uppercase; }
 @media (max-width:960px){ .bin-grid{ grid-template-columns:1fr; } }
 
+#inspector-tilt{
+  position:relative; transform-style:preserve-3d; perspective:900px;
+  transition:transform .12s ease-out, box-shadow .3s ease;
+  will-change:transform;
+}
+#inspector-tilt:hover{ box-shadow:0 20px 50px rgba(0,0,0,.5), 0 0 40px rgba(124,107,255,.12); }
+.insp-corner{
+  position:absolute; width:22px; height:22px; z-index:5; pointer-events:none;
+  opacity:0; transition:opacity .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);
+}
+.insp-tl{ top:-1px; left:-1px; border-top:1px solid var(--amber); border-left:1px solid var(--amber); transform:translate(6px,6px) translateZ(0); }
+.insp-tr{ top:-1px; right:-1px; border-top:1px solid var(--amber); border-right:1px solid var(--amber); transform:translate(-6px,6px) translateZ(0); }
+.insp-bl{ bottom:-1px; left:-1px; border-bottom:1px solid var(--amber); border-left:1px solid var(--amber); transform:translate(6px,-6px) translateZ(0); }
+.insp-br{ bottom:-1px; right:-1px; border-bottom:1px solid var(--amber); border-right:1px solid var(--amber); transform:translate(-6px,-6px) translateZ(0); }
+#inspector-tilt:hover .insp-corner{ opacity:1; }
+#inspector-tilt:hover .insp-tl{ transform:translate(-10px,-10px) translateZ(40px); }
+#inspector-tilt:hover .insp-tr{ transform:translate(10px,-10px) translateZ(40px); }
+#inspector-tilt:hover .insp-bl{ transform:translate(-10px,10px) translateZ(40px); }
+#inspector-tilt:hover .insp-br{ transform:translate(10px,10px) translateZ(40px); }
+
 .vp-window{ background:var(--panel); border:1px solid var(--line); border-radius:6px; overflow:hidden; }
 .vp-winbar{ display:flex; align-items:center; gap:.5rem; padding:.7rem 1rem; background:var(--panel2); border-bottom:1px solid var(--line); }
 .vp-winfile{ margin-left:.4rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.08em; color:var(--bone3); flex:1 1 auto; }
@@ -567,13 +587,13 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
     <div class="hero-content">
       <div class="hero-eyebrow reveal">
         <span class="hero-eyebrow-line"></span>
-        Video Editor &amp; Developer
+        Developer &amp; Bot Engineer
       </div>
 
       <h1 class="hero-name reveal d1">CHARLIE</h1>
 
       <div class="hero-sub reveal d2">
-        <span class="hl">After Effects</span> &nbsp;·&nbsp; Discord &nbsp;·&nbsp;
+        <span class="hl">Discord.js</span> &nbsp;·&nbsp; Node.js &nbsp;·&nbsp;
         <span class="hl">Unity 6</span> &nbsp;·&nbsp; @aefxcharlie
       </div>
 
@@ -613,20 +633,24 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 
   <div class="about-grid">
     <p class="about-text reveal">
-      I'm a <strong>Video Editor</strong> with deep expertise in
-      <span class="ac1">Adobe After Effects</span> and <span class="ac1">Adobe Premiere Pro</span>
-      — crafting motion graphics, cinematic edits, and visual effects that make people stop scrolling.
+      I'm a <strong>Developer</strong> building production <span class="ac1">Discord Bots</span>
+      with <span class="ac1">Discord.js</span> and <span class="ac1">Node.js</span> — moderation systems,
+      escrow/marketplace bots, autonuke architectures, verification flows, the works.
       <br/><br/>
-      Currently on an obsessive journey into game development, learning <span class="ac2">Unity 6</span>
-      with the goal of becoming a <strong>fully-fledged Game Developer</strong>. The same storytelling
-      instincts that drive my editing work fuel how I think about game design — and I'm already
-      developing <strong>Discord Bots</strong> too.
+      I'm also on an obsessive journey into game development, learning <span class="ac2">Unity 6</span>
+      with the goal of becoming a <strong>fully-fledged Game Developer</strong>. Outside of code, I
+      edit video in <strong>After Effects</strong> and <strong>Premiere Pro</strong> — motion graphics
+      and cinematic edits.
       <br/><br/>
-      Based online at <span class="ac1">@aefxcharlie</span> — YouTube, Instagram, and wherever
-      creativity lives.
+      Based online at <span class="ac1">@aefxcharlie</span> — GitHub, Discord Dev Portal, and wherever
+      code compiles.
     </p>
 
-    <div class="inspector reveal d1">
+    <div class="inspector reveal d1" id="inspector-tilt">
+      <span class="insp-corner insp-tl"></span>
+      <span class="insp-corner insp-tr"></span>
+      <span class="insp-corner insp-bl"></span>
+      <span class="insp-corner insp-br"></span>
       <div class="insp-bar">
         <span class="insp-dot r"></span><span class="insp-dot y"></span><span class="insp-dot g"></span>
         <span class="insp-file">charlie.json — properties</span>
@@ -635,14 +659,15 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
         <div class="cl"><span class="o">$</span> cat charlie.json</div>
         <br/>
         <div class="cl"><span class="o">{</span></div>
-        <div class="cl">&nbsp;&nbsp;<span class="k">"role"</span><span class="o">:</span> <span class="s">"Video Editor &amp; Aspiring Dev"</span><span class="o">,</span></div>
-        <div class="cl">&nbsp;&nbsp;<span class="k">"tools"</span><span class="o">:</span> <span class="o">[</span></div>
-        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"After Effects"</span><span class="o">,</span></div>
-        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Discord Developer Portal"</span><span class="o">,</span></div>
+        <div class="cl">&nbsp;&nbsp;<span class="k">"role"</span><span class="o">:</span> <span class="s">"Developer & Discord Bot Engineer"</span><span class="o">,</span></div>
+        <div class="cl">&nbsp;&nbsp;<span class="k">"stack"</span><span class="o">:</span> <span class="o">[</span></div>
+        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Discord.js"</span><span class="o">,</span></div>
+        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Discord.py"</span><span class="o">,</span></div>
+        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Node.js"</span><span class="o">,</span></div>
         <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="v">"Unity 6"</span> <span class="o"></span></div>
         <div class="cl">&nbsp;&nbsp;<span class="o">],</span></div>
         <div class="cl">&nbsp;&nbsp;<span class="k">"handle"</span><span class="o">:</span> <span class="s">"@aefxcharlie"</span><span class="o">,</span></div>
-        <div class="cl">&nbsp;&nbsp;<span class="k">"status"</span><span class="o">:</span> <span class="v">"learning & building"</span><span class="o">,</span></div>
+        <div class="cl">&nbsp;&nbsp;<span class="k">"status"</span><span class="o">:</span> <span class="v">"shipping bots & building" </span><span class="o">,</span></div>
         <div class="cl">&nbsp;&nbsp;<span class="k">"goal"</span><span class="o">:</span> <span class="s">"full-stack game dev"</span></div>
         <div class="cl"><span class="o">}</span></div>
         <br/>
@@ -662,34 +687,34 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 
   <div class="meters-grid">
 
-    <div class="meter-panel p-amber reveal">
+    <div class="meter-panel p-cyan reveal">
       <div class="meter-head">
-        <div class="meter-name"><span class="m-dot amber"></span> After Effects</div>
-        <span class="meter-ver">v24.x</span>
+        <div class="meter-name"><span class="m-dot cyan"></span> Discord.js</div>
+        <span class="meter-ver">v14.x</span>
       </div>
-      <div class="meter-row">Motion Graphics <span class="v-mg">0%</span></div>
-      <div class="meter-track"><div class="meter-fill amber" data-target="95"></div></div>
-      <div class="meter-row">Visual Effects (VFX) <span class="v-vfx">0%</span></div>
-      <div class="meter-track"><div class="meter-fill amber" data-target="88"></div></div>
-      <div class="meter-row">Expressions / Scripting <span class="v-exp">0%</span></div>
-      <div class="meter-track"><div class="meter-fill amber" data-target="75"></div></div>
-      <div class="meter-row">3D Camera / Compositing <span class="v-3d">0%</span></div>
-      <div class="meter-track"><div class="meter-fill amber" data-target="80"></div></div>
+      <div class="meter-row">Bot Architecture <span class="v-arch">0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="95"></div></div>
+      <div class="meter-row">Slash Commands / Interactions <span class="v-slash">0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="93"></div></div>
+      <div class="meter-row">Moderation / Automod Systems <span class="v-mod">0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="90"></div></div>
+      <div class="meter-row">Payments / Escrow Logic <span class="v-pay">0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="85"></div></div>
     </div>
 
-    <div class="meter-panel p-amber reveal d1">
+    <div class="meter-panel p-cyan reveal d1">
       <div class="meter-head">
-        <div class="meter-name"><span class="m-dot amber"></span> Premiere Pro</div>
-        <span class="meter-ver">v24.x</span>
+        <div class="meter-name"><span class="m-dot cyan"></span> Node.js / Backend</div>
+        <span class="meter-ver">v20.x</span>
       </div>
-      <div class="meter-row">Video Editing <span class="v-ve">0%</span></div>
-      <div class="meter-track"><div class="meter-fill amber" data-target="97"></div></div>
-      <div class="meter-row">Color Grading <span class="v-cg">0%</span></div>
-      <div class="meter-track"><div class="meter-fill amber" data-target="82"></div></div>
-      <div class="meter-row">Audio Mixing <span class="v-am">0%</span></div>
-      <div class="meter-track"><div class="meter-fill amber" data-target="70"></div></div>
-      <div class="meter-row">Multicam / Long-form <span class="v-mc">0%</span></div>
-      <div class="meter-track"><div class="meter-fill amber" data-target="90"></div></div>
+      <div class="meter-row">Discord.js <span class="v-djs">0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="100"></div></div>
+      <div class="meter-row">Discord.py <span class="v-dpy">0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="72"></div></div>
+      <div class="meter-row">API Integration <span class="v-api">0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="80"></div></div>
+      <div class="meter-row">Hosting / Deployment <span class="v-host">0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="85"></div></div>
     </div>
 
     <div class="meter-panel p-cyan reveal d2">
@@ -716,19 +741,17 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
       </div>
     </div>
 
-    <div class="meter-panel p-cyan reveal d3">
+    <div class="meter-panel p-amber reveal d3">
       <div class="meter-head">
-        <div class="meter-name"><span class="m-dot cyan"></span> Discord Tools</div>
-        <span class="meter-ver">v1.x</span>
+        <div class="meter-name"><span class="m-dot amber"></span> Video Editing</div>
+        <span class="meter-ver">AE / PP</span>
       </div>
-      <div class="meter-row">Node.js <span class="v-node">0%</span></div>
-      <div class="meter-track"><div class="meter-fill cyan" data-target="100"></div></div>
-      <div class="meter-row">Hosting <span class="v-host">0%</span></div>
-      <div class="meter-track"><div class="meter-fill cyan" data-target="85"></div></div>
-      <div class="meter-row">API Integration <span class="v-api">0%</span></div>
-      <div class="meter-track"><div class="meter-fill cyan" data-target="80"></div></div>
-      <div class="meter-row">Bot Frameworks <span class="v-bot">0%</span></div>
-      <div class="meter-track"><div class="meter-fill cyan" data-target="90"></div></div>
+      <div class="meter-row">After Effects <span class="v-ae">0%</span></div>
+      <div class="meter-track"><div class="meter-fill amber" data-target="90"></div></div>
+      <div class="meter-row">Premiere Pro <span class="v-pp">0%</span></div>
+      <div class="meter-track"><div class="meter-fill amber" data-target="88"></div></div>
+      <div class="meter-row">Motion Graphics <span class="v-mg">0%</span></div>
+      <div class="meter-track"><div class="meter-fill amber" data-target="80"></div></div>
     </div>
 
   </div>
@@ -746,41 +769,41 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
     <div class="frame reveal">
       <span class="frame-num">01</span>
       <div>
-        <div class="frame-title">Motion Graphics Reels</div>
-        <div class="frame-desc">After Effects · Kinetic Typography · Visual FX</div>
+        <div class="frame-title">Discord Bot Systems</div>
+        <div class="frame-desc">Discord.js v14 · Node.js · Moderation, Escrow, Autonuke</div>
       </div>
       <div class="frame-tags">
-        <span class="frame-tag">AE</span><span class="frame-tag">Motion</span><span class="frame-tag">VFX</span>
+        <span class="frame-tag">Discord.js</span><span class="frame-tag">Node.js</span><span class="frame-tag">Production</span>
       </div>
     </div>
     <div class="frame reveal d1">
       <span class="frame-num">02</span>
       <div>
-        <div class="frame-title">AutoMOD Bots Developing</div>
-        <div class="frame-desc">.env · js/json · Execution</div>
+        <div class="frame-title">Discord.py Projects</div>
+        <div class="frame-desc">.env · Python · Bot Utilities</div>
       </div>
       <div class="frame-tags">
-        <span class="frame-tag">Discord.js</span><span class="frame-tag">Intermediate</span><span class="frame-tag">Helping</span>
+        <span class="frame-tag">Discord.py</span><span class="frame-tag">Python</span>
       </div>
     </div>
     <div class="frame reveal d2">
       <span class="frame-num">03</span>
-      <div>
-        <div class="frame-title">YouTube Content Edits</div>
-        <div class="frame-desc">@aefxcharlie · Videos · Shorts</div>
-      </div>
-      <div class="frame-tags">
-        <span class="frame-tag">YouTube</span><span class="frame-tag">Edits</span>
-      </div>
-    </div>
-    <div class="frame reveal d3">
-      <span class="frame-num">04</span>
       <div>
         <div class="frame-title">Unity 6 Dev — WIP</div>
         <div class="frame-desc">C# · MonoBehaviour · Game Mechanics</div>
       </div>
       <div class="frame-tags">
         <span class="frame-tag">Unity</span><span class="frame-tag">C#</span><span class="frame-tag">WIP</span>
+      </div>
+    </div>
+    <div class="frame reveal d3">
+      <span class="frame-num">04</span>
+      <div>
+        <div class="frame-title">Motion Graphics Reels</div>
+        <div class="frame-desc">After Effects · Premiere Pro · Kinetic Typography</div>
+      </div>
+      <div class="frame-tags">
+        <span class="frame-tag">AE</span><span class="frame-tag">Motion</span>
       </div>
     </div>
   </div>
@@ -898,7 +921,7 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
     <span class="c1">LET'S</span><br/><span class="c2">BUILD</span><br/><span class="c3">TOGETHER</span>
   </h2>
 
-  <p class="exp-subtitle reveal d1">Video editing · Motion graphics · Game dev collabs</p>
+  <p class="exp-subtitle reveal d1">Discord bots · Game dev collabs · Video editing</p>
 
   <div class="exp-buttons reveal d2">
     <a href="mailto:charlie.ae.yt@gmail.com" class="exp-btn">
@@ -944,7 +967,7 @@ footer{ display:flex; align-items:center; justify-content:space-between; padding
 <footer>
   <span class="f-text">© 2026 Charlie · All rights reserved</span>
   <div class="f-status"><span class="dot"></span> Available for projects</div>
-  <span class="f-text">Video Editor &amp; Developer</span>
+  <span class="f-text">Developer &amp; Bot Engineer</span>
 </footer>
 
 <div id="timeline">
@@ -1023,12 +1046,27 @@ window.addEventListener('scroll', () => {
 })();
 
 (function(){
-  const map = { 'v-mg':'ae-mg','v-vfx':null }; // placeholder, replaced below
+  const card = document.getElementById('inspector-tilt');
+  if (card) {
+    const strength = 14;
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `rotateY(${px*strength}deg) rotateX(${-py*strength}deg) translateZ(6px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0)';
+    });
+  }
+})();
+
+(function(){
   const fills = document.querySelectorAll('.meter-fill');
   const labelClassMap = {
-    0:'v-mg',1:'v-vfx',2:'v-exp',3:'v-3d',
-    4:'v-ve',5:'v-cg',6:'v-am',7:'v-mc',
-    8:'v-node',9:'v-host',10:'v-api',11:'v-bot'
+    0:'v-arch',1:'v-slash',2:'v-mod',3:'v-pay',
+    4:'v-djs',5:'v-dpy',6:'v-api',7:'v-host',
+    8:'v-ae',9:'v-pp',10:'v-mg'
   };
   let animated = false;
   function animateMeters(){
