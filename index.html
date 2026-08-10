@@ -177,12 +177,6 @@ img{ max-width:100%; display:block; }
 .m-tr{ top:6px; right:6px; border-top:1px solid var(--bone2); border-right:1px solid var(--bone2); }
 .m-bl{ bottom:6px; left:6px; border-bottom:1px solid var(--bone2); border-left:1px solid var(--bone2); }
 .m-br{ bottom:6px; right:6px; border-bottom:1px solid var(--bone2); border-right:1px solid var(--bone2); }
-.m-rec{
-  position:absolute; top:9px; left:50%; transform:translateX(-50%); z-index:5;
-  display:flex; align-items:center; gap:.35rem;
-  font-family:var(--mono); font-size:.4rem; letter-spacing:.16em; color:var(--rec); white-space:nowrap; text-transform:uppercase;
-}
-.m-rec i{ width:5px; height:5px; border-radius:50%; background:var(--rec); box-shadow:0 0 6px var(--rec); animation:recBlink 1.4s infinite; }
 
 @media (max-width:900px){
   .hero-inner{ flex-direction:column-reverse; align-items:flex-start; }
@@ -558,7 +552,6 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
         <div class="m-corner m-tr"></div>
         <div class="m-corner m-bl"></div>
         <div class="m-corner m-br"></div>
-        <div class="m-rec"><i></i> CHARLIE AE</div>
         <img src="charlie.png" alt="Charlie portrait" style="background:#0a0a12;" />
       </div>
     </div>
