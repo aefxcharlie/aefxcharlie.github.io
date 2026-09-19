@@ -103,6 +103,11 @@ img{ max-width:100%; display:block; }
   border-bottom:1px solid transparent;
 }
 #topbar.scrolled{ background:rgba(7,13,8,.86); backdrop-filter:blur(16px); border-color:var(--line); }
+.tb-brand{
+  font-family:var(--mono); font-size:.82rem; font-weight:600; letter-spacing:.16em;
+  color:var(--bone); cursor:default; user-select:none;
+}
+.tb-brand .dt-wrap{ display:inline-block; }
 .tb-links{ display:flex; gap:2rem; list-style:none; }
 .tb-links a{
   font-family:var(--mono); font-size:.6rem; letter-spacing:.18em; text-transform:uppercase;
@@ -207,6 +212,12 @@ img{ max-width:100%; display:block; }
 .insp-dot.r{ background:#5a3b38; } .insp-dot.y{ background:var(--amber-dim); } .insp-dot.g{ background:#3a5a48; }
 .insp-file{ margin-left:.6rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; color:var(--bone3); }
 .insp-body{ padding:1.6rem 1.8rem; font-family:var(--mono); font-size:.78rem; line-height:1.9; color:var(--bone2); }
+.insp-glare{
+  position:absolute; inset:0; z-index:3; pointer-events:none;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.16), rgba(255,255,255,0) 45%);
+  opacity:0; transition:opacity .35s ease;
+}
+#inspector-tilt.is-active .insp-glare{ opacity:1; }
 .k{ color:var(--cyan); } .s{ color:var(--amber); } .v{ color:var(--bone); } .o{ color:var(--bone3); }
 .insp-cursor{ display:inline-block; width:6px; height:12px; background:var(--amber); animation:recBlink 1s steps(1) infinite; vertical-align:middle; }
 @media (max-width:860px){ .about-grid{ grid-template-columns:1fr; } }
@@ -598,6 +609,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
 </div>
 
 <nav id="topbar">
+  <div class="tb-brand"><span class="dt-wrap" id="tb-decrypt" data-text="CHAITANY">CHAITANY</span></div>
   <ul class="tb-links">
     <li><a href="#about" data-num="01">About</a></li>
     <li><a href="#skills" data-num="02">Skills</a></li>
@@ -854,6 +866,22 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
 <section id="contact" class="clip-section" data-clip="Contact">
   <svg id="plane-flight" aria-hidden="true" focusable="false">
     <defs>
+      <filter id="pencilRough1" x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="pencilRough2" x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="8" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="pencilRough3" x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="14" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="pencilRough4" x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="21" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
       <linearGradient id="trailGrad1" x1="0" x2="1" y1="0" y2="0">
         <stop offset="0" stop-color="#7C6BFF" stop-opacity="0"/>
         <stop offset=".6" stop-color="#7C6BFF" stop-opacity=".9"/>
@@ -869,13 +897,20 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
         <stop offset=".6" stop-color="#7C6BFF" stop-opacity=".9"/>
         <stop offset="1" stop-color="#FF8A3D" stop-opacity="1"/>
       </linearGradient>
+      <linearGradient id="trailGrad4" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#FF8A3D" stop-opacity="0"/>
+        <stop offset=".6" stop-color="#4EF2A6" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#7C6BFF" stop-opacity="1"/>
+      </linearGradient>
     </defs>
-    <path id="flight-trail-1" class="flight-trail" stroke="url(#trailGrad1)" d=""/>
-    <path id="flight-trail-2" class="flight-trail" stroke="url(#trailGrad2)" d=""/>
-    <path id="flight-trail-3" class="flight-trail" stroke="url(#trailGrad3)" d=""/>
+    <path id="flight-trail-1" class="flight-trail" stroke="url(#trailGrad1)" filter="url(#pencilRough1)" d=""/>
+    <path id="flight-trail-2" class="flight-trail" stroke="url(#trailGrad2)" filter="url(#pencilRough2)" d=""/>
+    <path id="flight-trail-3" class="flight-trail" stroke="url(#trailGrad3)" filter="url(#pencilRough3)" d=""/>
+    <path id="flight-trail-4" class="flight-trail" stroke="url(#trailGrad4)" filter="url(#pencilRough4)" d=""/>
     <g id="plane1" opacity="0"><path class="plane-shape" d="M2 21l21-9L2 3v7l15 2-15 2z" transform="translate(-12,-12) scale(1.15)"/></g>
     <g id="plane2" opacity="0"><path class="plane-shape" d="M2 21l21-9L2 3v7l15 2-15 2z" transform="translate(-12,-12) scale(1.15)"/></g>
     <g id="plane3" opacity="0"><path class="plane-shape" d="M2 21l21-9L2 3v7l15 2-15 2z" transform="translate(-12,-12) scale(1.15)"/></g>
+    <g id="plane4" opacity="0"><path class="plane-shape" d="M2 21l21-9L2 3v7l15 2-15 2z" transform="translate(-12,-12) scale(1.15)"/></g>
   </svg>
   <div class="exp-pre"><span class="ln"></span> Let's collaborate <span class="ln"></span></div>
 
@@ -905,6 +940,10 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
         </a>
         <a href="https://www.instagram.com/aefxcharlie" target="_blank" rel="noopener noreferrer" class="exp-btn">
           <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          <span>@aefxcharlie</span>
+        </a>
+        <a href="https://github.com/aefxcharlie" target="_blank" rel="noopener noreferrer" class="exp-btn">
+          <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.955-.266 1.98-.399 3-.405 1.02.006 2.045.139 3.005.405 2.29-1.552 3.295-1.23 3.295-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
           <span>@aefxcharlie</span>
         </a>
       </div>
@@ -971,6 +1010,71 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
   document.addEventListener('mouseover', e => {
     r.classList.toggle('on-link', !!e.target.closest('a, button, .mp-bar-bg, .vp-stage, .bento'));
   });
+})();
+
+/* JSON inspector panel — tilts toward wherever you hover (desktop) or tap (touch),
+   with a light-glare that follows the same point. Pure position-based 3D, no fixed pose. */
+(function(){
+  const panel = document.getElementById('inspector-tilt');
+  if (!panel) return;
+
+  const glare = document.createElement('div');
+  glare.className = 'insp-glare';
+  glare.setAttribute('aria-hidden', 'true');
+  panel.appendChild(glare);
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const MAX_TILT = 16; // degrees — the more off-center the point, the closer to this
+  let resetTO;
+
+  function apply(clientX, clientY){
+    const r = panel.getBoundingClientRect();
+    const px = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+    const py = Math.min(1, Math.max(0, (clientY - r.top)  / r.height));
+    const rx = (0.5 - py) * MAX_TILT;
+    const ry = (px - 0.5) * MAX_TILT;
+    panel.style.transform = `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateZ(10px) scale(1.02)`;
+    panel.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+    panel.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+    panel.style.boxShadow = `${(-ry * 1.6).toFixed(1)}px ${(rx * -1.6 + 16).toFixed(1)}px 34px -8px rgba(0,0,0,.55)`;
+  }
+
+  function reset(){
+    panel.style.transform = '';
+    panel.style.boxShadow = '';
+  }
+
+  panel.addEventListener('pointerenter', e => {
+    if (e.pointerType !== 'mouse') return;
+    clearTimeout(resetTO);
+    panel.classList.add('is-active');
+    panel.style.transition = 'transform .05s linear, box-shadow .1s linear';
+    apply(e.clientX, e.clientY);
+  });
+  panel.addEventListener('pointermove', e => {
+    if (e.pointerType === 'mouse') apply(e.clientX, e.clientY);
+  });
+  panel.addEventListener('pointerleave', e => {
+    if (e.pointerType !== 'mouse') return;
+    panel.classList.remove('is-active');
+    panel.style.transition = 'transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s ease';
+    reset();
+  });
+
+  // Touch / pen: tilt toward the exact tap point, hold briefly, ease back.
+  panel.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse') return;
+    clearTimeout(resetTO);
+    panel.classList.add('is-active');
+    panel.style.transition = 'transform .15s ease-out, box-shadow .15s ease';
+    apply(e.clientX, e.clientY);
+    resetTO = setTimeout(() => {
+      panel.classList.remove('is-active');
+      panel.style.transition = 'transform .6s cubic-bezier(.2,.8,.2,1), box-shadow .6s ease';
+      reset();
+    }, 750);
+  }, { passive: true });
 })();
 
 window.addEventListener('scroll', () => {
@@ -1549,9 +1653,11 @@ window.addEventListener('scroll', () => {
 (function(){
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- DecryptedText — hero name ---------- */
-  (function(){
-    const el = document.getElementById('hero-decrypt'); if (!el) return;
+  /* ---------- DecryptedText — reusable, used by the topbar brand + hero name ----------
+     Triggers once the loader has actually revealed the page AND the element is in view
+     (so it never plays invisibly behind the loading screen), then replays on every hover. */
+  function makeDecrypt(el){
+    if (!el) return;
     const text = el.dataset.text;
     const cfg = { speed: 70, maxIterations: 10, sequential: true, revealDirection: 'start',
                   characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+',
@@ -1607,7 +1713,9 @@ window.addEventListener('scroll', () => {
     window.addEventListener('load', () => setTimeout(() => { loaded = true; tryView(); }, 2100));
     el.addEventListener('mouseenter', () => { if (!animating) decrypt(); });
     el.addEventListener('mouseleave', reset);
-  })();
+  }
+  makeDecrypt(document.getElementById('tb-decrypt'));
+  makeDecrypt(document.getElementById('hero-decrypt'));
 
   /* ---------- ShinyText — hero name (#5e00ff shiny color) ---------- */
   (function(){
@@ -1675,241 +1783,102 @@ window.addEventListener('scroll', () => {
     });
   })();
 
-  /* ---------- PAPER PLANES — 3 planes coming from 3 different directions ---------- */
-  (function(){
-    if (typeof gsap === 'undefined' || reduce) return;
-    if (typeof MotionPathPlugin !== 'undefined') gsap.registerPlugin(MotionPathPlugin);
-    const sec    = document.getElementById('contact');
-    const svg    = document.getElementById('plane-flight');
-    const plane1 = document.getElementById('plane1');
-    const plane2 = document.getElementById('plane2');
-    const plane3 = document.getElementById('plane3');
-    const t1     = document.getElementById('flight-trail-1');
-    const t2     = document.getElementById('flight-trail-2');
-    const t3     = document.getElementById('flight-trail-3');
-    const wLets  = document.getElementById('w-lets'), wTalk = document.getElementById('w-talk');
-    const btnEmail = document.getElementById('email-copy-btn');
-    const btnYT    = document.querySelector('.exp-group:nth-child(2) .exp-btn:nth-child(1)');
-    const btnInsta = document.querySelector('.exp-group:nth-child(2) .exp-btn:nth-child(2)');
-    
-    if (!sec || !svg || !plane1 || !plane2 || !plane3 || !btnEmail || !btnYT || !btnInsta) return;
-
-    const pt = (el, fx, fy) => {
-      const s = sec.getBoundingClientRect(), r = el.getBoundingClientRect();
-      return { x: r.left - s.left + r.width*fx, y: r.top - s.top + r.height*fy };
-    };
-
-    function build(){
-      const s = sec.getBoundingClientRect();
-      svg.setAttribute('viewBox', `0 0 ${s.width} ${s.height}`);
-      
-      // Plane 1: Top-Left direction passing through "LET'S TALK" towards Email button
-      const start1 = { x: -60, y: s.height * 0.1 };
-      const a = pt(wLets, 0.1, 0.5);
-      const b = pt(wTalk, 0.9, 0.5);
-      const target1 = pt(btnEmail, 0.5, -0.5);
-
-      const P1 = [
-        start1,
-        { x: a.x - 80, y: a.y - 60 }, a,
-        { x: (a.x + b.x) / 2, y: a.y + 30 }, b,
-        { x: b.x + 80, y: b.y + 50 }, { x: target1.x + 60, y: target1.y - 80 }, target1
-      ];
-      
-      // Plane 2: Top-Right direction towards YouTube button
-      const start2 = { x: s.width + 60, y: s.height * 0.15 };
-      const target2 = pt(btnYT, 0.5, -0.5);
-      const P2 = [
-        start2,
-        { x: s.width * 0.8, y: s.height * 0.25 },
-        { x: target2.x + 120, y: target2.y - 120 },
-        target2
-      ];
-
-      // Plane 3: Bottom-Left direction curving up towards Instagram button
-      const start3 = { x: -40, y: s.height * 0.85 };
-      const target3 = pt(btnInsta, 0.5, -0.5);
-      const P3 = [
-        start3,
-        { x: s.width * 0.2, y: s.height * 0.95 },
-        { x: target3.x - 80, y: target3.y + 60 },
-        target3
-      ];
-
-      const toD = p => {
-        let dd = `M${p[0].x},${p[0].y}`;
-        for (let i = 1; i < p.length; i += 3) {
-          dd += ` C${p[i].x},${p[i].y} ${p[i+1].x},${p[i+1].y} ${p[i+2].x},${p[i+2].y}`;
-        }
-        return dd;
-      };
-        
-      t1.setAttribute('d', toD(P1));
-      t2.setAttribute('d', toD(P2));
-      t3.setAttribute('d', toD(P3));
-    }
-
-    let played = false;
-    let tl;
-    
-    function fly(){
-      if (played) return; played = true; build();
-      
-      [t1, t2, t3].forEach(p => { p.style.strokeDasharray = `3 9`; p.style.opacity = 0; });
-      
-      tl = gsap.timeline({ repeat: -1, repeatDelay: 6 });
-      
-      tl.set([plane1, plane2, plane3, t1, t2, t3], { opacity: 0 })
-        .add(() => {
-          btnEmail.classList.remove('landed-target', 'pulse-land');
-          btnYT.classList.remove('landed-target', 'pulse-land');
-          btnInsta.classList.remove('landed-target', 'pulse-land');
-        })
-        
-        // Plane 1 fly-in
-        .set([plane1, t1], { opacity: 1 })
-        .to(plane1, { motionPath: { path: t1, align: t1, alignOrigin: [.5,.5], autoRotate: true }, duration: 3.2, ease: 'power1.inOut' })
-        .add(() => btnEmail.classList.add('landed-target', 'pulse-land'))
-        .to(plane1, { scale: 1.25, duration: .18, yoyo: true, repeat: 1, ease: 'power2.out', transformOrigin: '50% 50%' })
-        
-        // Plane 2 fly-in
-        .set([plane2, t2], { opacity: 1 }, '-=1.2')
-        .to(plane2, { motionPath: { path: t2, align: t2, alignOrigin: [.5,.5], autoRotate: true }, duration: 2.8, ease: 'power1.inOut' }, '<')
-        .add(() => btnYT.classList.add('landed-target', 'pulse-land'), '+=1.6')
-        .to(plane2, { scale: 1.25, duration: .18, yoyo: true, repeat: 1, ease: 'power2.out', transformOrigin: '50% 50%' })
-        
-        // Plane 3 fly-in
-        .set([plane3, t3], { opacity: 1 }, '-=1.0')
-        .to(plane3, { motionPath: { path: t3, align: t3, alignOrigin: [.5,.5], autoRotate: true }, duration: 2.6, ease: 'power1.inOut' }, '<')
-        .add(() => btnInsta.classList.add('landed-target', 'pulse-land'), '+=1.4')
-        .to(plane3, { scale: 1.25, duration: .18, yoyo: true, repeat: 1, ease: 'power2.out', transformOrigin: '50% 50%' })
-        
-        // Fade trails out
-        .to([t1, t2, t3], { opacity: 0, duration: 1.2 }, '+=0.5');
-    }
-
-    new IntersectionObserver(es => { if (es[0].isIntersecting) setTimeout(fly, 300); }, { threshold: .3 }).observe(sec);
-    let rt; addEventListener('resize', () => { 
-      clearTimeout(rt); rt = setTimeout(() => { if (played) build(); }, 200); 
-    });
-  })();
 })();
-/* ---------- 3 Planes Animation (Contact Section) ---------- */
+
+/* ---------- Paper planes: 4 planes, 4 hand-sketched trails, one per contact button ----------
+   Loops forever: fly in -> land -> hold 10s -> fade out -> re-fly from the same start zones.
+   Geometry is only ever computed at the start of a cycle, so a resize mid-flight never
+   yanks a plane mid-air -- the next loop just picks up the new layout cleanly. */
 (function(){
-  gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+  if (typeof gsap === 'undefined') return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (typeof MotionPathPlugin !== 'undefined') gsap.registerPlugin(MotionPathPlugin);
 
-  const contactSec = document.getElementById('contact');
-  const svg = document.getElementById('plane-flight');
-  if (!contactSec || !svg || typeof gsap === 'undefined') return;
+  const sec    = document.getElementById('contact');
+  const svg    = document.getElementById('plane-flight');
+  const trails = ['flight-trail-1','flight-trail-2','flight-trail-3','flight-trail-4'].map(id => document.getElementById(id));
+  const planes = ['plane1','plane2','plane3','plane4'].map(id => document.getElementById(id));
+  const targets = Array.from(document.querySelectorAll('#contact .exp-btn'));
+  if (!sec || !svg || trails.some(t => !t) || planes.some(p => !p) || targets.length < 4) return;
 
-  // Tumhare teeno target boxes
-  const targets = document.querySelectorAll('#contact .exp-btn');
-  const trails = [
-    document.getElementById('flight-trail-1'),
-    document.getElementById('flight-trail-2'),
-    document.getElementById('flight-trail-3')
-  ];
-  const planes = [
-    document.getElementById('plane1'),
-    document.getElementById('plane2'),
-    document.getElementById('plane3')
-  ];
-
-  if (targets.length < 3 || trails.length < 3 || planes.length < 3) return;
-
+  let isFlying = false;
   let pathsData = [];
 
-  // Path coordinates nikalna (resize pe bhi kaam karega)
-  function updatePaths() {
-    const cRect = contactSec.getBoundingClientRect();
-    pathsData = [];
+  function buildPaths(){
+    const s = sec.getBoundingClientRect();
+    svg.setAttribute('viewBox', `0 0 ${s.width} ${s.height}`);
+    pathsData = targets.slice(0, 4).map((btn, i) => {
+      const r  = btn.getBoundingClientRect();
+      const ex = (r.left - s.left) + r.width / 2;
+      const ey = (r.top - s.top) - 6;
 
-    targets.forEach((btn, i) => {
-      const tRect = btn.getBoundingClientRect();
-      
-      // Button center coordinates relative to contact section
-      const ex = (tRect.left - cRect.left) + (tRect.width / 2);
-      const ey = (tRect.top - cRect.top) + (tRect.height / 2);
-
-      // Start position (section ke upar se spread karke aayenge)
-      const sx = (cRect.width / 4) * (i + 1);
-      const sy = -80; // Screen ke thoda bahar (upar)
-
-      // Curve dene ke liye control points
-      const cx = sx + (ex - sx) * 0.2;
-      const cy = ey - 150;
-
-      // SVG d-path create karna
-      const d = `M ${sx},${sy} Q ${cx},${cy} ${ex},${ey}`;
+      // Four distinct entry directions so every trail reads differently.
+      const starts = [
+        { x: -70,          y: s.height * 0.12 },
+        { x: s.width + 70, y: s.height * 0.18 },
+        { x: -50,          y: s.height * 0.9  },
+        { x: s.width + 50, y: s.height * 0.86 }
+      ];
+      const sx = starts[i].x, sy = starts[i].y;
+      const bend = (i % 2 === 0) ? -1 : 1;
+      const c1x = sx + (ex - sx) * 0.35, c1y = sy + bend * 70;
+      const c2x = sx + (ex - sx) * 0.7,  c2y = ey - 120 + bend * 40;
+      const d = `M${sx},${sy} C${c1x},${c1y} ${c2x},${c2y} ${ex},${ey}`;
       trails[i].setAttribute('d', d);
-      pathsData.push({ length: trails[i].getTotalLength(), btn: btn });
+      return { len: trails[i].getTotalLength(), btn };
     });
   }
 
-  function runPlaneAnimation() {
-    updatePaths();
+  function cycle(){
+    isFlying = true;
+    buildPaths();
 
-    // Master Timeline jisme loop delay aur reverse logic hai
-    const anim = gsap.timeline({
+    gsap.set(planes, { opacity: 0 });
+    trails.forEach((t, i) => {
+      gsap.set(t, { opacity: 0, strokeDasharray: pathsData[i].len, strokeDashoffset: pathsData[i].len });
+    });
+    targets.forEach(b => b.classList.remove('landed-target', 'pulse-land'));
+
+    const tl = gsap.timeline({
       onComplete: () => {
-        // 10 second rukne ke baad reverse jayenge
         gsap.delayedCall(10, () => {
-          targets.forEach(btn => btn.classList.remove('landed-target'));
-          anim.reverse();
+          gsap.to([...planes, ...trails], {
+            opacity: 0, duration: .6, ease: 'power1.in',
+            onComplete: () => {
+              targets.forEach(b => b.classList.remove('landed-target', 'pulse-land'));
+              isFlying = false;
+              gsap.delayedCall(.4, cycle);
+            }
+          });
         });
-      },
-      onReverseComplete: () => {
-        // Reverse jane ke baad instantly loop repeat karna hai
-        runPlaneAnimation();
       }
     });
 
-    trails.forEach((trail, i) => {
-      const len = pathsData[i].length;
-      gsap.set(trail, { strokeDasharray: len, strokeDashoffset: len });
-      gsap.set(planes[i], { opacity: 0 });
-
-      const pTl = gsap.timeline();
-      
-      pTl.to(planes[i], { opacity: 1, duration: 0.3 })
-         // Trail draw karne wala (pencil) effect
-         .to(trail, { strokeDashoffset: 0, duration: 2.5, ease: "power2.inOut" }, 0)
-         // Plane ko trail ke path par udaana
-         .to(planes[i], {
-           motionPath: {
-             path: trail,
-             align: trail,
-             alignOrigin: [0.5, 0.5],
-             autoRotate: true
-           },
-           duration: 2.5,
-           ease: "power2.inOut"
-         }, 0)
-         // Land hone par target box ko pulse aur highlight dena
-         .call(() => {
-           pathsData[i].btn.classList.add('pulse-land', 'landed-target');
-           // Pulse animation re-trigger ho isliye class hata rahe hain 1s baad, par landed-target rhega
-           setTimeout(() => pathsData[i].btn.classList.remove('pulse-land'), 1000); 
-         }, [], 2.4);
-
-      // Har plane ko 0.3 second delay ke gap par launch karna
-      anim.add(pTl, i * 0.3);
+    pathsData.forEach((data, i) => {
+      const plane = planes[i], trail = trails[i];
+      const flightDur = 1.6 + i * 0.15;
+      const startAt = i * 0.3;
+      tl.to(trail,  { opacity: .85, strokeDashoffset: 0, duration: flightDur, ease: 'power2.inOut' }, startAt)
+        .set(plane, { opacity: 1 }, startAt)
+        .to(plane, {
+            motionPath: { path: trail, align: trail, alignOrigin: [.5,.5], autoRotate: true },
+            duration: flightDur, ease: 'power2.inOut'
+          }, startAt)
+        .add(() => data.btn.classList.add('landed-target', 'pulse-land'), startAt + flightDur)
+        .to(plane, { scale: 1.3, duration: .16, yoyo: true, repeat: 1, ease: 'power2.out', transformOrigin: '50% 50%' }, startAt + flightDur);
     });
   }
 
-  // Scroll karke jaise hi contact sec aayega, tabhi yeh start hoga
-  ScrollTrigger.create({
-    trigger: contactSec,
-    start: "top 60%",
-    once: true,
-    onEnter: () => runPlaneAnimation()
-  });
+  let started = false;
+  const startIo = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !started) { started = true; cycle(); startIo.disconnect(); }
+  }, { threshold: .3 });
+  startIo.observe(sec);
 
-  // Agar user browser resize kare toh destination points kharab na ho
   let resizeTO;
-  window.addEventListener('resize', () => {
+  addEventListener('resize', () => {
     clearTimeout(resizeTO);
-    resizeTO = setTimeout(updatePaths, 200);
+    resizeTO = setTimeout(() => { if (!isFlying) buildPaths(); }, 200);
   });
 })();
 </script>
