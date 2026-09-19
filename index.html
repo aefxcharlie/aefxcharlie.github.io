@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CHARLIE — Game Developer & Video Editor</title>
+<title>CHAITANY — Game Developer & Video Editor</title>
 <meta name="description" content="Charlie (@aefxcharlie): game developer working in Unity 6 and C#, plus motion graphics and video editing in After Effects and Premiere Pro." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Fira+Code:wght@500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Fira+Code:wght@500;600;700&family=Sora:wght@300;400;500;600;700;800&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
 <style>
 
 :root{
@@ -180,6 +181,26 @@ img{ max-width:100%; display:block; }
 .btn-primary:hover{ background:var(--bone); }
 .btn-ghost{ border:1px solid var(--line); color:var(--bone2); }
 .btn-ghost:hover{ border-color:var(--cyan); color:var(--cyan); }
+
+.sig-cta{
+  position:relative; display:inline-block;
+  width:clamp(150px,16vw,190px); height:58px;
+  margin-top:1.8rem; text-decoration:none;
+}
+.sig-name{
+  position:relative; z-index:1; display:inline-block;
+  font-family:'Caveat',cursive; font-weight:600;
+  font-size:clamp(1.6rem,3vw,2.1rem); line-height:1; color:var(--bone);
+  clip-path:inset(0 0% 0 0); transition:color .25s;
+}
+.sig-cta:hover .sig-name{ color:var(--amber); }
+.sig-svg{ position:absolute; left:0; top:20px; width:100%; height:38px; overflow:visible; pointer-events:none; }
+.sig-path{ fill:none; stroke:var(--amber); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:none; stroke-dashoffset:0; }
+.sig-plane{ opacity:1; }
+.sig-plane-shape{ fill:var(--amber); transform-origin:center; transition:filter .25s; }
+.sig-cta:hover .sig-plane-shape, .sig-cta:focus-visible .sig-plane-shape{ filter:drop-shadow(0 0 8px rgba(124,107,255,.8)); }
+.sig-plane.landed .sig-plane-shape{ animation:sigPulse 2.4s ease-in-out infinite; }
+@keyframes sigPulse{ 0%,100%{ filter:drop-shadow(0 0 4px rgba(124,107,255,.35)); } 50%{ filter:drop-shadow(0 0 12px rgba(124,107,255,.8)); } }
 
 .hero-monitor{ flex:0 0 auto; position:relative; align-self:center; }
 .monitor-frame{
@@ -471,13 +492,15 @@ img{ max-width:100%; display:block; }
 .vp-speed-slider.dragging .vp-speed-track::before{ border-color:var(--amber); }
 @media (max-width:640px){ .vp-stage{ height:320px; } .vp-speed-track{ width:92px; } }
 
-#contact{ background:transparent; text-align:center; padding:8rem 2.4rem; }
+#contact{ background:transparent; text-align:center; padding:8rem 2.4rem 3rem; }
 .exp-pre{ display:flex; align-items:center; justify-content:center; gap:1rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.25em; color:var(--bone3); text-transform:uppercase; margin-bottom:2rem; }
 .exp-pre .ln{ width:40px; height:1px; background:var(--line); }
 .exp-title{ font-family:var(--display); font-size:clamp(3rem,10vw,7.5rem); line-height:.92; letter-spacing:.02em; text-transform:uppercase; margin-bottom:1.6rem; }
 .exp-title .c1{ color:var(--bone); } .exp-title .c2{ color:var(--amber); } .exp-title .c3{ color:var(--cyan); }
-.exp-subtitle{ font-family:var(--mono); font-size:.75rem; letter-spacing:.15em; color:var(--bone2); text-transform:uppercase; margin-bottom:3rem; }
-.exp-buttons{ display:flex; flex-wrap:wrap; justify-content:center; gap:.9rem; margin-bottom:3rem; }
+.exp-buttons{ display:flex; flex-wrap:wrap; justify-content:center; gap:.9rem; margin-bottom:0; }
+.exp-groups{ display:flex; flex-wrap:wrap; justify-content:center; gap:2.6rem 3.2rem; margin-bottom:1rem; }
+.exp-group{ display:flex; flex-direction:column; align-items:center; gap:.9rem; }
+.exp-group-label{ font-family:var(--mono); font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--bone3); }
 .exp-btn{ display:flex; align-items:center; gap:.6rem; font-family:var(--mono); font-size:.65rem; letter-spacing:.08em; text-decoration:none; color:var(--bone); border:1px solid var(--line); border-radius:3px; padding:.85rem 1.3rem; transition:all .25s; background:transparent; cursor:pointer; }
 .exp-btn svg{ width:16px; height:16px; fill:currentColor; }
 .exp-btn:hover{ border-color:var(--amber); color:var(--amber); background:rgba(47,227,255,.05); }
@@ -493,22 +516,7 @@ img{ max-width:100%; display:block; }
 .exp-email{ display:inline-block; font-family:var(--mono); font-size:clamp(1rem,2.6vw,1.5rem); letter-spacing:.02em; color:var(--bone2); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:.4rem; transition:color .3s,border-color .3s; }
 .exp-email:hover{ color:var(--amber); border-color:var(--amber); }
 
-.meta-strip{ background:var(--bg); padding:3rem 2.4rem; display:flex; justify-content:center; }
-.meta-box{ display:flex; align-items:center; gap:2.4rem; flex-wrap:wrap; justify-content:center; background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:1.6rem 2.4rem; max-width:900px; }
-.meta-left{ display:flex; flex-direction:column; gap:.3rem; }
-.meta-lbl{ font-family:var(--mono); font-size:.55rem; letter-spacing:.15em; color:var(--bone3); text-transform:uppercase; }
-.meta-loc{ display:flex; align-items:center; gap:.5rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; color:var(--bone2); }
-.meta-loc .dot{ width:6px; height:6px; border-radius:50%; background:var(--cyan); box-shadow:0 0 6px var(--cyan); }
-.meta-div{ width:1px; height:44px; background:var(--line); }
-.meta-clock{ font-family:var(--mono); font-size:1.7rem; letter-spacing:.03em; color:var(--bone); display: flex; align-items: baseline; }
-.meta-ampm{ font-size:.7rem; color:var(--amber); margin-left:.4rem; }
-.meta-date{ font-family:var(--mono); font-size:.58rem; color:var(--bone3); letter-spacing:.06em; }
-.meta-tz{ font-family:var(--mono); font-size:.52rem; color:var(--bone3); letter-spacing:.1em; text-transform:uppercase; }
-.meta-hint{ font-family:var(--mono); font-size:.6rem; letter-spacing:.04em; color:var(--bone2); max-width:220px; line-height:1.6; border-left:1px solid var(--line); padding-left:1.4rem; }
-.meta-hint strong{ color:var(--amber); }
-@media (max-width:700px){ .meta-hint{ border-left:none; padding-left:0; } }
-
-footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2.4rem; flex-wrap:wrap; gap:1rem; border-top:1px solid var(--line-soft); }
+footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem 2.4rem; flex-wrap:wrap; gap:1rem; border-top:1px solid var(--line-soft); }
 .f-text{ font-family:var(--mono); font-size:.56rem; letter-spacing:.12em; color:var(--bone3); text-transform:uppercase; }
 
 #music-player {
@@ -584,7 +592,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
 
 <div id="loader">
   <div class="ldr-label">Initializing render</div>
-  <div class="ldr-name">CHARLIE</div>
+  <div class="ldr-name">CHAITANY</div>
   <div class="ldr-track"><div class="ldr-fill"></div></div>
   <div class="ldr-pct" id="ldr-pct">0%</div>
 </div>
@@ -608,7 +616,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
         Game Developer
       </div>
 
-      <h1 class="hero-name reveal d1"><span class="hn-tag">&lt;</span>CHARLIE<span class="hn-tag">/&gt;</span></h1>
+      <h1 class="hero-name reveal d1"><span class="hn-tag">&lt;</span>CHAITANY<span class="hn-tag">/&gt;</span></h1>
 
       <div class="hero-sub reveal d2">
         <span class="hl">Unity 6</span> &nbsp;·&nbsp; <span class="hl">C#</span> &nbsp;·&nbsp;
@@ -621,6 +629,16 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
         <a href="#work" class="btn btn-primary">View Work →</a>
         <a href="#contact" class="btn btn-ghost">Get in Touch</a>
       </div>
+
+      <a href="#contact" class="sig-cta reveal d3" id="sigCta" aria-label="Say hi — jump to the contact section">
+        <span class="sig-name" id="sigName">Say Hi</span>
+        <svg class="sig-svg" id="sigSvg" viewBox="0 0 180 56" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path id="sigPath" class="sig-path" d="M4,30 C36,54 62,10 96,26 C122,38 138,16 154,12" />
+          <g id="sigPlane" class="sig-plane" transform="translate(154,12)">
+            <path class="sig-plane-shape" d="M2 21l21-9L2 3v7l15 2-15 2z" transform="translate(-11,-11) scale(0.8)"/>
+          </g>
+        </svg>
+      </a>
     </div>
 
     <div class="hero-monitor reveal d1">
@@ -861,57 +879,40 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
   <div class="exp-pre"><span class="ln"></span> Let's collaborate <span class="ln"></span></div>
 
   <h2 class="exp-title reveal">
-    <span class="c1">LET'S</span><br/><span class="c2">BUILD</span><br/><span class="c3">TOGETHER</span>
+    <span class="c1">LET'S</span><br/><span class="c2">TALK</span>
   </h2>
 
-  <p class="exp-subtitle reveal d1">Game dev collabs · Video editing</p>
-
-  <div class="exp-buttons reveal d2">
-    <button type="button" class="exp-btn" id="email-copy-btn" data-email="kreativecharlie@proton.me">
-      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-      <span class="exp-email-labels">
-        <span id="email-copy-label">kreativecharlie@proton.me</span>
-        <span id="email-copied-label" class="is-hidden">Email Copied!</span>
-      </span>
-    </button>
-    <a href="https://dsc.gg/triforge" target="_blank" rel="noopener noreferrer" class="exp-btn">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-      <span>Join the Community</span>
-    </a>
-    <a href="https://www.youtube.com/@aefxcharlie" target="_blank" rel="noopener noreferrer" class="exp-btn">
-      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-      <span>@aefxcharlie</span>
-    </a>
-    <a href="https://www.instagram.com/aefxcharlie" target="_blank" rel="noopener noreferrer" class="exp-btn">
-      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-      <span>@aefxcharlie</span>
-    </a>
-    <a href="https://www.guns.lol/aefxcharlie" target="_blank" rel="noopener noreferrer" class="exp-btn">
-      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm1-13h-2v4H7v2h4v4h2v-4h4v-2h4v-4z"/></svg>
-      <span>Charlie AE</span>
-    </a>
+  <div class="exp-groups reveal d2">
+    <div class="exp-group">
+      <span class="exp-group-label">Contact Me</span>
+      <div class="exp-buttons">
+        <button type="button" class="exp-btn" id="email-copy-btn" data-email="kreativecharlie@proton.me">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <span class="exp-email-labels">
+            <span id="email-copy-label">kreativecharlie@proton.me</span>
+            <span id="email-copied-label" class="is-hidden">Email Copied!</span>
+          </span>
+        </button>
+      </div>
+    </div>
+    <div class="exp-group">
+      <span class="exp-group-label">Follow My Work</span>
+      <div class="exp-buttons">
+        <a href="https://www.youtube.com/@aefxcharlie" target="_blank" rel="noopener noreferrer" class="exp-btn">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          <span>@aefxcharlie</span>
+        </a>
+        <a href="https://www.instagram.com/aefxcharlie" target="_blank" rel="noopener noreferrer" class="exp-btn">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          <span>@aefxcharlie</span>
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 
-<div class="meta-strip">
-  <div class="meta-box">
-    <div class="meta-left">
-      <span class="meta-lbl">My local time</span>
-      <span class="meta-loc"><span class="dot"></span> India · GMT +5:30</span>
-    </div>
-    <div class="meta-div"></div>
-    <div>
-      <div class="meta-clock"><span id="lt-time">--:--</span><span class="meta-ampm" id="lt-ampm">--</span></div>
-      <div class="meta-date" id="lt-date">--- -- ----</div>
-      <div class="meta-tz">IST (Indian Standard Time)</div>
-    </div>
-    <div class="meta-div"></div>
-    <div class="meta-hint"><strong>Before you reach out —</strong> check if I'm awake! Best to message between 11 AM–5 PM IST.</div>
-  </div>
-</div>
-
 <footer>
-  <span class="f-text">© 2026 Charlie · All rights reserved</span>
+  <span class="f-text">© 2026 Chaitany Saini · All rights reserved</span>
 </footer>
 
 <div id="music-player">
@@ -1020,6 +1021,51 @@ window.addEventListener('scroll', () => {
   els.forEach(el => io.observe(el));
 })();
 
+/* Signature CTA — name writes itself, a flourish draws under it, a paper
+   plane flies the line and lands as the clickable button. Markup already
+   shows the finished state, so this only enhances if GSAP is available. */
+(function(){
+  const cta = document.getElementById('sigCta');
+  if (!cta) return;
+  const nameEl = document.getElementById('sigName');
+  const pathEl = document.getElementById('sigPath');
+  const plane  = document.getElementById('sigPlane');
+  const reduceMo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMo || typeof gsap === 'undefined') { plane.classList.add('landed'); return; }
+
+  const len   = pathEl.getTotalLength();
+  const start = pathEl.getPointAtLength(0);
+  const end   = pathEl.getPointAtLength(len);
+  const hasMotionPath = typeof MotionPathPlugin !== 'undefined';
+  if (hasMotionPath) gsap.registerPlugin(MotionPathPlugin);
+
+  pathEl.style.strokeDasharray  = len;
+  pathEl.style.strokeDashoffset = len;
+  nameEl.style.clipPath = 'inset(0 100% 0 0)';
+  plane.setAttribute('transform', `translate(${start.x},${start.y})`);
+  plane.style.opacity = '0';
+
+  function run(){
+    const tl = gsap.timeline({ delay: .9 });
+    tl.to(nameEl, { clipPath: 'inset(0 0% 0 0)', duration: .9, ease: 'power2.out' })
+      .to(pathEl,  { strokeDashoffset: 0, duration: .8, ease: 'power2.inOut' }, '-=.2')
+      .set(plane,  { opacity: 1 })
+      .to(plane, hasMotionPath ? {
+            motionPath: { path: pathEl, align: pathEl, alignOrigin: [.5,.5], autoRotate: true },
+            duration: .9, ease: 'power2.inOut'
+          } : {
+            attr: { transform: `translate(${end.x},${end.y})` }, duration: .9, ease: 'power2.inOut'
+          }, '-=.1')
+      .add(() => plane.classList.add('landed'))
+      .fromTo('.sig-plane-shape', { scale: 1.35 }, { scale: 1, duration: .35, ease: 'back.out(3)', transformOrigin: 'center' });
+  }
+
+  const sigIo = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) { run(); sigIo.disconnect(); }
+  }, { threshold: .3 });
+  sigIo.observe(cta);
+})();
+
 (function(){
   const card = document.getElementById('inspector-tilt');
   if (card) {
@@ -1075,34 +1121,6 @@ window.addEventListener('scroll', () => {
   io2.observe(skillsSection);
 })();
 
-
-(function() {
-  const timeEl = document.getElementById('lt-time');
-  const ampmEl = document.getElementById('lt-ampm');
-  const dateEl = document.getElementById('lt-date');
-  const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-function updateClock() {
-  const now = new Date();
-  const utcMs = now.getTime() + now.getTimezoneOffset()*60000;
-  const ist = new Date(utcMs + 19800000);
-  
-  let h = ist.getHours();
-  const m = ist.getMinutes();
-  const s = ist.getSeconds(); 
-  
-  const ampm = h >= 12 ? 'PM' : 'AM';
-  h = h % 12 || 12;
-  
-  timeEl.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  
-  ampmEl.textContent = ampm;
-  dateEl.textContent = `${DAYS[ist.getDay()]}, ${MONTHS[ist.getMonth()]} ${ist.getDate()} ${ist.getFullYear()}`;
-}
-  updateClock();
-  setInterval(updateClock, 1000);
-})();
 
 (function(){
   const wave = document.querySelector('.wave');
