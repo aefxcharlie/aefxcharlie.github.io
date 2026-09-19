@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>CHAITANY — Game Developer & Video Editor</title>
-<meta name="description" content="Charlie (@aefxcharlie): game developer working in Unity 6 and C#, plus motion graphics and video editing in After Effects and Premiere Pro." />
+<meta name="description" content="Chaitany (@aefxcharlie): game developer working in Unity 6 and C#, plus motion graphics and video editing in After Effects and Premiere Pro." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Fira+Code:wght@500;600;700&family=Sora:wght@300;400;500;600;700;800&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -110,12 +110,6 @@ img{ max-width:100%; display:block; }
 }
 .tb-links a:hover{ color:var(--cyan); }
 .tb-links a::before{ content:attr(data-num); color:var(--amber-dim); margin-right:.5em; }
-.tb-rec{
-  display:flex; align-items:center; gap:.5rem;
-  font-family:var(--mono); font-size:.58rem; letter-spacing:.15em; text-transform:uppercase; color:var(--bone2);
-}
-.tb-rec .dot{ width:6px; height:6px; border-radius:50%; background:var(--rec); box-shadow:0 0 8px var(--rec); animation:recBlink 1.6s ease-in-out infinite; }
-@keyframes recBlink{ 0%,100%{opacity:1;} 50%{opacity:.25;} }
 @media (max-width:860px){ .tb-links{ display:none; } }
 
 .clip-section{ position:relative; padding:9rem 2.4rem 6rem; z-index:1; }
@@ -150,8 +144,8 @@ img{ max-width:100%; display:block; }
 .hero-name{
   font-family:'Fira Code',var(--mono); font-feature-settings:"liga" 1,"calt" 1; font-weight:700;
   font-size:clamp(4.6rem,14vw,13.5rem); letter-spacing:-.03em; line-height:.88;
-  color:var(--bone); text-transform:uppercase; margin-bottom:1.6rem;
-  text-shadow:0 0 24px rgba(124,107,255,.35), 0 0 60px rgba(124,107,255,.12);
+  color:#ffffff; text-transform:uppercase; margin-bottom:1.6rem;
+  filter:drop-shadow(0 0 26px rgba(124,107,255,.32));
   animation:heroFlicker 6s ease-in-out infinite;
 }
 .hero-name .hn-tag{
@@ -182,25 +176,6 @@ img{ max-width:100%; display:block; }
 .btn-ghost{ border:1px solid var(--line); color:var(--bone2); }
 .btn-ghost:hover{ border-color:var(--cyan); color:var(--cyan); }
 
-.sig-cta{
-  position:relative; display:inline-block;
-  width:clamp(150px,16vw,190px); height:58px;
-  margin-top:1.8rem; text-decoration:none;
-}
-.sig-name{
-  position:relative; z-index:1; display:inline-block;
-  font-family:'Caveat',cursive; font-weight:600;
-  font-size:clamp(1.6rem,3vw,2.1rem); line-height:1; color:var(--bone);
-  clip-path:inset(0 0% 0 0); transition:color .25s;
-}
-.sig-cta:hover .sig-name{ color:var(--amber); }
-.sig-svg{ position:absolute; left:0; top:20px; width:100%; height:38px; overflow:visible; pointer-events:none; }
-.sig-path{ fill:none; stroke:var(--amber); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:none; stroke-dashoffset:0; }
-.sig-plane{ opacity:1; }
-.sig-plane-shape{ fill:var(--amber); transform-origin:center; transition:filter .25s; }
-.sig-cta:hover .sig-plane-shape, .sig-cta:focus-visible .sig-plane-shape{ filter:drop-shadow(0 0 8px rgba(124,107,255,.8)); }
-.sig-plane.landed .sig-plane-shape{ animation:sigPulse 2.4s ease-in-out infinite; }
-@keyframes sigPulse{ 0%,100%{ filter:drop-shadow(0 0 4px rgba(124,107,255,.35)); } 50%{ filter:drop-shadow(0 0 12px rgba(124,107,255,.8)); } }
 
 .hero-monitor{ flex:0 0 auto; position:relative; align-self:center; }
 .monitor-frame{
@@ -286,7 +261,6 @@ img{ max-width:100%; display:block; }
   background-size:16px 100%, 100% 1px; background-position:0 0,0 50%; background-repeat:repeat-x; opacity:.35;
 }
 .frame::before{ top:0; } .frame::after{ bottom:0; }
-.frame:hover{ background:rgba(47,227,255,.03); padding-left:1.6rem; }
 .frame-num{ font-family:var(--mono); font-size:.6rem; color:var(--bone3); }
 .frame-title{ font-family:var(--display); font-size:clamp(1.15rem,2.4vw,1.9rem); letter-spacing:.03em; color:var(--bone); text-transform:uppercase; margin-bottom:.3rem; transition:color .3s; }
 .frame:hover .frame-title{ color:var(--amber); }
@@ -299,23 +273,13 @@ img{ max-width:100%; display:block; }
 .status-dot{ width:6px; height:6px; border-radius:50%; flex-shrink:0; }
 .status-dot.online{ background:var(--cyan); box-shadow:0 0 6px var(--cyan); }
 
-/* ---------- Projects: glass bento with a reactive dot grid ---------- */
 .bento-wrap{ position:relative; isolation:isolate; }
 .bento-wrap::before,
 .bento-wrap::after{
+  display:none;
   content:''; position:absolute; z-index:0; pointer-events:none; border-radius:50%;
   filter:blur(46px); opacity:.5; transition:opacity 1s ease;
 }
-.bento-wrap::before{
-  width:46%; height:80%; left:6%; top:-10%;
-  background:radial-gradient(circle at 50% 50%, rgba(124,107,255,.7), transparent 68%);
-}
-.bento-wrap::after{
-  width:40%; height:72%; right:5%; bottom:-12%;
-  background:radial-gradient(circle at 50% 50%, rgba(78,242,166,.42), transparent 68%);
-}
-.bento-wrap.is-open::before,
-.bento-wrap.is-open::after{ opacity:.85; }
 
 .bento{
   position:relative; z-index:1; overflow:hidden;
@@ -332,7 +296,7 @@ img{ max-width:100%; display:block; }
   outline:none; user-select:none; -webkit-user-select:none;
   -webkit-tap-highlight-color:transparent; touch-action:manipulation;
 }
-.bento::before{ /* glass edge */
+.bento::before{
   content:''; position:absolute; inset:0; border-radius:inherit; padding:1px; z-index:3; pointer-events:none;
   background:linear-gradient(140deg, rgba(255,255,255,.38), rgba(255,255,255,.05) 38%, rgba(255,255,255,.03) 62%, rgba(255,255,255,.2));
   -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -341,7 +305,7 @@ img{ max-width:100%; display:block; }
 .bento:focus-visible{ outline:2px solid var(--amber); outline-offset:5px; }
 
 .bento-canvas{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
-.bento-veil{ /* keeps the centre text readable over the dots */
+.bento-veil{
   position:absolute; inset:0; z-index:1; pointer-events:none;
   background:radial-gradient(ellipse 38% 27% at 50% 50%, rgba(8,9,13,.62), transparent 100%);
 }
@@ -349,31 +313,27 @@ img{ max-width:100%; display:block; }
 .bento-stage{ position:relative; z-index:2; display:grid; place-items:center; width:100%; padding:0 1.6rem; pointer-events:none; }
 .bento-msg{
   grid-area:1/1; display:flex; flex-direction:column; align-items:center; gap:1rem; text-align:center;
-  opacity:0; filter:blur(14px); transform:scale(1.05); letter-spacing:.14em;
-  transition:
-    opacity .75s cubic-bezier(.22,.61,.36,1),
-    filter .75s cubic-bezier(.22,.61,.36,1),
-    transform .9s cubic-bezier(.22,.61,.36,1),
-    letter-spacing .9s cubic-bezier(.22,.61,.36,1);
+  opacity:0; filter:blur(14px); transform:scale(1.03);
+  transition:opacity .45s ease, filter .45s ease, transform .45s ease;
 }
-/* whichever message is current dissolves in; the other dissolves out */
 .bento:not(.is-open) .msg-idle,
 .bento.is-open .msg-soon{
-  opacity:1; filter:blur(0); transform:none; letter-spacing:.02em;
-  transition-delay:.16s;
+  opacity:1; filter:blur(0); transform:none; transition:none;
 }
+.bt-word{ display:inline-block; white-space:nowrap; }
+.bt-seg{ display:inline-block; opacity:0; filter:blur(10px); transform:translateY(-50px); will-change:transform,filter,opacity; }
+.bt-static .bt-seg{ opacity:1; filter:none; transform:none; }
+.status-dot.bt-seg{ display:inline-block; }
 .msg-main{ margin:0; font-family:var(--display); text-wrap:balance; }
 .msg-idle .msg-main{ font-size:clamp(1.1rem, 2.6vw, 1.7rem); font-weight:500; color:var(--bone2); }
 .msg-soon .msg-main{
   font-size:clamp(2rem, 6.4vw, 4.4rem); font-weight:600; line-height:1.04; color:var(--bone);
-  letter-spacing:inherit; text-shadow:0 0 44px rgba(124,107,255,.4);
+  letter-spacing:.02em; text-shadow:0 0 44px rgba(124,107,255,.4);
 }
 .msg-sub{
   margin:0; display:flex; align-items:center; gap:.55rem;
   font-family:var(--sans); font-size:.85rem; font-weight:400; letter-spacing:.04em; color:var(--bone2);
-  opacity:0; transform:translateY(6px); transition:opacity .7s ease, transform .7s ease;
 }
-.bento.is-open .msg-sub{ opacity:1; transform:none; transition-delay:.5s; }
 
 @media (max-width:640px){
   .bento{ height:clamp(300px, 88vw, 380px); }
@@ -389,7 +349,7 @@ img{ max-width:100%; display:block; }
   transition:transform .12s ease-out, box-shadow .3s ease;
   will-change:transform;
 }
-#inspector-tilt:hover{ box-shadow:0 20px 50px rgba(0,0,0,.5), 0 0 40px rgba(124,107,255,.12); }
+
 .insp-corner{
   position:absolute; width:22px; height:22px; z-index:5; pointer-events:none;
   opacity:0; transition:opacity .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);
@@ -398,11 +358,7 @@ img{ max-width:100%; display:block; }
 .insp-tr{ top:-1px; right:-1px; border-top:1px solid var(--amber); border-right:1px solid var(--amber); transform:translate(-6px,6px) translateZ(0); }
 .insp-bl{ bottom:-1px; left:-1px; border-bottom:1px solid var(--amber); border-left:1px solid var(--amber); transform:translate(6px,-6px) translateZ(0); }
 .insp-br{ bottom:-1px; right:-1px; border-bottom:1px solid var(--amber); border-right:1px solid var(--amber); transform:translate(-6px,-6px) translateZ(0); }
-#inspector-tilt:hover .insp-corner{ opacity:1; }
-#inspector-tilt:hover .insp-tl{ transform:translate(-10px,-10px) translateZ(40px); }
-#inspector-tilt:hover .insp-tr{ transform:translate(10px,-10px) translateZ(40px); }
-#inspector-tilt:hover .insp-bl{ transform:translate(-10px,10px) translateZ(40px); }
-#inspector-tilt:hover .insp-br{ transform:translate(10px,10px) translateZ(40px); }
+
 
 .vp-window{ background:var(--panel); border:1px solid var(--line); border-radius:6px; overflow:hidden; }
 .vp-winbar{ display:flex; align-items:center; gap:.5rem; padding:.7rem 1rem; background:var(--panel2); border-bottom:1px solid var(--line); }
@@ -414,8 +370,6 @@ img{ max-width:100%; display:block; }
   color:var(--bone2); background:transparent; border:1px solid var(--line); border-radius:3px;
   padding:.4rem .8rem; cursor:pointer; transition:border-color .2s ease, color .2s ease;
 }
-.vp-btn:hover{ border-color:var(--amber); color:var(--amber); }
-.vp-btn:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
 
 .vp-stage{ position:relative; height:420px; }
 .vp-stage canvas{ display:block; width:100%; height:100%; }
@@ -492,7 +446,9 @@ img{ max-width:100%; display:block; }
 .vp-speed-slider.dragging .vp-speed-track::before{ border-color:var(--amber); }
 @media (max-width:640px){ .vp-stage{ height:320px; } .vp-speed-track{ width:92px; } }
 
-#contact{ background:transparent; text-align:center; padding:8rem 2.4rem 3rem; }
+#contact{ background:transparent; text-align:center; padding:8rem 2.4rem 3rem; position:relative; overflow:hidden; }
+#contact > *:not(#plane-flight){ position:relative; z-index:2; }
+
 .exp-pre{ display:flex; align-items:center; justify-content:center; gap:1rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.25em; color:var(--bone3); text-transform:uppercase; margin-bottom:2rem; }
 .exp-pre .ln{ width:40px; height:1px; background:var(--line); }
 .exp-title{ font-family:var(--display); font-size:clamp(3rem,10vw,7.5rem); line-height:.92; letter-spacing:.02em; text-transform:uppercase; margin-bottom:1.6rem; }
@@ -503,7 +459,6 @@ img{ max-width:100%; display:block; }
 .exp-group-label{ font-family:var(--mono); font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--bone3); }
 .exp-btn{ display:flex; align-items:center; gap:.6rem; font-family:var(--mono); font-size:.65rem; letter-spacing:.08em; text-decoration:none; color:var(--bone); border:1px solid var(--line); border-radius:3px; padding:.85rem 1.3rem; transition:all .25s; background:transparent; cursor:pointer; }
 .exp-btn svg{ width:16px; height:16px; fill:currentColor; }
-.exp-btn:hover{ border-color:var(--amber); color:var(--amber); background:rgba(47,227,255,.05); }
 .exp-btn#email-copy-btn{ position:relative; }
 .exp-email-labels{ position:relative; display:inline-grid; }
 .exp-email-labels span{
@@ -514,10 +469,55 @@ img{ max-width:100%; display:block; }
 .exp-email-labels span.slide-up{ transform:translateY(-6px); }
 .exp-email-labels span.slide-down{ transform:translateY(6px); }
 .exp-email{ display:inline-block; font-family:var(--mono); font-size:clamp(1rem,2.6vw,1.5rem); letter-spacing:.02em; color:var(--bone2); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:.4rem; transition:color .3s,border-color .3s; }
-.exp-email:hover{ color:var(--amber); border-color:var(--amber); }
 
 footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem 2.4rem; flex-wrap:wrap; gap:1rem; border-top:1px solid var(--line-soft); }
 .f-text{ font-family:var(--mono); font-size:.56rem; letter-spacing:.12em; color:var(--bone3); text-transform:uppercase; }
+
+.dt-enc{ color:var(--cyan); -webkit-text-fill-color:var(--cyan); opacity:.85; }
+.shiny-text{ display:inline-block; }
+.dt-wrap{ display:inline-block; white-space:pre-wrap; }
+
+.shiny{
+  display:inline-block; color:transparent;
+  background-image:linear-gradient(120deg, var(--bone3) 0%, var(--bone3) 35%, #5e00ff 50%, var(--bone3) 65%, var(--bone3) 100%);
+  background-size:220% 100%; -webkit-background-clip:text; background-clip:text;
+  animation:shinyMove 3.2s linear infinite;
+}
+@keyframes shinyMove{ 0%{ background-position:150% 0; } 100%{ background-position:-50% 0; } }
+
+.grad-text{
+  background-image:linear-gradient(90deg,#7C6BFF,#4EF2A6,#FF8A3D,#FF4D6D,#7C6BFF);
+  background-size:300% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation:gradMove 6s linear infinite;
+}
+@keyframes gradMove{ 0%{ background-position:0% 50%; } 100%{ background-position:300% 50%; } }
+
+.split-char{ display:inline-block; will-change:transform,opacity; }
+.split-word{ display:inline-block; white-space:nowrap; }
+
+.spot{ --mouse-x:50%; --mouse-y:50%; --spot-color:rgba(124,107,255,.22); position:relative; }
+
+.magnet-inner{ display:inline-block; will-change:transform; }
+
+.monitor-frame{ transform-style:preserve-3d; transition:transform .18s ease-out, box-shadow .3s ease; will-change:transform; }
+.hero-monitor{ perspective:900px; }
+
+#click-spark{ position:fixed; inset:0; width:100%; height:100%; z-index:9995; pointer-events:none; }
+
+#plane-flight{ position:absolute; inset:0; width:100%; height:100%; z-index:4; pointer-events:none; overflow:visible; }
+#plane-flight .flight-trail{ fill:none; stroke-width:2; stroke-linecap:round; opacity:.8; }
+#plane-flight .plane-shape{ fill:var(--amber); filter:drop-shadow(0 0 8px rgba(124,107,255,.9)); }
+.exp-title .flight-word{ display:inline-block; }
+.exp-groups .exp-btn{ position:relative; }
+.exp-btn.landed-target{ border-color:var(--amber); color:var(--amber); box-shadow:0 0 0 1px rgba(124,107,255,.4), 0 0 26px rgba(124,107,255,.35); }
+.exp-btn.pulse-land{ animation:landPulse .9s ease-out 1; }
+@keyframes landPulse{ 0%{ box-shadow:0 0 0 0 rgba(124,107,255,.7);} 100%{ box-shadow:0 0 0 22px rgba(124,107,255,0);} }
+.exp-group-label{ position:relative; }
+
+@media (prefers-reduced-motion:reduce){
+  .shiny,.grad-text{ animation:none; }
+  #plane-flight{ display:none; }
+}
 
 #music-player {
   position: fixed;
@@ -605,7 +605,6 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
     <li><a href="#projects" data-num="04">Projects</a></li>
     <li><a href="#contact" data-num="05">Contact</a></li>
   </ul>
-  <div class="tb-rec"><span class="dot"></span> Live</div>
 </nav>
 
 <section id="hero" class="clip-section" data-clip="Hero" style="padding-top:8rem;">
@@ -613,10 +612,10 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
     <div class="hero-content">
       <div class="hero-eyebrow reveal">
         <span class="hero-eyebrow-line"></span>
-        Game Developer
+        <span class="grad-text">Game Developer</span>
       </div>
 
-      <h1 class="hero-name reveal d1"><span class="hn-tag">&lt;</span>CHAITANY<span class="hn-tag">/&gt;</span></h1>
+      <h1 class="hero-name reveal d1"><span class="hn-tag">&lt;</span><span class="dt-wrap" id="hero-decrypt" data-text="CHAITANY">CHAITANY</span><span class="hn-tag">/&gt;</span></h1>
 
       <div class="hero-sub reveal d2">
         <span class="hl">Unity 6</span> &nbsp;·&nbsp; <span class="hl">C#</span> &nbsp;·&nbsp;
@@ -629,16 +628,6 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
         <a href="#work" class="btn btn-primary">View Work →</a>
         <a href="#contact" class="btn btn-ghost">Get in Touch</a>
       </div>
-
-      <a href="#contact" class="sig-cta reveal d3" id="sigCta" aria-label="Say hi — jump to the contact section">
-        <span class="sig-name" id="sigName">Say Hi</span>
-        <svg class="sig-svg" id="sigSvg" viewBox="0 0 180 56" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-          <path id="sigPath" class="sig-path" d="M4,30 C36,54 62,10 96,26 C122,38 138,16 154,12" />
-          <g id="sigPlane" class="sig-plane" transform="translate(154,12)">
-            <path class="sig-plane-shape" d="M2 21l21-9L2 3v7l15 2-15 2z" transform="translate(-11,-11) scale(0.8)"/>
-          </g>
-        </svg>
-      </a>
     </div>
 
     <div class="hero-monitor reveal d1">
@@ -647,7 +636,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
         <div class="m-corner m-tr"></div>
         <div class="m-corner m-bl"></div>
         <div class="m-corner m-br"></div>
-        <img src="charlie.png" alt="Charlie portrait" style="background:#0a0a12;" />
+        <img src="charlie.png" alt="Chaitany portrait" style="background:#0a0a12;" />
       </div>
     </div>
   </div>
@@ -657,7 +646,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
 
 <section id="about" class="clip-section" data-clip="About">
   <div class="clip-slate">
-    <h2 class="reveal d1">About <span>Charlie</span></h2>
+    <h2 class="reveal d1" data-split>About <span>Chaitany</span></h2>
   </div>
 
   <div class="about-grid">
@@ -676,18 +665,15 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
     </p>
 
     <div class="inspector reveal d1" id="inspector-tilt">
-      <span class="insp-corner insp-tl"></span>
-      <span class="insp-corner insp-tr"></span>
-      <span class="insp-corner insp-bl"></span>
-      <span class="insp-corner insp-br"></span>
       <div class="insp-bar">
         <span class="insp-dot r"></span><span class="insp-dot y"></span><span class="insp-dot g"></span>
-        <span class="insp-file">charlie.json — properties</span>
+        <span class="insp-file">chaitany.json — properties</span>
       </div>
       <div class="insp-body">
-        <div class="cl"><span class="o">$</span> cat charlie.json</div>
+        <div class="cl"><span class="o">$</span> cat chaitany.json</div>
         <br/>
         <div class="cl"><span class="o">{</span></div>
+        <div class="cl">&nbsp;&nbsp;<span class="k">"name"</span><span class="o">:</span> <span class="s">"Chaitany"</span><span class="o">,</span></div>
         <div class="cl">&nbsp;&nbsp;<span class="k">"role"</span><span class="o">:</span> <span class="s">"Game Developer & Video Editor"</span><span class="o">,</span></div>
         <div class="cl">&nbsp;&nbsp;<span class="k">"stack"</span><span class="o">:</span> <span class="o">[</span></div>
         <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Unity 6"</span><span class="o">,</span></div>
@@ -710,12 +696,12 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
 
 <section id="skills" class="clip-section" data-clip="Skills">
   <div class="clip-slate">
-    <h2 class="reveal d1">Stack &amp; <span>Skills</span></h2>
+    <h2 class="reveal d1" data-split>Stack &amp; <span>Skills</span></h2>
   </div>
 
   <div class="meters-grid">
 
-    <div class="meter-panel p-cyan reveal">
+    <div class="spot meter-panel p-cyan reveal">
       <div class="meter-head">
         <div class="meter-name"><span class="m-dot cyan"></span> Unity 6</div>
         <span class="meter-ver">Engine</span>
@@ -730,7 +716,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
       <div class="meter-track"><div class="meter-fill cyan" data-target="55"></div></div>
     </div>
 
-    <div class="meter-panel p-cyan reveal d1">
+    <div class="spot meter-panel p-cyan reveal d1">
       <div class="meter-head">
         <div class="meter-name"><span class="m-dot cyan"></span> C# Scripting</div>
         <span class="meter-ver">Gameplay</span>
@@ -745,7 +731,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
       <div class="meter-track"><div class="meter-fill cyan" data-target="55"></div></div>
     </div>
 
-    <div class="meter-panel p-cyan reveal d2">
+    <div class="spot meter-panel p-cyan reveal d2">
       <div class="meter-head">
         <div class="meter-name"><span class="m-dot cyan"></span> Build Log</div>
         <span class="meter-ver">Learning</span>
@@ -769,7 +755,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
       </div>
     </div>
 
-    <div class="meter-panel p-amber reveal d3">
+    <div class="spot meter-panel p-amber reveal d3">
       <div class="meter-head">
         <div class="meter-name"><span class="m-dot amber"></span> Video Editing</div>
         <span class="meter-ver">AE / PP</span>
@@ -790,11 +776,11 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
 
 <section id="work" class="clip-section" data-clip="Work">
   <div class="clip-slate">
-    <h2 class="reveal d1">Selected <span>Work</span></h2>
+    <h2 class="reveal d1" data-split>Selected <span>Work</span></h2>
   </div>
 
   <div class="filmstrip">
-    <div class="frame reveal">
+    <div class="spot frame reveal">
       <span class="frame-num">01</span>
       <div>
         <div class="frame-title">Unity 6 Dev — WIP</div>
@@ -804,7 +790,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
         <span class="frame-tag">Unity</span><span class="frame-tag">C#</span><span class="frame-tag">WIP</span>
       </div>
     </div>
-    <div class="frame reveal d1">
+    <div class="spot frame reveal d1">
       <span class="frame-num">02</span>
       <div>
         <div class="frame-title">Gameplay Programming</div>
@@ -814,7 +800,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
         <span class="frame-tag">C#</span><span class="frame-tag">Physics</span>
       </div>
     </div>
-    <div class="frame reveal d2">
+    <div class="spot frame reveal d2">
       <span class="frame-num">03</span>
       <div>
         <div class="frame-title">Scenes &amp; Prefabs</div>
@@ -824,18 +810,8 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
         <span class="frame-tag">Unity</span><span class="frame-tag">Prefabs</span>
       </div>
     </div>
-    <div class="frame reveal d3">
+    <div class="spot frame reveal d3">
       <span class="frame-num">04</span>
-      <div>
-        <div class="frame-title">2D Game Development</div>
-        <div class="frame-desc">Unity · Solid Mechanics · Optimization</div>
-      </div>
-      <div class="frame-tags">
-        <span class="frame-tag">2D</span><span class="frame-tag">Unity</span>
-      </div>
-    </div>
-    <div class="frame reveal d3">
-      <span class="frame-num">05</span>
       <div>
         <div class="frame-title">Motion Graphics Reels</div>
         <div class="frame-desc">After Effects · Premiere Pro · Kinetic Typography</div>
@@ -852,7 +828,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
 
 <section id="projects" class="clip-section" data-clip="Projects">
   <div class="clip-slate">
-    <h2 class="reveal d1">My <span>Projects</span></h2>
+    <h2 class="reveal d1" data-split>My <span>Projects</span></h2>
   </div>
 
   <div class="bento-wrap reveal" id="bento-wrap">
@@ -864,8 +840,8 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
           <p class="msg-main" id="bento-hint">Hover to see projects</p>
         </div>
         <div class="bento-msg msg-soon" aria-hidden="true">
-          <p class="msg-main">Projects coming soon</p>
-          <p class="msg-sub"><span class="status-dot online"></span>in development right now</p>
+          <p class="msg-main" id="bento-soon">Projects coming soon</p>
+          <p class="msg-sub"><span class="status-dot online" id="bento-dot"></span><span id="bento-sub">in development right now</span></p>
         </div>
       </div>
     </div>
@@ -876,15 +852,40 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
 <div class="divider"></div>
 
 <section id="contact" class="clip-section" data-clip="Contact">
+  <svg id="plane-flight" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="trailGrad1" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#7C6BFF" stop-opacity="0"/>
+        <stop offset=".6" stop-color="#7C6BFF" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#4EF2A6" stop-opacity="1"/>
+      </linearGradient>
+      <linearGradient id="trailGrad2" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#FF4D6D" stop-opacity="0"/>
+        <stop offset=".6" stop-color="#7C6BFF" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#4EF2A6" stop-opacity="1"/>
+      </linearGradient>
+      <linearGradient id="trailGrad3" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#4EF2A6" stop-opacity="0"/>
+        <stop offset=".6" stop-color="#7C6BFF" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#FF8A3D" stop-opacity="1"/>
+      </linearGradient>
+    </defs>
+    <path id="flight-trail-1" class="flight-trail" stroke="url(#trailGrad1)" d=""/>
+    <path id="flight-trail-2" class="flight-trail" stroke="url(#trailGrad2)" d=""/>
+    <path id="flight-trail-3" class="flight-trail" stroke="url(#trailGrad3)" d=""/>
+    <g id="plane1" opacity="0"><path class="plane-shape" d="M2 21l21-9L2 3v7l15 2-15 2z" transform="translate(-12,-12) scale(1.15)"/></g>
+    <g id="plane2" opacity="0"><path class="plane-shape" d="M2 21l21-9L2 3v7l15 2-15 2z" transform="translate(-12,-12) scale(1.15)"/></g>
+    <g id="plane3" opacity="0"><path class="plane-shape" d="M2 21l21-9L2 3v7l15 2-15 2z" transform="translate(-12,-12) scale(1.15)"/></g>
+  </svg>
   <div class="exp-pre"><span class="ln"></span> Let's collaborate <span class="ln"></span></div>
 
   <h2 class="exp-title reveal">
-    <span class="c1">LET'S</span><br/><span class="c2">TALK</span>
+    <span class="c1 flight-word" id="w-lets">LET'S</span><br/><span class="c2 flight-word" id="w-talk">TALK</span>
   </h2>
 
   <div class="exp-groups reveal d2">
     <div class="exp-group">
-      <span class="exp-group-label">Contact Me</span>
+      <span class="exp-group-label" id="lbl-contact">Contact Me</span>
       <div class="exp-buttons">
         <button type="button" class="exp-btn" id="email-copy-btn" data-email="kreativecharlie@proton.me">
           <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
@@ -896,7 +897,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:1.4rem
       </div>
     </div>
     <div class="exp-group">
-      <span class="exp-group-label">Follow My Work</span>
+      <span class="exp-group-label" id="lbl-follow">Follow My Work</span>
       <div class="exp-buttons">
         <a href="https://www.youtube.com/@aefxcharlie" target="_blank" rel="noopener noreferrer" class="exp-btn">
           <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
@@ -1021,67 +1022,6 @@ window.addEventListener('scroll', () => {
   els.forEach(el => io.observe(el));
 })();
 
-/* Signature CTA — name writes itself, a flourish draws under it, a paper
-   plane flies the line and lands as the clickable button. Markup already
-   shows the finished state, so this only enhances if GSAP is available. */
-(function(){
-  const cta = document.getElementById('sigCta');
-  if (!cta) return;
-  const nameEl = document.getElementById('sigName');
-  const pathEl = document.getElementById('sigPath');
-  const plane  = document.getElementById('sigPlane');
-  const reduceMo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMo || typeof gsap === 'undefined') { plane.classList.add('landed'); return; }
-
-  const len   = pathEl.getTotalLength();
-  const start = pathEl.getPointAtLength(0);
-  const end   = pathEl.getPointAtLength(len);
-  const hasMotionPath = typeof MotionPathPlugin !== 'undefined';
-  if (hasMotionPath) gsap.registerPlugin(MotionPathPlugin);
-
-  pathEl.style.strokeDasharray  = len;
-  pathEl.style.strokeDashoffset = len;
-  nameEl.style.clipPath = 'inset(0 100% 0 0)';
-  plane.setAttribute('transform', `translate(${start.x},${start.y})`);
-  plane.style.opacity = '0';
-
-  function run(){
-    const tl = gsap.timeline({ delay: .9 });
-    tl.to(nameEl, { clipPath: 'inset(0 0% 0 0)', duration: .9, ease: 'power2.out' })
-      .to(pathEl,  { strokeDashoffset: 0, duration: .8, ease: 'power2.inOut' }, '-=.2')
-      .set(plane,  { opacity: 1 })
-      .to(plane, hasMotionPath ? {
-            motionPath: { path: pathEl, align: pathEl, alignOrigin: [.5,.5], autoRotate: true },
-            duration: .9, ease: 'power2.inOut'
-          } : {
-            attr: { transform: `translate(${end.x},${end.y})` }, duration: .9, ease: 'power2.inOut'
-          }, '-=.1')
-      .add(() => plane.classList.add('landed'))
-      .fromTo('.sig-plane-shape', { scale: 1.35 }, { scale: 1, duration: .35, ease: 'back.out(3)', transformOrigin: 'center' });
-  }
-
-  const sigIo = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) { run(); sigIo.disconnect(); }
-  }, { threshold: .3 });
-  sigIo.observe(cta);
-})();
-
-(function(){
-  const card = document.getElementById('inspector-tilt');
-  if (card) {
-    const strength = 14;
-    card.addEventListener('mousemove', (e) => {
-      const r = card.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transform = `rotateY(${px*strength}deg) rotateX(${-py*strength}deg) translateZ(6px)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0)';
-    });
-  }
-})();
-
 (function(){
   const fills = document.querySelectorAll('.meter-fill');
   let animated = false;
@@ -1091,7 +1031,6 @@ window.addEventListener('scroll', () => {
       const target = parseInt(f.getAttribute('data-target'), 10) || 0;
       f.style.width = target + '%';
 
-      // the % label lives in the row directly above each track
       const row = f.parentElement.previousElementSibling;
       const label = row && row.querySelector('span');
       if (label) {
@@ -1232,7 +1171,7 @@ window.addEventListener('scroll', () => {
   let particles = [];
 
   const COLORS = ['#EDEEF5', '#4EF2A6', '#7C6BFF', '#9A9CB0'];
-  const DENSITY = 9000; // px^2 per particle
+  const DENSITY = 9000;
 
   function sizeCanvas(){
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1264,8 +1203,6 @@ window.addEventListener('scroll', () => {
     particles = new Array(count).fill(0).map(makeParticle);
   }
 
-  // Scroll-direction drift: scrolling down pushes particles right,
-  // scrolling up pushes particles left. Decays back to 0 when idle.
   let scrollDrift = 0;
   let lastScrollY = window.scrollY;
   window.addEventListener('scroll', () => {
@@ -1285,7 +1222,6 @@ window.addEventListener('scroll', () => {
   function tick(){
     ctx.clearRect(0, 0, w, h);
 
-    // decay the scroll-driven bias back toward 0 each frame
     scrollDrift *= 0.965;
 
     for (let i = 0; i < particles.length; i++){
@@ -1324,7 +1260,6 @@ window.addEventListener('scroll', () => {
   });
 
   if (reduceMotion){
-    // Draw a single static frame instead of animating continuously.
     for (let i = 0; i < particles.length; i++){
       const p = particles[i];
       ctx.beginPath();
@@ -1338,7 +1273,6 @@ window.addEventListener('scroll', () => {
     requestAnimationFrame(tick);
   }
 })();
-
 
 /* ---------- Projects bento: dot grid + hover / tap message swap ---------- */
 (function(){
@@ -1357,7 +1291,50 @@ window.addEventListener('scroll', () => {
   const mqMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const hasGsap  = typeof window.gsap !== 'undefined';
 
-  /* ---- 1. Input mode: 'hover' for mouse devices, 'tap' for touch devices ---- */
+  const BT_FRAMES = [
+    { filter:'blur(10px)', opacity:0,  transform:'translateY(-50px)', offset:0 },
+    { filter:'blur(5px)',  opacity:.5, transform:'translateY(5px)',   offset:.5 },
+    { filter:'blur(0px)',  opacity:1,  transform:'translateY(0)',     offset:1 }
+  ];
+  function btSet(el, text, by){
+    el.dataset.by = by; el.dataset.text = text;
+    el.setAttribute('aria-label', text);
+    el.textContent = '';
+    el._segs = [];
+    text.split(' ').forEach((word, wi, arr) => {
+      const w = document.createElement('span'); w.className = 'bt-word'; w.setAttribute('aria-hidden', 'true');
+      const parts = by === 'letters' ? [...word] : [word];
+      parts.forEach(p => { const sp = document.createElement('span'); sp.className = 'bt-seg'; sp.textContent = p; w.appendChild(sp); el._segs.push(sp); });
+      el.appendChild(w);
+      if (wi < arr.length - 1) el.appendChild(document.createTextNode(' '));
+    });
+    el.classList.toggle('bt-static', mqMotion.matches);
+  }
+  function btPlay(el, delayMs, startMs, stepSec){
+    (el._anims || []).forEach(a => a.cancel());
+    el._anims = [];
+    if (mqMotion.matches || !el._segs) return;
+    el._segs.forEach((sp, i) => {
+      el._anims.push(sp.animate(BT_FRAMES, { duration: (stepSec || .35) * 2000, delay: (startMs || 0) + i * delayMs, easing: 'linear', fill: 'both' }));
+    });
+  }
+
+  const soonMain = document.getElementById('bento-soon');
+  const soonSub  = document.getElementById('bento-sub');
+  const soonDot  = document.getElementById('bento-dot');
+  btSet(soonMain, soonMain.textContent, 'letters');
+  btSet(soonSub,  soonSub.textContent,  'words');
+  soonDot.classList.add('bt-seg');
+  let idlePlayed = false;
+  const playIdle = () => { idlePlayed = true; btPlay(hintEl, 45); };
+  const playSoon = () => {
+    btPlay(soonMain, 45);
+    btPlay(soonSub, 90, 750);
+    (soonDot._a || {cancel(){}}).cancel();
+    if (!mqMotion.matches) soonDot._a = soonDot.animate(BT_FRAMES, { duration: 700, delay: 750, easing: 'linear', fill: 'both' });
+    else soonDot.style.cssText = 'opacity:1;filter:none;transform:none';
+  };
+
   let mode = null;
   let lastPointerType = 'mouse';
   let open = false;
@@ -1366,12 +1343,12 @@ window.addEventListener('scroll', () => {
     const ua = navigator.userAgent || '';
     const touchPoints = navigator.maxTouchPoints || 0;
     const uaMobile = !!(navigator.userAgentData && navigator.userAgentData.mobile === true);
-    const iPadOS = /Macintosh/.test(ua) && touchPoints > 1;                 // iPadOS reports a desktop UA
+    const iPadOS = /Macintosh/.test(ua) && touchPoints > 1;
     const mobileUA = uaMobile || iPadOS || /Android|iPhone|iPad|iPod|Mobile|IEMobile|Opera Mini/i.test(ua);
     const smallScreen = Math.min(window.innerWidth, (window.screen && window.screen.width) || window.innerWidth) <= 820;
 
     if (mobileUA) return 'tap';
-    if (mqHover.matches) return 'hover';                                    // real mouse / trackpad
+    if (mqHover.matches) return 'hover';
     if (mqCoarse.matches || touchPoints > 0) return 'tap';
     return smallScreen ? 'tap' : 'hover';
   }
@@ -1384,18 +1361,21 @@ window.addEventListener('scroll', () => {
     box.setAttribute('aria-pressed', String(v));
     idleMsg.setAttribute('aria-hidden', String(v));
     soonMsg.setAttribute('aria-hidden', String(!v));
+    if (v) playSoon(); else playIdle();
   }
 
   function applyMode(){
     const next = detectMode();
-    if (next === mode) return;               // e.g. mobile address bar resizing: nothing to do
+    if (next === mode) return;
     mode = next;
     box.dataset.mode = mode;
-    hintEl.textContent = mode === 'tap' ? 'Tap to see projects' : 'Hover to see projects';
+    btSet(hintEl, mode === 'tap' ? 'Tap to see projects' : 'Hover to see projects', 'letters');
+    if (idlePlayed && !open) playIdle();
     setOpen(false);
   }
 
   applyMode();
+  new IntersectionObserver((es, io) => { if (es[0].isIntersecting) { io.disconnect(); if (!open) playIdle(); } }, { threshold: .35 }).observe(box);
   [mqHover, mqCoarse].forEach(mq => {
     if (mq.addEventListener) mq.addEventListener('change', applyMode);
     else if (mq.addListener) mq.addListener(applyMode);
@@ -1404,7 +1384,6 @@ window.addEventListener('scroll', () => {
   window.addEventListener('resize', () => { clearTimeout(modeTO); modeTO = setTimeout(applyMode, 200); });
   window.addEventListener('orientationchange', applyMode);
 
-  /* ---- 2. Open / close interactions ---- */
   box.addEventListener('pointerenter', e => {
     if (mode === 'hover' && e.pointerType === 'mouse') setOpen(true);
   });
@@ -1416,7 +1395,7 @@ window.addEventListener('scroll', () => {
   });
   box.addEventListener('click', e => {
     const hoverDriven = mode === 'hover' && lastPointerType === 'mouse';
-    if (!hoverDriven) setOpen(!open);        // tap / untap
+    if (!hoverDriven) setOpen(!open);
     const r = canvas.getBoundingClientRect();
     shock(e.clientX - r.left, e.clientY - r.top);
   });
@@ -1428,9 +1407,8 @@ window.addEventListener('scroll', () => {
     if (open && !box.contains(e.target) && (mode === 'tap' || e.pointerType !== 'mouse')) setOpen(false);
   }, { passive: true });
 
-  /* ---- 3. Dot grid (vanilla port of React Bits DotGrid) ---- */
-  const BASE   = { r: 58,  g: 52,  b: 110 };   // resting dots
-  const ACTIVE = { r: 167, g: 155, b: 255 };   // dots near the pointer
+  const BASE   = { r: 58,  g: 52,  b: 110 };
+  const ACTIVE = { r: 167, g: 155, b: 255 };
   const BASE_CSS = `rgb(${BASE.r},${BASE.g},${BASE.b})`;
   const SPEED_TRIGGER = 100, MAX_SPEED = 5000, RESISTANCE = 750, RETURN_DURATION = 1.5, TAU = Math.PI * 2;
 
@@ -1450,7 +1428,7 @@ window.addEventListener('scroll', () => {
 
     cfg = cfgFor(W);
     const cell = cfg.dotSize + cfg.gap;
-    const pad  = cfg.gap;                       // keep dots off the rounded edge
+    const pad  = cfg.gap;
     const iw = W - pad * 2, ih = H - pad * 2;
     const cols = Math.floor((iw + cfg.gap) / cell);
     const rows = Math.floor((ih + cfg.gap) / cell);
@@ -1470,7 +1448,6 @@ window.addEventListener('scroll', () => {
     const r = cfg.dotSize / 2, prox = cfg.proximity, proxSq = prox * prox;
     nearD.length = 0; nearT.length = 0;
 
-    // resting dots share one path + one fill (cheap on phones)
     ctx.fillStyle = BASE_CSS;
     ctx.beginPath();
     for (const d of dots) {
@@ -1481,7 +1458,6 @@ window.addEventListener('scroll', () => {
     }
     ctx.fill();
 
-    // dots near the pointer blend toward the active colour
     for (let i = 0; i < nearD.length; i++) {
       const d = nearD[i], t = nearT[i];
       ctx.beginPath();
@@ -1491,8 +1467,6 @@ window.addEventListener('scroll', () => {
     }
   }
 
-  // GSAP core has no InertiaPlugin here, so inertia is emulated: constant
-  // deceleration (distance = v² / 2·resistance, ease power1.out), then an elastic return.
   function push(d, vx, vy){
     if (!hasGsap || mqMotion.matches) return;
     const speed = Math.hypot(vx, vy);
@@ -1541,10 +1515,9 @@ window.addEventListener('scroll', () => {
   let lastMoveCall = 0;
   window.addEventListener('pointermove', e => {
     const now = performance.now();
-    if (now - lastMoveCall >= 50) { lastMoveCall = now; onMove(e); }   // throttled like the original
+    if (now - lastMoveCall >= 50) { lastMoveCall = now; onMove(e); }
   }, { passive: true });
 
-  // touch: light up dots under the finger, then fade the highlight out
   let clearTO;
   box.addEventListener('pointerdown', e => {
     lastPointerType = e.pointerType || 'mouse';
@@ -1556,7 +1529,6 @@ window.addEventListener('scroll', () => {
     }
   }, { passive: true });
 
-  /* ---- 4. Render loop only while the box is on screen ---- */
   let raf = 0, visible = false;
   const loop  = () => { draw(); raf = requestAnimationFrame(loop); };
   const start = () => { if (!raf && visible && !document.hidden) raf = requestAnimationFrame(loop); };
@@ -1569,6 +1541,377 @@ window.addEventListener('scroll', () => {
   document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
 })();
 
+</script>
+<script>
+/* =====================================================================
+   TEXT + INTERACTION PORTS
+   ===================================================================== */
+(function(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- DecryptedText — hero name ---------- */
+  (function(){
+    const el = document.getElementById('hero-decrypt'); if (!el) return;
+    const text = el.dataset.text;
+    const cfg = { speed: 70, maxIterations: 10, sequential: true, revealDirection: 'start',
+                  characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+',
+                  className: '', encryptedClassName: 'dt-enc' };
+    const chars = cfg.characters.split('');
+    let revealed = new Set(), animating = false, decrypted = true, iv = null, hasAnimated = false;
+
+    el.setAttribute('aria-label', text); el.textContent = '';
+    const shuffle = rev => text.split('').map((c, i) => c === ' ' ? ' ' : rev.has(i) ? c : chars[Math.floor(Math.random()*chars.length)]).join('');
+    const spans = text.split('').map(() => { const sp = document.createElement('span'); sp.setAttribute('aria-hidden', 'true'); return sp; });
+    const render = (display, done) => {
+      spans.forEach((sp, i) => {
+        const ok = revealed.has(i) || (!animating && done);
+        const cls = ok ? cfg.className : cfg.encryptedClassName;
+        if (sp.className !== cls) sp.className = cls;
+        if (sp.textContent !== display[i]) sp.textContent = display[i];
+        if (!sp.parentNode) el.appendChild(sp);
+      });
+    };
+    function nextIndex(set){
+      const n = text.length;
+      if (cfg.revealDirection === 'end') return n - 1 - set.size;
+      if (cfg.revealDirection === 'center') {
+        const mid = Math.floor(n/2), off = Math.floor(set.size/2);
+        const idx = set.size % 2 === 0 ? mid + off : mid - off - 1;
+        if (idx >= 0 && idx < n && !set.has(idx)) return idx;
+        for (let i = 0; i < n; i++) if (!set.has(i)) return i; return 0;
+      }
+      return set.size;
+    }
+    function decrypt(){
+      clearInterval(iv); revealed = new Set(); animating = true; decrypted = false;
+      let iter = 0;
+      iv = setInterval(() => {
+        if (cfg.sequential) {
+          if (revealed.size < text.length) { revealed = new Set(revealed).add(nextIndex(revealed)); render(shuffle(revealed), false); }
+          else { clearInterval(iv); animating = false; decrypted = true; render(text, true); }
+        } else {
+          render(shuffle(revealed), false); iter++;
+          if (iter >= cfg.maxIterations) { clearInterval(iv); animating = false; decrypted = true; render(text, true); }
+        }
+      }, cfg.speed);
+      render(shuffle(revealed), false);
+    }
+    const reset = () => { clearInterval(iv); animating = false; revealed = new Set(); decrypted = true; render(text, true); };
+
+    render(text, true);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let loaded = false, seen = false;
+    const tryView = () => { if (loaded && seen && !hasAnimated) { hasAnimated = true; decrypt(); } };
+    new IntersectionObserver(es => { if (es[0].isIntersecting) { seen = true; tryView(); } }, { threshold: .1 }).observe(el);
+    window.addEventListener('load', () => setTimeout(() => { loaded = true; tryView(); }, 2100));
+    el.addEventListener('mouseenter', () => { if (!animating) decrypt(); });
+    el.addEventListener('mouseleave', reset);
+  })();
+
+  /* ---------- ShinyText — hero name (#5e00ff shiny color) ---------- */
+  (function(){
+    const el = document.getElementById('hero-decrypt'); if (!el) return;
+    const cfg = { color:'#ffffff', shineColor:'#5e00ff', speed:2, delay:0, spread:120, direction:'left', yoyo:false };
+    el.classList.add('shiny-text');
+    Object.assign(el.style, {
+      backgroundImage: `linear-gradient(${cfg.spread}deg, ${cfg.color} 0%, ${cfg.color} 35%, ${cfg.shineColor} 50%, ${cfg.color} 65%, ${cfg.color} 100%)`,
+      backgroundSize: '200% auto', backgroundClip: 'text', webkitBackgroundClip: 'text', webkitTextFillColor: 'transparent',
+      backgroundPosition: '150% center'
+    });
+    el.style.setProperty('-webkit-background-clip', 'text');
+    el.style.setProperty('-webkit-text-fill-color', 'transparent');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const dir = cfg.direction === 'left' ? 1 : -1;
+    const dur = cfg.speed * 1000, dly = cfg.delay * 1000;
+    let elapsed = 0, last = null;
+    function frame(time){
+      requestAnimationFrame(frame);
+      if (last === null) { last = time; return; }
+      elapsed += time - last; last = time;
+      let p;
+      if (cfg.yoyo) {
+        const cyc = dur + dly, t = elapsed % (cyc * 2);
+        if (t < dur) p = (t/dur)*100 * 1;
+        else if (t < cyc) p = 100;
+        else if (t < cyc + dur) p = 100 - ((t - cyc)/dur)*100;
+        else p = 0;
+      } else {
+        const t = elapsed % (dur + dly);
+        p = t < dur ? (t/dur)*100 : 100;
+      }
+      if (dir !== 1) p = 100 - p;
+      el.style.backgroundPosition = (150 - p*2) + '% center';
+    }
+    requestAnimationFrame(frame);
+  })();
+
+  /* ---------- SplitText (section titles) ---------- */
+  (function(){
+    if (typeof gsap === 'undefined' || reduce) return;
+    document.querySelectorAll('[data-split]').forEach(h => {
+      const chars = [];
+      (function walk(node){
+        [...node.childNodes].forEach(n => {
+          if (n.nodeType === 3) {
+            const frag = document.createDocumentFragment();
+            n.textContent.split(/(\s+)/).forEach(part => {
+              if (/^\s+$/.test(part) || !part) { frag.appendChild(document.createTextNode(part)); return; }
+              const w = document.createElement('span'); w.className = 'split-word';
+              [...part].forEach(ch => { const c = document.createElement('span'); c.className = 'split-char'; c.textContent = ch; w.appendChild(c); chars.push(c); });
+              frag.appendChild(w);
+            });
+            n.replaceWith(frag);
+          } else if (n.nodeType === 1) walk(n);
+        });
+      })(h);
+      gsap.set(chars, { opacity: 0, y: 40, rotateX: -70 });
+      const io = new IntersectionObserver(es => {
+        if (!es[0].isIntersecting) return; io.disconnect();
+        gsap.to(chars, { opacity: 1, y: 0, rotateX: 0, duration: .8, ease: 'power3.out', stagger: .035 });
+      }, { threshold: .4 });
+      io.observe(h);
+    });
+  })();
+
+  /* ---------- PAPER PLANES — 3 planes coming from 3 different directions ---------- */
+  (function(){
+    if (typeof gsap === 'undefined' || reduce) return;
+    if (typeof MotionPathPlugin !== 'undefined') gsap.registerPlugin(MotionPathPlugin);
+    const sec    = document.getElementById('contact');
+    const svg    = document.getElementById('plane-flight');
+    const plane1 = document.getElementById('plane1');
+    const plane2 = document.getElementById('plane2');
+    const plane3 = document.getElementById('plane3');
+    const t1     = document.getElementById('flight-trail-1');
+    const t2     = document.getElementById('flight-trail-2');
+    const t3     = document.getElementById('flight-trail-3');
+    const wLets  = document.getElementById('w-lets'), wTalk = document.getElementById('w-talk');
+    const btnEmail = document.getElementById('email-copy-btn');
+    const btnYT    = document.querySelector('.exp-group:nth-child(2) .exp-btn:nth-child(1)');
+    const btnInsta = document.querySelector('.exp-group:nth-child(2) .exp-btn:nth-child(2)');
+    
+    if (!sec || !svg || !plane1 || !plane2 || !plane3 || !btnEmail || !btnYT || !btnInsta) return;
+
+    const pt = (el, fx, fy) => {
+      const s = sec.getBoundingClientRect(), r = el.getBoundingClientRect();
+      return { x: r.left - s.left + r.width*fx, y: r.top - s.top + r.height*fy };
+    };
+
+    function build(){
+      const s = sec.getBoundingClientRect();
+      svg.setAttribute('viewBox', `0 0 ${s.width} ${s.height}`);
+      
+      // Plane 1: Top-Left direction passing through "LET'S TALK" towards Email button
+      const start1 = { x: -60, y: s.height * 0.1 };
+      const a = pt(wLets, 0.1, 0.5);
+      const b = pt(wTalk, 0.9, 0.5);
+      const target1 = pt(btnEmail, 0.5, -0.5);
+
+      const P1 = [
+        start1,
+        { x: a.x - 80, y: a.y - 60 }, a,
+        { x: (a.x + b.x) / 2, y: a.y + 30 }, b,
+        { x: b.x + 80, y: b.y + 50 }, { x: target1.x + 60, y: target1.y - 80 }, target1
+      ];
+      
+      // Plane 2: Top-Right direction towards YouTube button
+      const start2 = { x: s.width + 60, y: s.height * 0.15 };
+      const target2 = pt(btnYT, 0.5, -0.5);
+      const P2 = [
+        start2,
+        { x: s.width * 0.8, y: s.height * 0.25 },
+        { x: target2.x + 120, y: target2.y - 120 },
+        target2
+      ];
+
+      // Plane 3: Bottom-Left direction curving up towards Instagram button
+      const start3 = { x: -40, y: s.height * 0.85 };
+      const target3 = pt(btnInsta, 0.5, -0.5);
+      const P3 = [
+        start3,
+        { x: s.width * 0.2, y: s.height * 0.95 },
+        { x: target3.x - 80, y: target3.y + 60 },
+        target3
+      ];
+
+      const toD = p => {
+        let dd = `M${p[0].x},${p[0].y}`;
+        for (let i = 1; i < p.length; i += 3) {
+          dd += ` C${p[i].x},${p[i].y} ${p[i+1].x},${p[i+1].y} ${p[i+2].x},${p[i+2].y}`;
+        }
+        return dd;
+      };
+        
+      t1.setAttribute('d', toD(P1));
+      t2.setAttribute('d', toD(P2));
+      t3.setAttribute('d', toD(P3));
+    }
+
+    let played = false;
+    let tl;
+    
+    function fly(){
+      if (played) return; played = true; build();
+      
+      [t1, t2, t3].forEach(p => { p.style.strokeDasharray = `3 9`; p.style.opacity = 0; });
+      
+      tl = gsap.timeline({ repeat: -1, repeatDelay: 6 });
+      
+      tl.set([plane1, plane2, plane3, t1, t2, t3], { opacity: 0 })
+        .add(() => {
+          btnEmail.classList.remove('landed-target', 'pulse-land');
+          btnYT.classList.remove('landed-target', 'pulse-land');
+          btnInsta.classList.remove('landed-target', 'pulse-land');
+        })
+        
+        // Plane 1 fly-in
+        .set([plane1, t1], { opacity: 1 })
+        .to(plane1, { motionPath: { path: t1, align: t1, alignOrigin: [.5,.5], autoRotate: true }, duration: 3.2, ease: 'power1.inOut' })
+        .add(() => btnEmail.classList.add('landed-target', 'pulse-land'))
+        .to(plane1, { scale: 1.25, duration: .18, yoyo: true, repeat: 1, ease: 'power2.out', transformOrigin: '50% 50%' })
+        
+        // Plane 2 fly-in
+        .set([plane2, t2], { opacity: 1 }, '-=1.2')
+        .to(plane2, { motionPath: { path: t2, align: t2, alignOrigin: [.5,.5], autoRotate: true }, duration: 2.8, ease: 'power1.inOut' }, '<')
+        .add(() => btnYT.classList.add('landed-target', 'pulse-land'), '+=1.6')
+        .to(plane2, { scale: 1.25, duration: .18, yoyo: true, repeat: 1, ease: 'power2.out', transformOrigin: '50% 50%' })
+        
+        // Plane 3 fly-in
+        .set([plane3, t3], { opacity: 1 }, '-=1.0')
+        .to(plane3, { motionPath: { path: t3, align: t3, alignOrigin: [.5,.5], autoRotate: true }, duration: 2.6, ease: 'power1.inOut' }, '<')
+        .add(() => btnInsta.classList.add('landed-target', 'pulse-land'), '+=1.4')
+        .to(plane3, { scale: 1.25, duration: .18, yoyo: true, repeat: 1, ease: 'power2.out', transformOrigin: '50% 50%' })
+        
+        // Fade trails out
+        .to([t1, t2, t3], { opacity: 0, duration: 1.2 }, '+=0.5');
+    }
+
+    new IntersectionObserver(es => { if (es[0].isIntersecting) setTimeout(fly, 300); }, { threshold: .3 }).observe(sec);
+    let rt; addEventListener('resize', () => { 
+      clearTimeout(rt); rt = setTimeout(() => { if (played) build(); }, 200); 
+    });
+  })();
+})();
+/* ---------- 3 Planes Animation (Contact Section) ---------- */
+(function(){
+  gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+  const contactSec = document.getElementById('contact');
+  const svg = document.getElementById('plane-flight');
+  if (!contactSec || !svg || typeof gsap === 'undefined') return;
+
+  // Tumhare teeno target boxes
+  const targets = document.querySelectorAll('#contact .exp-btn');
+  const trails = [
+    document.getElementById('flight-trail-1'),
+    document.getElementById('flight-trail-2'),
+    document.getElementById('flight-trail-3')
+  ];
+  const planes = [
+    document.getElementById('plane1'),
+    document.getElementById('plane2'),
+    document.getElementById('plane3')
+  ];
+
+  if (targets.length < 3 || trails.length < 3 || planes.length < 3) return;
+
+  let pathsData = [];
+
+  // Path coordinates nikalna (resize pe bhi kaam karega)
+  function updatePaths() {
+    const cRect = contactSec.getBoundingClientRect();
+    pathsData = [];
+
+    targets.forEach((btn, i) => {
+      const tRect = btn.getBoundingClientRect();
+      
+      // Button center coordinates relative to contact section
+      const ex = (tRect.left - cRect.left) + (tRect.width / 2);
+      const ey = (tRect.top - cRect.top) + (tRect.height / 2);
+
+      // Start position (section ke upar se spread karke aayenge)
+      const sx = (cRect.width / 4) * (i + 1);
+      const sy = -80; // Screen ke thoda bahar (upar)
+
+      // Curve dene ke liye control points
+      const cx = sx + (ex - sx) * 0.2;
+      const cy = ey - 150;
+
+      // SVG d-path create karna
+      const d = `M ${sx},${sy} Q ${cx},${cy} ${ex},${ey}`;
+      trails[i].setAttribute('d', d);
+      pathsData.push({ length: trails[i].getTotalLength(), btn: btn });
+    });
+  }
+
+  function runPlaneAnimation() {
+    updatePaths();
+
+    // Master Timeline jisme loop delay aur reverse logic hai
+    const anim = gsap.timeline({
+      onComplete: () => {
+        // 10 second rukne ke baad reverse jayenge
+        gsap.delayedCall(10, () => {
+          targets.forEach(btn => btn.classList.remove('landed-target'));
+          anim.reverse();
+        });
+      },
+      onReverseComplete: () => {
+        // Reverse jane ke baad instantly loop repeat karna hai
+        runPlaneAnimation();
+      }
+    });
+
+    trails.forEach((trail, i) => {
+      const len = pathsData[i].length;
+      gsap.set(trail, { strokeDasharray: len, strokeDashoffset: len });
+      gsap.set(planes[i], { opacity: 0 });
+
+      const pTl = gsap.timeline();
+      
+      pTl.to(planes[i], { opacity: 1, duration: 0.3 })
+         // Trail draw karne wala (pencil) effect
+         .to(trail, { strokeDashoffset: 0, duration: 2.5, ease: "power2.inOut" }, 0)
+         // Plane ko trail ke path par udaana
+         .to(planes[i], {
+           motionPath: {
+             path: trail,
+             align: trail,
+             alignOrigin: [0.5, 0.5],
+             autoRotate: true
+           },
+           duration: 2.5,
+           ease: "power2.inOut"
+         }, 0)
+         // Land hone par target box ko pulse aur highlight dena
+         .call(() => {
+           pathsData[i].btn.classList.add('pulse-land', 'landed-target');
+           // Pulse animation re-trigger ho isliye class hata rahe hain 1s baad, par landed-target rhega
+           setTimeout(() => pathsData[i].btn.classList.remove('pulse-land'), 1000); 
+         }, [], 2.4);
+
+      // Har plane ko 0.3 second delay ke gap par launch karna
+      anim.add(pTl, i * 0.3);
+    });
+  }
+
+  // Scroll karke jaise hi contact sec aayega, tabhi yeh start hoga
+  ScrollTrigger.create({
+    trigger: contactSec,
+    start: "top 60%",
+    once: true,
+    onEnter: () => runPlaneAnimation()
+  });
+
+  // Agar user browser resize kare toh destination points kharab na ho
+  let resizeTO;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTO);
+    resizeTO = setTimeout(updatePaths, 200);
+  });
+})();
 </script>
 </body>
 </html>
