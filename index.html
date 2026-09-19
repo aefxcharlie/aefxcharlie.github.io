@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CHARLIE — Video Editor & Developer</title>
+<title>CHARLIE — Game Developer & Video Editor</title>
+<meta name="description" content="Charlie (@aefxcharlie): game developer working in Unity 6 and C#, plus motion graphics and video editing in After Effects and Premiere Pro." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Fira+Code:wght@500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -274,31 +275,93 @@ img{ max-width:100%; display:block; }
 @media (max-width:640px){ .frame{ grid-template-columns:40px 1fr; } .frame-tags{ display:none; } }
 
 #projects{ background:transparent; }
-.bin-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; }
-.bin-card{ background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:1.8rem; position:relative; transition:border-color .35s,transform .35s; }
-.bin-card:hover{ border-color:rgba(47,227,255,.4); transform:translateY(-4px); }
-.bin-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; margin-bottom:1.2rem; }
-.bin-id{ display:flex; gap:.9rem; align-items:center; }
-.bin-thumb{ width:52px; height:52px; border-radius:8px; overflow:hidden; flex-shrink:0; box-shadow:0 0 0 1px var(--line); }
-.bin-thumb img{ width:100%; height:100%; object-fit:cover; }
-.bin-name{ font-family:var(--display); font-size:1.05rem; letter-spacing:.03em; color:var(--bone); text-transform:uppercase; }
-.bin-type{ font-family:var(--mono); font-size:.5rem; letter-spacing:.12em; color:var(--bone3); text-transform:uppercase; }
-.bin-status{ display:flex; align-items:center; gap:.4rem; font-family:var(--mono); font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; padding:.3rem .6rem; border-radius:20px; border:1px solid var(--line); white-space:nowrap; }
-.status-dot{ width:6px; height:6px; border-radius:50%; }
+.status-dot{ width:6px; height:6px; border-radius:50%; flex-shrink:0; }
 .status-dot.online{ background:var(--cyan); box-shadow:0 0 6px var(--cyan); }
-.status-dot.offline{ background:var(--bone3); }
-.status-dot.checking{ background:var(--amber); animation:recBlink 1s infinite; }
-.bin-status.online{ color:var(--cyan); border-color:rgba(57,210,192,.3); }
-.bin-status.offline{ color:var(--bone3); }
-.bin-desc{ font-size:.85rem; line-height:1.65; color:var(--bone2); font-weight:300; margin-bottom:1.3rem; }
-.bin-rule{ height:1px; background:var(--line-soft); margin-bottom:1.2rem; }
-.bin-meta{ display:flex; flex-direction:column; gap:.5rem; margin-bottom:1.2rem; }
-.bin-meta-row{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:.56rem; letter-spacing:.08em; text-transform:uppercase; }
-.bin-meta-row .lbl{ color:var(--bone3); }
-.bin-meta-row .val{ color:var(--bone2); }
-.bin-tags{ display:flex; flex-wrap:wrap; gap:.4rem; }
-.bin-tag{ font-family:var(--mono); font-size:.5rem; letter-spacing:.08em; color:var(--amber); border:1px solid rgba(47,227,255,.25); border-radius:2px; padding:.22rem .55rem; text-transform:uppercase; }
-@media (max-width:960px){ .bin-grid{ grid-template-columns:1fr; } }
+
+/* ---------- Projects: glass bento with a reactive dot grid ---------- */
+.bento-wrap{ position:relative; isolation:isolate; }
+.bento-wrap::before,
+.bento-wrap::after{
+  content:''; position:absolute; z-index:0; pointer-events:none; border-radius:50%;
+  filter:blur(46px); opacity:.5; transition:opacity 1s ease;
+}
+.bento-wrap::before{
+  width:46%; height:80%; left:6%; top:-10%;
+  background:radial-gradient(circle at 50% 50%, rgba(124,107,255,.7), transparent 68%);
+}
+.bento-wrap::after{
+  width:40%; height:72%; right:5%; bottom:-12%;
+  background:radial-gradient(circle at 50% 50%, rgba(78,242,166,.42), transparent 68%);
+}
+.bento-wrap.is-open::before,
+.bento-wrap.is-open::after{ opacity:.85; }
+
+.bento{
+  position:relative; z-index:1; overflow:hidden;
+  display:grid; place-items:center;
+  height:clamp(320px, 46vw, 520px);
+  border-radius:clamp(26px, 4vw, 42px);
+  background:linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.03) 55%, rgba(255,255,255,.06));
+  -webkit-backdrop-filter:blur(22px) saturate(150%);
+  backdrop-filter:blur(22px) saturate(150%);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.16),
+    inset 0 -1px 0 rgba(255,255,255,.04);
+  outline:none; user-select:none; -webkit-user-select:none;
+  -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+}
+.bento::before{ /* glass edge */
+  content:''; position:absolute; inset:0; border-radius:inherit; padding:1px; z-index:3; pointer-events:none;
+  background:linear-gradient(140deg, rgba(255,255,255,.38), rgba(255,255,255,.05) 38%, rgba(255,255,255,.03) 62%, rgba(255,255,255,.2));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude;
+}
+.bento:focus-visible{ outline:2px solid var(--amber); outline-offset:5px; }
+
+.bento-canvas{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.bento-veil{ /* keeps the centre text readable over the dots */
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:radial-gradient(ellipse 38% 27% at 50% 50%, rgba(8,9,13,.62), transparent 100%);
+}
+
+.bento-stage{ position:relative; z-index:2; display:grid; place-items:center; width:100%; padding:0 1.6rem; pointer-events:none; }
+.bento-msg{
+  grid-area:1/1; display:flex; flex-direction:column; align-items:center; gap:1rem; text-align:center;
+  opacity:0; filter:blur(14px); transform:scale(1.05); letter-spacing:.14em;
+  transition:
+    opacity .75s cubic-bezier(.22,.61,.36,1),
+    filter .75s cubic-bezier(.22,.61,.36,1),
+    transform .9s cubic-bezier(.22,.61,.36,1),
+    letter-spacing .9s cubic-bezier(.22,.61,.36,1);
+}
+/* whichever message is current dissolves in; the other dissolves out */
+.bento:not(.is-open) .msg-idle,
+.bento.is-open .msg-soon{
+  opacity:1; filter:blur(0); transform:none; letter-spacing:.02em;
+  transition-delay:.16s;
+}
+.msg-main{ margin:0; font-family:var(--display); text-wrap:balance; }
+.msg-idle .msg-main{ font-size:clamp(1.1rem, 2.6vw, 1.7rem); font-weight:500; color:var(--bone2); }
+.msg-soon .msg-main{
+  font-size:clamp(2rem, 6.4vw, 4.4rem); font-weight:600; line-height:1.04; color:var(--bone);
+  letter-spacing:inherit; text-shadow:0 0 44px rgba(124,107,255,.4);
+}
+.msg-sub{
+  margin:0; display:flex; align-items:center; gap:.55rem;
+  font-family:var(--sans); font-size:.85rem; font-weight:400; letter-spacing:.04em; color:var(--bone2);
+  opacity:0; transform:translateY(6px); transition:opacity .7s ease, transform .7s ease;
+}
+.bento.is-open .msg-sub{ opacity:1; transform:none; transition-delay:.5s; }
+
+@media (max-width:640px){
+  .bento{ height:clamp(300px, 88vw, 380px); }
+  .msg-sub{ font-size:.8rem; }
+}
+@media (prefers-reduced-motion:reduce){
+  .bento-msg, .msg-sub, .bento-wrap::before, .bento-wrap::after{ transition-duration:.01s !important; transition-delay:0s !important; }
+}
+
 
 #inspector-tilt{
   position:relative; transform-style:preserve-3d; perspective:900px;
@@ -542,14 +605,14 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
     <div class="hero-content">
       <div class="hero-eyebrow reveal">
         <span class="hero-eyebrow-line"></span>
-        Developer
+        Game Developer
       </div>
 
       <h1 class="hero-name reveal d1"><span class="hn-tag">&lt;</span>CHARLIE<span class="hn-tag">/&gt;</span></h1>
 
       <div class="hero-sub reveal d2">
-        <span class="hl">Discord.js</span> &nbsp;·&nbsp; <span class="hl">Discord.py</span> &nbsp;·&nbsp;
-        <span class="hl">Unity 6</span>
+        <span class="hl">Unity 6</span> &nbsp;·&nbsp; <span class="hl">C#</span> &nbsp;·&nbsp;
+        <span class="hl">Game Dev</span> &nbsp;·&nbsp; <span class="hl">Motion Graphics</span>
       </div>
 
       <div class="wave reveal d2" aria-hidden="true"></div>
@@ -581,17 +644,17 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
 
   <div class="about-grid">
     <p class="about-text reveal">
-      I'm a <strong>Developer</strong> building production <span class="ac1">Discord Bots</span>
-      with <span class="ac1">Discord.js</span> and <span class="ac1">Discord.py</span> — moderation systems,
-      escrow/marketplace bots, autonuke architectures, verification flows, the works.
+      I'm a <strong>Game Developer</strong> working in <span class="ac2">Unity 6</span> and
+      <span class="ac2">C#</span> — 2D mechanics, player controllers, physics and collisions, and the
+      scene and prefab workflow that ties a game together. I'm focused on building solid mechanics and
+      polished, optimized player experiences, with the goal of becoming a
+      <strong>fully-fledged Game Developer</strong>.
       <br/><br/>
-      I'm also on an obsessive journey into game development, learning <span class="ac2">Unity 6</span>
-      with the goal of becoming a <strong>fully-fledged Game Developer</strong>. Outside of code, I
-      edit video in <strong>After Effects</strong> and <strong>Premiere Pro</strong> — motion graphics
-      and cinematic edits.
+      Alongside game dev, I edit video and make <span class="ac1">motion graphics</span> in
+      <strong>After Effects</strong> and <strong>Premiere Pro</strong> — cinematic edits and
+      kinetic typography.
       <br/><br/>
-      Based online at <span class="ac1">@aefxcharlie</span> — GitHub, Discord Dev Portal, and wherever
-      code compiles.
+      Find me online at <span class="ac1">@aefxcharlie</span> — GitHub, YouTube and Instagram.
     </p>
 
     <div class="inspector reveal d1" id="inspector-tilt">
@@ -607,15 +670,15 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
         <div class="cl"><span class="o">$</span> cat charlie.json</div>
         <br/>
         <div class="cl"><span class="o">{</span></div>
-        <div class="cl">&nbsp;&nbsp;<span class="k">"role"</span><span class="o">:</span> <span class="s">"Developer & Discord Bot Engineer"</span><span class="o">,</span></div>
+        <div class="cl">&nbsp;&nbsp;<span class="k">"role"</span><span class="o">:</span> <span class="s">"Game Developer & Video Editor"</span><span class="o">,</span></div>
         <div class="cl">&nbsp;&nbsp;<span class="k">"stack"</span><span class="o">:</span> <span class="o">[</span></div>
-        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Discord.js"</span><span class="o">,</span></div>
-        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Discord.py"</span><span class="o">,</span></div>
-        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Adobe Creative Cloud"</span><span class="o">,</span></div>
-        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="v">"Unity 6"</span> <span class="o"></span></div>
+        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Unity 6"</span><span class="o">,</span></div>
+        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"C#"</span><span class="o">,</span></div>
+        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="s">"Game Mechanics"</span><span class="o">,</span></div>
+        <div class="cl">&nbsp;&nbsp;&nbsp;&nbsp;<span class="v">"After Effects"</span> <span class="o"></span></div>
         <div class="cl">&nbsp;&nbsp;<span class="o">],</span></div>
         <div class="cl">&nbsp;&nbsp;<span class="k">"handle"</span><span class="o">:</span> <span class="s">"@aefxcharlie"</span><span class="o">,</span></div>
-        <div class="cl">&nbsp;&nbsp;<span class="k">"status"</span><span class="o">:</span> <span class="v">"shipping bots & building" </span><span class="o">,</span></div>
+        <div class="cl">&nbsp;&nbsp;<span class="k">"status"</span><span class="o">:</span> <span class="v">"learning & building games" </span><span class="o">,</span></div>
         <div class="cl">&nbsp;&nbsp;<span class="k">"goal"</span><span class="o">:</span> <span class="s">"full-stack game dev"</span></div>
         <div class="cl"><span class="o">}</span></div>
         <br/>
@@ -636,37 +699,37 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
 
     <div class="meter-panel p-cyan reveal">
       <div class="meter-head">
-        <div class="meter-name"><span class="m-dot cyan"></span> Discord.js</div>
-        <span class="meter-ver">v14.x</span>
+        <div class="meter-name"><span class="m-dot cyan"></span> Unity 6</div>
+        <span class="meter-ver">Engine</span>
       </div>
-      <div class="meter-row">Bot Architecture <span class="v-arch">0%</span></div>
-      <div class="meter-track"><div class="meter-fill cyan" data-target="95"></div></div>
-      <div class="meter-row">Slash Commands / Interactions <span class="v-slash">0%</span></div>
-      <div class="meter-track"><div class="meter-fill cyan" data-target="93"></div></div>
-      <div class="meter-row">Moderation / Automod Systems <span class="v-mod">0%</span></div>
-      <div class="meter-track"><div class="meter-fill cyan" data-target="90"></div></div>
-      <div class="meter-row">Node.js Runtime <span class="v-pay">0%</span></div>
-      <div class="meter-track"><div class="meter-fill cyan" data-target="92"></div></div>
+      <div class="meter-row">Scene &amp; Prefab Workflow <span>0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="70"></div></div>
+      <div class="meter-row">2D Game Mechanics <span>0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="68"></div></div>
+      <div class="meter-row">Physics &amp; Collisions <span>0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="62"></div></div>
+      <div class="meter-row">Game Feel &amp; Polish <span>0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="55"></div></div>
     </div>
 
     <div class="meter-panel p-cyan reveal d1">
       <div class="meter-head">
-        <div class="meter-name"><span class="m-dot cyan"></span> Discord.py / Backend</div>
-        <span class="meter-ver">v2.x</span>
+        <div class="meter-name"><span class="m-dot cyan"></span> C# Scripting</div>
+        <span class="meter-ver">Gameplay</span>
       </div>
-      <div class="meter-row">Async / aiohttp <span class="v-djs">0%</span></div>
-      <div class="meter-track"><div class="meter-fill cyan" data-target="88"></div></div>
-      <div class="meter-row">Discord.py <span class="v-dpy">0%</span></div>
-      <div class="meter-track"><div class="meter-fill cyan" data-target="90"></div></div>
-      <div class="meter-row">API Integration <span class="v-api">0%</span></div>
-      <div class="meter-track"><div class="meter-fill cyan" data-target="80"></div></div>
-      <div class="meter-row">Hosting / Deployment <span class="v-host">0%</span></div>
-      <div class="meter-track"><div class="meter-fill cyan" data-target="85"></div></div>
+      <div class="meter-row">MonoBehaviour Lifecycle <span>0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="72"></div></div>
+      <div class="meter-row">Player Controllers <span>0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="65"></div></div>
+      <div class="meter-row">Gameplay Logic <span>0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="68"></div></div>
+      <div class="meter-row">Optimization <span>0%</span></div>
+      <div class="meter-track"><div class="meter-fill cyan" data-target="55"></div></div>
     </div>
 
     <div class="meter-panel p-cyan reveal d2">
       <div class="meter-head">
-        <div class="meter-name"><span class="m-dot cyan"></span> Unity 6</div>
+        <div class="meter-name"><span class="m-dot cyan"></span> Build Log</div>
         <span class="meter-ver">Learning</span>
       </div>
       <div class="compiler">
@@ -693,15 +756,16 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
         <div class="meter-name"><span class="m-dot amber"></span> Video Editing</div>
         <span class="meter-ver">AE / PP</span>
       </div>
-      <div class="meter-row">After Effects <span class="v-ae">0%</span></div>
+      <div class="meter-row">After Effects <span>0%</span></div>
       <div class="meter-track"><div class="meter-fill amber" data-target="90"></div></div>
-      <div class="meter-row">Premiere Pro <span class="v-pp">0%</span></div>
+      <div class="meter-row">Premiere Pro <span>0%</span></div>
       <div class="meter-track"><div class="meter-fill amber" data-target="88"></div></div>
-      <div class="meter-row">Motion Graphics <span class="v-mg">0%</span></div>
+      <div class="meter-row">Motion Graphics <span>0%</span></div>
       <div class="meter-track"><div class="meter-fill amber" data-target="80"></div></div>
     </div>
 
   </div>
+
 </section>
 
 <div class="divider"></div>
@@ -715,26 +779,6 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
     <div class="frame reveal">
       <span class="frame-num">01</span>
       <div>
-        <div class="frame-title">Discord Bot Systems</div>
-        <div class="frame-desc">Discord.js v14 · Node.js · Moderation, Escrow, Autonuke</div>
-      </div>
-      <div class="frame-tags">
-        <span class="frame-tag">Discord.js</span><span class="frame-tag">Node.js</span><span class="frame-tag">Production</span>
-      </div>
-    </div>
-    <div class="frame reveal d1">
-      <span class="frame-num">02</span>
-      <div>
-        <div class="frame-title">Discord.py Projects</div>
-        <div class="frame-desc">.env · Python · Bot Utilities</div>
-      </div>
-      <div class="frame-tags">
-        <span class="frame-tag">Discord.py</span><span class="frame-tag">Python</span>
-      </div>
-    </div>
-    <div class="frame reveal d2">
-      <span class="frame-num">03</span>
-      <div>
         <div class="frame-title">Unity 6 Dev — WIP</div>
         <div class="frame-desc">C# · MonoBehaviour · Game Mechanics</div>
       </div>
@@ -742,8 +786,38 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
         <span class="frame-tag">Unity</span><span class="frame-tag">C#</span><span class="frame-tag">WIP</span>
       </div>
     </div>
+    <div class="frame reveal d1">
+      <span class="frame-num">02</span>
+      <div>
+        <div class="frame-title">Gameplay Programming</div>
+        <div class="frame-desc">C# · Player Controllers · Physics</div>
+      </div>
+      <div class="frame-tags">
+        <span class="frame-tag">C#</span><span class="frame-tag">Physics</span>
+      </div>
+    </div>
+    <div class="frame reveal d2">
+      <span class="frame-num">03</span>
+      <div>
+        <div class="frame-title">Scenes &amp; Prefabs</div>
+        <div class="frame-desc">GameObjects · Prefabs · Scene Hierarchy</div>
+      </div>
+      <div class="frame-tags">
+        <span class="frame-tag">Unity</span><span class="frame-tag">Prefabs</span>
+      </div>
+    </div>
     <div class="frame reveal d3">
       <span class="frame-num">04</span>
+      <div>
+        <div class="frame-title">2D Game Development</div>
+        <div class="frame-desc">Unity · Solid Mechanics · Optimization</div>
+      </div>
+      <div class="frame-tags">
+        <span class="frame-tag">2D</span><span class="frame-tag">Unity</span>
+      </div>
+    </div>
+    <div class="frame reveal d3">
+      <span class="frame-num">05</span>
       <div>
         <div class="frame-title">Motion Graphics Reels</div>
         <div class="frame-desc">After Effects · Premiere Pro · Kinetic Typography</div>
@@ -753,6 +827,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
       </div>
     </div>
   </div>
+
 </section>
 
 <div class="divider"></div>
@@ -762,129 +837,22 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
     <h2 class="reveal d1">My <span>Projects</span></h2>
   </div>
 
-  <div class="bin-grid">
-
-    <div class="bin-card reveal">
-      <div class="bin-head">
-        <div class="bin-id">
-          <div class="bin-thumb"><img src="the-watcher.png" alt="The Watcher" width="52" height="52" /></div>
-          <div>
-            <div class="bin-name">The Watcher</div>
-            <span class="bin-type">Discord Bot</span>
-          </div>
+  <div class="bento-wrap reveal" id="bento-wrap">
+    <div class="bento" id="bento" role="button" tabindex="0" aria-pressed="false">
+      <canvas class="bento-canvas" aria-hidden="true"></canvas>
+      <div class="bento-veil" aria-hidden="true"></div>
+      <div class="bento-stage">
+        <div class="bento-msg msg-idle">
+          <p class="msg-main" id="bento-hint">Hover to see projects</p>
         </div>
-        <div class="bin-status" id="bot-status-pill">
-          <span class="status-dot checking" id="bot-status-dot"></span>
-          <span id="bot-status-text">Checking…</span>
+        <div class="bento-msg msg-soon" aria-hidden="true">
+          <p class="msg-main">Projects coming soon</p>
+          <p class="msg-sub"><span class="status-dot online"></span>in development right now</p>
         </div>
-      </div>
-      <p class="bin-desc">
-        Custom multi-purpose moderation &amp; crypto utility bot. Built for community management,
-        real-time crypto lookups, and automated server moderation — all wrapped in one clean command system.
-      </p>
-      <div class="bin-rule"></div>
-      <div class="bin-meta">
-        <div class="bin-meta-row"><span class="lbl">Build Date</span><span class="val" id="bot-build-date">18 June 2026</span></div>
-        <div class="bin-meta-row"><span class="lbl">Platform</span><span class="val">Discord.js</span></div>
-        <div class="bin-meta-row"><span class="lbl">Type</span><span class="val">Private Bot</span></div>
-      </div>
-      <div class="bin-tags">
-        <span class="bin-tag">Moderation</span><span class="bin-tag">Crypto</span><span class="bin-tag">Utility</span>
-        <span class="bin-tag">Node.js</span><span class="bin-tag">Discord.js</span>
       </div>
     </div>
-
-    <div class="bin-card reveal d1">
-      <div class="bin-head">
-        <div class="bin-id">
-          <div class="bin-thumb"><img src="love.png" alt="Love's Assistant" width="52" height="52" /></div>
-          <div>
-            <div class="bin-name">Love's Assistant</div>
-            <span class="bin-type">Discord Bot</span>
-          </div>
-        </div>
-        <div class="bin-status online" id="love-status-pill">
-          <span class="status-dot online" id="love-status-dot"></span>
-          <span id="love-status-text">Online</span>
-        </div>
-      </div>
-      <p class="bin-desc">
-        A highly professional, private bot for serious Discord communities. Built to handle moderation,
-        keep track of users' crypto wallet addresses, and play music on demand — all from one clean command system.
-      </p>
-      <div class="bin-rule"></div>
-      <div class="bin-meta">
-        <div class="bin-meta-row"><span class="lbl">Build Date</span><span class="val">25 June 2026</span></div>
-        <div class="bin-meta-row"><span class="lbl">Platform</span><span class="val">Discord.js</span></div>
-        <div class="bin-meta-row"><span class="lbl">Type</span><span class="val">Private Bot</span></div>
-      </div>
-      <div class="bin-tags">
-        <span class="bin-tag">Moderation</span><span class="bin-tag">Crypto</span><span class="bin-tag">Music</span>
-        <span class="bin-tag">Node.js</span><span class="bin-tag">Utility</span><span class="bin-tag">Discord.js</span>
-      </div>
-    </div>
-
-    <div class="bin-card reveal d2">
-      <div class="bin-head">
-        <div class="bin-id">
-          <div class="bin-thumb"><img src="tradeverse.png" alt="Trade Verse" width="52" height="52" /></div>
-          <div>
-            <div class="bin-name">Trade Verse</div>
-            <span class="bin-type">Discord Bot</span>
-          </div>
-        </div>
-        <div class="bin-status online" id="tradeverse-status-pill">
-          <span class="status-dot online" id="tradeverse-status-dot"></span>
-          <span id="tradeverse-status-text">Online</span>
-        </div>
-      </div>
-      <p class="bin-desc">
-        Public multi-purpose bot running the Trade Verse marketplace — handles slot listings, donations,
-        verification, and moderation for a large trading community, all from one clean command system.
-      </p>
-      <div class="bin-rule"></div>
-      <div class="bin-meta">
-        <div class="bin-meta-row"><span class="lbl">Build Date</span><span class="val">5 July 2026</span></div>
-        <div class="bin-meta-row"><span class="lbl">Platform</span><span class="val">Discord.js</span></div>
-        <div class="bin-meta-row"><span class="lbl">Type</span><span class="val">Public Bot</span></div>
-      </div>
-      <div class="bin-tags">
-        <span class="bin-tag">Moderation</span><span class="bin-tag">Best Marketplace Bot</span><span class="bin-tag">Utility</span>
-        <span class="bin-tag">Node.js</span><span class="bin-tag">Discord.js</span>
-      </div>
-    </div>
-
-    <div class="bin-card reveal d3">
-      <div class="bin-head">
-        <div class="bin-id">
-          <div class="bin-thumb"><img src="Ryumensukuna.png" alt="Ryumen Sukuna" width="52" height="52" /></div>
-          <div>
-            <div class="bin-name">Ryumen Sukuna</div>
-            <span class="bin-type">Discord Bot</span>
-          </div>
-        </div>
-        <div class="bin-status online" id="sukuna-status-pill">
-          <span class="status-dot online" id="sukuna-status-dot"></span>
-          <span id="sukuna-status-text">Online</span>
-        </div>
-      </div>
-      <p class="bin-desc">
-        Private backup &amp; nuke bot built for rapid server recovery and lockdown scenarios — handles full
-        server backups and controlled nuke operations from one clean command system.
-      </p>
-      <div class="bin-rule"></div>
-      <div class="bin-meta">
-        <div class="bin-meta-row"><span class="lbl">Build Date</span><span class="val">5 August 2026</span></div>
-        <div class="bin-meta-row"><span class="lbl">Platform</span><span class="val">Discord.py</span></div>
-        <div class="bin-meta-row"><span class="lbl">Type</span><span class="val">Private Bot</span></div>
-      </div>
-      <div class="bin-tags">
-        <span class="bin-tag">Backup</span><span class="bin-tag">Nuke</span><span class="bin-tag">Utility</span>
-        <span class="bin-tag">Python</span><span class="bin-tag">Discord.py</span>
-      </div>
-    </div>
-
   </div>
+
 </section>
 
 <div class="divider"></div>
@@ -896,7 +864,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
     <span class="c1">LET'S</span><br/><span class="c2">BUILD</span><br/><span class="c3">TOGETHER</span>
   </h2>
 
-  <p class="exp-subtitle reveal d1">Discord bots · Game dev collabs · Video editing</p>
+  <p class="exp-subtitle reveal d1">Game dev collabs · Video editing</p>
 
   <div class="exp-buttons reveal d2">
     <button type="button" class="exp-btn" id="email-copy-btn" data-email="kreativecharlie@proton.me">
@@ -999,7 +967,7 @@ footer{ display:flex; align-items:center; justify-content:center; padding:2rem 2
     r.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
   });
   document.addEventListener('mouseover', e => {
-    r.classList.toggle('on-link', !!e.target.closest('a, button, .mp-bar-bg, .vp-stage'));
+    r.classList.toggle('on-link', !!e.target.closest('a, button, .mp-bar-bg, .vp-stage, .bento'));
   });
 })();
 
@@ -1070,29 +1038,23 @@ window.addEventListener('scroll', () => {
 
 (function(){
   const fills = document.querySelectorAll('.meter-fill');
-  const labelClassMap = {
-    0:'v-arch',1:'v-slash',2:'v-mod',3:'v-pay',
-    4:'v-djs',5:'v-dpy',6:'v-api',7:'v-host',
-    8:'v-ae',9:'v-pp',10:'v-mg'
-  };
   let animated = false;
   function animateMeters(){
     if (animated) return; animated = true;
-    fills.forEach((f, i) => {
-      const target = f.getAttribute('data-target');
+    fills.forEach((f) => {
+      const target = parseInt(f.getAttribute('data-target'), 10) || 0;
       f.style.width = target + '%';
-      
-      const cls = labelClassMap[i];
-      if (cls) {
-        const label = document.querySelector('.' + cls);
-        if (label) {
-          let cur = 0;
-          const step = setInterval(() => {
-            cur += 3;
-            if (cur >= target) { cur = target; clearInterval(step); }
-            label.textContent = cur + '%';
-          }, 30);
-        }
+
+      // the % label lives in the row directly above each track
+      const row = f.parentElement.previousElementSibling;
+      const label = row && row.querySelector('span');
+      if (label) {
+        let cur = 0;
+        const step = setInterval(() => {
+          cur += 3;
+          if (cur >= target) { cur = target; clearInterval(step); }
+          label.textContent = cur + '%';
+        }, 30);
       }
     });
     const compilePct = document.getElementById('compile-pct');
@@ -1105,7 +1067,7 @@ window.addEventListener('scroll', () => {
       compilePct.textContent = cp + '%';
     }, 40);
   }
-  
+
   const skillsSection = document.getElementById('skills');
   const io2 = new IntersectionObserver((entries) => {
     entries.forEach(en => { if (en.isIntersecting) animateMeters(); });
@@ -1113,63 +1075,6 @@ window.addEventListener('scroll', () => {
   io2.observe(skillsSection);
 })();
 
-(function() {
-  const DOT = document.getElementById('bot-status-dot');
-  const TEXT = document.getElementById('bot-status-text');
-  const BUILD_EL = document.getElementById('bot-build-date');
-  const BOT_API = 'https://a37393-5a76.a.onjrnm.co.uk/api/bot-status';
-
-  function setOnline(buildDate) {
-    DOT.className = 'status-dot online';
-    document.getElementById('bot-status-pill').classList.add('online');
-    document.getElementById('bot-status-pill').classList.remove('offline');
-    TEXT.textContent = 'Online';
-    if (buildDate && BUILD_EL) BUILD_EL.textContent = buildDate;
-  }
-  function setOffline() {
-    DOT.className = 'status-dot offline';
-    document.getElementById('bot-status-pill').classList.add('offline');
-    document.getElementById('bot-status-pill').classList.remove('online');
-    TEXT.textContent = 'Offline';
-  }
-  async function fetchBotStatus() {
-    try {
-      const res = await fetch(BOT_API, { cache: 'no-store' });
-      if (!res.ok) throw new Error('Non-2xx response');
-      const data = await res.json();
-      if (data.status === 'online') setOnline(data.buildDate || null);
-      else setOffline();
-    } catch (_err) { setOffline(); }
-  }
-  fetchBotStatus();
-  setInterval(fetchBotStatus, 60000);
-})();
-
-(function() {
-  const DOT = document.getElementById('love-status-dot');
-  const TEXT = document.getElementById('love-status-text');
-  const PILL = document.getElementById('love-status-pill');
-  const BOT_HOST = 'https://loveassistant.apps.bot-hosting.cloud/';
-
-  function setOnline() {
-    DOT.className = 'status-dot online';
-    PILL.classList.add('online'); PILL.classList.remove('offline');
-    TEXT.textContent = 'Online';
-  }
-  function setOffline() {
-    DOT.className = 'status-dot offline';
-    PILL.classList.add('offline'); PILL.classList.remove('online');
-    TEXT.textContent = 'Offline';
-  }
-  async function checkBotHost() {
-    try {
-      await fetch(BOT_HOST, { mode: 'no-cors', cache: 'no-store' });
-      setOnline();
-    } catch (_err) { setOffline(); }
-  }
-  checkBotHost();
-  setInterval(checkBotHost, 60000);
-})();
 
 (function() {
   const timeEl = document.getElementById('lt-time');
@@ -1414,6 +1319,236 @@ function updateClock() {
   } else {
     requestAnimationFrame(tick);
   }
+})();
+
+
+/* ---------- Projects bento: dot grid + hover / tap message swap ---------- */
+(function(){
+  const box = document.getElementById('bento');
+  if (!box) return;
+
+  const wrap    = document.getElementById('bento-wrap');
+  const canvas  = box.querySelector('.bento-canvas');
+  const ctx     = canvas.getContext('2d');
+  const hintEl  = document.getElementById('bento-hint');
+  const idleMsg = box.querySelector('.msg-idle');
+  const soonMsg = box.querySelector('.msg-soon');
+
+  const mqHover  = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const mqCoarse = window.matchMedia('(pointer: coarse)');
+  const mqMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const hasGsap  = typeof window.gsap !== 'undefined';
+
+  /* ---- 1. Input mode: 'hover' for mouse devices, 'tap' for touch devices ---- */
+  let mode = null;
+  let lastPointerType = 'mouse';
+  let open = false;
+
+  function detectMode(){
+    const ua = navigator.userAgent || '';
+    const touchPoints = navigator.maxTouchPoints || 0;
+    const uaMobile = !!(navigator.userAgentData && navigator.userAgentData.mobile === true);
+    const iPadOS = /Macintosh/.test(ua) && touchPoints > 1;                 // iPadOS reports a desktop UA
+    const mobileUA = uaMobile || iPadOS || /Android|iPhone|iPad|iPod|Mobile|IEMobile|Opera Mini/i.test(ua);
+    const smallScreen = Math.min(window.innerWidth, (window.screen && window.screen.width) || window.innerWidth) <= 820;
+
+    if (mobileUA) return 'tap';
+    if (mqHover.matches) return 'hover';                                    // real mouse / trackpad
+    if (mqCoarse.matches || touchPoints > 0) return 'tap';
+    return smallScreen ? 'tap' : 'hover';
+  }
+
+  function setOpen(v){
+    if (open === v) return;
+    open = v;
+    box.classList.toggle('is-open', v);
+    wrap.classList.toggle('is-open', v);
+    box.setAttribute('aria-pressed', String(v));
+    idleMsg.setAttribute('aria-hidden', String(v));
+    soonMsg.setAttribute('aria-hidden', String(!v));
+  }
+
+  function applyMode(){
+    const next = detectMode();
+    if (next === mode) return;               // e.g. mobile address bar resizing: nothing to do
+    mode = next;
+    box.dataset.mode = mode;
+    hintEl.textContent = mode === 'tap' ? 'Tap to see projects' : 'Hover to see projects';
+    setOpen(false);
+  }
+
+  applyMode();
+  [mqHover, mqCoarse].forEach(mq => {
+    if (mq.addEventListener) mq.addEventListener('change', applyMode);
+    else if (mq.addListener) mq.addListener(applyMode);
+  });
+  let modeTO;
+  window.addEventListener('resize', () => { clearTimeout(modeTO); modeTO = setTimeout(applyMode, 200); });
+  window.addEventListener('orientationchange', applyMode);
+
+  /* ---- 2. Open / close interactions ---- */
+  box.addEventListener('pointerenter', e => {
+    if (mode === 'hover' && e.pointerType === 'mouse') setOpen(true);
+  });
+  box.addEventListener('pointerleave', e => {
+    if (e.pointerType === 'mouse') {
+      if (mode === 'hover') setOpen(false);
+      pointer.x = pointer.y = -9999;
+    }
+  });
+  box.addEventListener('click', e => {
+    const hoverDriven = mode === 'hover' && lastPointerType === 'mouse';
+    if (!hoverDriven) setOpen(!open);        // tap / untap
+    const r = canvas.getBoundingClientRect();
+    shock(e.clientX - r.left, e.clientY - r.top);
+  });
+  box.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lastPointerType = 'keyboard'; setOpen(!open); }
+    else if (e.key === 'Escape') setOpen(false);
+  });
+  document.addEventListener('pointerdown', e => {
+    if (open && !box.contains(e.target) && (mode === 'tap' || e.pointerType !== 'mouse')) setOpen(false);
+  }, { passive: true });
+
+  /* ---- 3. Dot grid (vanilla port of React Bits DotGrid) ---- */
+  const BASE   = { r: 58,  g: 52,  b: 110 };   // resting dots
+  const ACTIVE = { r: 167, g: 155, b: 255 };   // dots near the pointer
+  const BASE_CSS = `rgb(${BASE.r},${BASE.g},${BASE.b})`;
+  const SPEED_TRIGGER = 100, MAX_SPEED = 5000, RESISTANCE = 750, RETURN_DURATION = 1.5, TAU = Math.PI * 2;
+
+  const cfgFor = w => w < 640
+    ? { dotSize: 6, gap: 14, proximity: 90,  shockRadius: 170, shockStrength: 4 }
+    : { dotSize: 8, gap: 16, proximity: 130, shockRadius: 260, shockStrength: 5 };
+
+  let dots = [], W = 0, H = 0, cfg = cfgFor(0);
+  const pointer = { x: -9999, y: -9999, lastX: 0, lastY: 0, lastTime: 0 };
+
+  function build(){
+    W = box.clientWidth; H = box.clientHeight;
+    if (!W || !H) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    cfg = cfgFor(W);
+    const cell = cfg.dotSize + cfg.gap;
+    const pad  = cfg.gap;                       // keep dots off the rounded edge
+    const iw = W - pad * 2, ih = H - pad * 2;
+    const cols = Math.floor((iw + cfg.gap) / cell);
+    const rows = Math.floor((ih + cfg.gap) / cell);
+    const startX = pad + (iw - (cell * cols - cfg.gap)) / 2 + cfg.dotSize / 2;
+    const startY = pad + (ih - (cell * rows - cfg.gap)) / 2 + cfg.dotSize / 2;
+
+    if (hasGsap) dots.forEach(d => gsap.killTweensOf(d));
+    dots = [];
+    for (let y = 0; y < rows; y++)
+      for (let x = 0; x < cols; x++)
+        dots.push({ cx: startX + x * cell, cy: startY + y * cell, xOffset: 0, yOffset: 0 });
+  }
+
+  const nearD = [], nearT = [];
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    const r = cfg.dotSize / 2, prox = cfg.proximity, proxSq = prox * prox;
+    nearD.length = 0; nearT.length = 0;
+
+    // resting dots share one path + one fill (cheap on phones)
+    ctx.fillStyle = BASE_CSS;
+    ctx.beginPath();
+    for (const d of dots) {
+      const dx = d.cx - pointer.x, dy = d.cy - pointer.y, dsq = dx * dx + dy * dy;
+      if (dsq <= proxSq) { nearD.push(d); nearT.push(1 - Math.sqrt(dsq) / prox); continue; }
+      const x = d.cx + d.xOffset, y = d.cy + d.yOffset;
+      ctx.moveTo(x + r, y); ctx.arc(x, y, r, 0, TAU);
+    }
+    ctx.fill();
+
+    // dots near the pointer blend toward the active colour
+    for (let i = 0; i < nearD.length; i++) {
+      const d = nearD[i], t = nearT[i];
+      ctx.beginPath();
+      ctx.arc(d.cx + d.xOffset, d.cy + d.yOffset, r, 0, TAU);
+      ctx.fillStyle = `rgb(${Math.round(BASE.r + (ACTIVE.r - BASE.r) * t)},${Math.round(BASE.g + (ACTIVE.g - BASE.g) * t)},${Math.round(BASE.b + (ACTIVE.b - BASE.b) * t)})`;
+      ctx.fill();
+    }
+  }
+
+  // GSAP core has no InertiaPlugin here, so inertia is emulated: constant
+  // deceleration (distance = v² / 2·resistance, ease power1.out), then an elastic return.
+  function push(d, vx, vy){
+    if (!hasGsap || mqMotion.matches) return;
+    const speed = Math.hypot(vx, vy);
+    if (speed < 1) return;
+    const dist = (speed * speed) / (2 * RESISTANCE);
+    const dur  = speed / RESISTANCE;
+    gsap.killTweensOf(d);
+    gsap.to(d, {
+      xOffset: d.xOffset + (vx / speed) * dist,
+      yOffset: d.yOffset + (vy / speed) * dist,
+      duration: dur, ease: 'power1.out',
+      onComplete: () => gsap.to(d, { xOffset: 0, yOffset: 0, duration: RETURN_DURATION, ease: 'elastic.out(1,0.75)' })
+    });
+  }
+
+  function shock(cx, cy){
+    for (const d of dots) {
+      const dx = d.cx - cx, dy = d.cy - cy, dist = Math.hypot(dx, dy);
+      if (dist < cfg.shockRadius) {
+        const falloff = Math.max(0, 1 - dist / cfg.shockRadius);
+        push(d, dx * cfg.shockStrength * falloff, dy * cfg.shockStrength * falloff);
+      }
+    }
+  }
+
+  function onMove(e){
+    if (e.pointerType === 'touch') return;
+    const now = performance.now();
+    const dt = pointer.lastTime ? now - pointer.lastTime : 16;
+    let vx = ((e.clientX - pointer.lastX) / dt) * 1000;
+    let vy = ((e.clientY - pointer.lastY) / dt) * 1000;
+    let speed = Math.hypot(vx, vy);
+    if (speed > MAX_SPEED) { const k = MAX_SPEED / speed; vx *= k; vy *= k; speed = MAX_SPEED; }
+    pointer.lastTime = now; pointer.lastX = e.clientX; pointer.lastY = e.clientY;
+
+    const rect = canvas.getBoundingClientRect();
+    pointer.x = e.clientX - rect.left; pointer.y = e.clientY - rect.top;
+
+    if (speed > SPEED_TRIGGER) {
+      for (const d of dots) {
+        const dx = d.cx - pointer.x, dy = d.cy - pointer.y;
+        if (Math.hypot(dx, dy) < cfg.proximity) push(d, dx + vx * 0.005, dy + vy * 0.005);
+      }
+    }
+  }
+  let lastMoveCall = 0;
+  window.addEventListener('pointermove', e => {
+    const now = performance.now();
+    if (now - lastMoveCall >= 50) { lastMoveCall = now; onMove(e); }   // throttled like the original
+  }, { passive: true });
+
+  // touch: light up dots under the finger, then fade the highlight out
+  let clearTO;
+  box.addEventListener('pointerdown', e => {
+    lastPointerType = e.pointerType || 'mouse';
+    if (lastPointerType !== 'mouse') {
+      const r = canvas.getBoundingClientRect();
+      pointer.x = e.clientX - r.left; pointer.y = e.clientY - r.top;
+      clearTimeout(clearTO);
+      clearTO = setTimeout(() => { pointer.x = pointer.y = -9999; }, 900);
+    }
+  }, { passive: true });
+
+  /* ---- 4. Render loop only while the box is on screen ---- */
+  let raf = 0, visible = false;
+  const loop  = () => { draw(); raf = requestAnimationFrame(loop); };
+  const start = () => { if (!raf && visible && !document.hidden) raf = requestAnimationFrame(loop); };
+  const stop  = () => { cancelAnimationFrame(raf); raf = 0; };
+
+  build();
+  if ('ResizeObserver' in window) new ResizeObserver(build).observe(box);
+  else window.addEventListener('resize', build);
+  new IntersectionObserver(es => { visible = es[0].isIntersecting; visible ? start() : stop(); }).observe(box);
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
 })();
 
 </script>
