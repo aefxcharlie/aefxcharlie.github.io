@@ -1,4 +1,4 @@
-# Hi, I'm Charlie 👋
+# Hi, I'm Chaitany 👋
 
 ### Game Developer & Motion Designer
 
