@@ -26,7 +26,7 @@ SOFTWARE.
 
 ## About the Author
 
-**Charlie** — Full-stack Developer & Digital Creator
+**Chaitany** — Full-stack Developer & Digital Creator
 
 Builds things at the intersection of automation, web engineering, and
 interactive experiences. From architecting complex Discord ecosystems to
@@ -35,8 +35,6 @@ is always on turning technical ideas into functional, real-world solutions.
 
 **What's brought to the table:**
 
-- **Bot Development** — feature-rich Discord bots built to handle scale,
-  community moderation, and high-level user interaction.
 - **Web Engineering** — clean, performant, user-centric sites, with a
   back-end as robust as the front-end aesthetics.
 - **Game Development** — currently mastering Unity for 2D game development,
@@ -46,14 +44,12 @@ is always on turning technical ideas into functional, real-world solutions.
 
 **Tech Stack & Tools:**
 
-- Languages: JavaScript, C#, HTML/CSS
-- Frameworks/Libraries: Discord.js, Express.js
-- Software: Unity, Adobe Premiere Pro, After Effects, DaVinci Resolve
+- Languages: JavaScript, C#, HTML/CSS.
+- Software: Unity, Adobe Premiere Pro, After Effects.
 
 ## Attribution
 
 If you use, fork, or build on top of this work, a credit back to
-**@aefxcharlie** is appreciated but not required under the terms above.
+**aefxcharlie** is appreciated but not required under the terms above.
 
-- Profile: [guns.lol/aefxcharlie](https://guns.lol/aefxcharlie)
 - Portfolio: [aefxcharlie.github.io](https://aefxcharlie.github.io)
