@@ -324,12 +324,14 @@ img{ max-width:100%; display:block; }
 .bento-stage{ position:relative; z-index:2; display:grid; place-items:center; width:100%; padding:0 1.6rem; pointer-events:none; }
 .bento-msg{
   grid-area:1/1; display:flex; flex-direction:column; align-items:center; gap:1rem; text-align:center;
-  opacity:0; filter:blur(14px); transform:scale(1.03);
-  transition:opacity .45s ease, filter .45s ease, transform .45s ease;
+  opacity:0; filter:blur(14px); transform:translateY(16px) scale(1.03);
+  transition:opacity .45s cubic-bezier(.2,.8,.2,1), filter .45s cubic-bezier(.2,.8,.2,1), transform .45s cubic-bezier(.2,.8,.2,1);
+  pointer-events:none;
 }
 .bento:not(.is-open) .msg-idle,
 .bento.is-open .msg-soon{
-  opacity:1; filter:blur(0); transform:none; transition:none;
+  opacity:1; filter:blur(0); transform:none;
+  pointer-events:auto;
 }
 .bt-word{ display:inline-block; white-space:nowrap; }
 .bt-seg{ display:inline-block; opacity:0; filter:blur(10px); transform:translateY(-50px); will-change:transform,filter,opacity; }
@@ -1462,29 +1464,8 @@ window.addEventListener('scroll', () => {
     });
   }
 
-  const soonCard = document.getElementById('proj-card-1');
   let idlePlayed = false;
   const playIdle = () => { idlePlayed = true; btPlay(hintEl, 45); };
-  const CARD_IN  = [
-    { opacity:0, filter:'blur(10px)', transform:'translateY(22px) scale(.97)' },
-    { opacity:1, filter:'blur(0px)',  transform:'translateY(0) scale(1)' }
-  ];
-  const CARD_OUT = [
-    { opacity:1, filter:'blur(0px)',  transform:'translateY(0) scale(1)' },
-    { opacity:0, filter:'blur(10px)', transform:'translateY(-14px) scale(.97)' }
-  ];
-  const playSoon = () => {
-    if (!soonCard) return;
-    (soonCard._a || {cancel(){}}).cancel();
-    if (mqMotion.matches){ soonCard.style.cssText = 'opacity:1;filter:none;transform:none'; return; }
-    soonCard._a = soonCard.animate(CARD_IN, { duration:460, delay:100, easing:'cubic-bezier(.2,.8,.2,1)', fill:'both' });
-  };
-  const hideSoon = () => {
-    if (!soonCard) return;
-    (soonCard._a || {cancel(){}}).cancel();
-    if (mqMotion.matches){ soonCard.style.cssText = 'opacity:0;filter:none;transform:none'; return; }
-    soonCard._a = soonCard.animate(CARD_OUT, { duration:320, easing:'cubic-bezier(.4,0,1,1)', fill:'both' });
-  };
 
   let mode = null;
   let lastPointerType = 'mouse';
@@ -1512,7 +1493,7 @@ window.addEventListener('scroll', () => {
     box.setAttribute('aria-pressed', String(v));
     idleMsg.setAttribute('aria-hidden', String(v));
     soonMsg.setAttribute('aria-hidden', String(!v));
-    if (v) playSoon(); else { hideSoon(); playIdle(); }
+    if (!v) playIdle();
   }
 
   function applyMode(){
