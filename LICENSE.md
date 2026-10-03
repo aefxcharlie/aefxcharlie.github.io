@@ -53,3 +53,4 @@ If you use, fork, or build on top of this work, a credit back to
 **aefxcharlie** is appreciated but not required under the terms above.
 
 - Portfolio: [aefxcharlie.github.io](https://aefxcharlie.github.io)
+- Side Project: [ELE-TRON](https://github.com/aefxcharlie/ELE-TRON)
