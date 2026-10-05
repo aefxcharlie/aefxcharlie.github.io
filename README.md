@@ -25,4 +25,4 @@ Alongside game dev, I edit video and design motion graphics: cinematic edits, ki
 
 - **Language:** C#
 - **Engine:** Unity 6
-- **Video & motion:** Adobe Premiere Pro, Adobe After Effects, DaVinci Resolve
+- **Video & motion:** Adobe Premiere Pro, Adobe After Effects
